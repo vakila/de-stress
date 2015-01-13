@@ -51,6 +51,16 @@ body {
 	background-color: #abbf78;
 }
 
+#destressLogo {
+	background-color: #1E90FF;
+}
+
+#destressLogo h1 {
+	color: #ffffff;
+	font-size: 4em;
+	font-weight: bold;
+}
+
 /* replace with .no-boxshadow body if you have modernizr available */
 .ie6 body,
 .ie7 body,
@@ -108,7 +118,8 @@ img {
 }
 
 .footer {
-	background: #abbf78;
+	/* background: #abbf78; */
+	background: #1E90FF;
 	color: #000;
 	clear: both;
 	font-size: 0.8em;
