@@ -1,14 +1,13 @@
 package grailstest
 
-class Exercise {
+class Test {
 	String name
-	String text
+	String description
 	static belongsTo = Lesson
 	static hasMany = [lessons:Lesson]
 	
     static constraints = {
-		name (blank: false)
-		text (blank: false)
+		name (blank:false) 
     }
 	
 	String toString(){
