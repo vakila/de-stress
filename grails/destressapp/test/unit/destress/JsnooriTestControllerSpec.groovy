@@ -1,14 +1,14 @@
-package grailstest
+package destress
 
-import destress.ExerciseController;
+import destress.JsnooriTestController;
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
-@TestFor(ExerciseController)
-class ExerciseControllerSpec extends Specification {
+@TestFor(JsnooriTestController)
+class JsnooriTestControllerSpec extends Specification {
 
     def setup() {
     }

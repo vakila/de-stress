@@ -1,4 +1,4 @@
-package grailstest
+package destress
 
 import destress.LessonController;
 import grails.test.mixin.TestFor
