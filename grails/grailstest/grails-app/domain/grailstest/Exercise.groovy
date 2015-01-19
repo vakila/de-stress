@@ -4,7 +4,7 @@ class Exercise {
 	String name
 	String text
 	static belongsTo = Lesson
-	static hasMany = [lessons:Lesson]
+	static hasMany = [lessons:Lesson]//, widgets:MyWidget]
 	
     static constraints = {
 		name (blank: false)
