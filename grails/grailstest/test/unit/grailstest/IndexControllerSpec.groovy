@@ -1,5 +1,6 @@
 package grailstest
 
+import destress.AdminController;
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 

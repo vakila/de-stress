@@ -1,8 +1,9 @@
-package grailstest
+package destress
 
 
 
 import static org.springframework.http.HttpStatus.*
+import destress.Exercise;
 import grails.transaction.Transactional
 
 @Transactional(readOnly = true)

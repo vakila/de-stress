@@ -1,4 +1,4 @@
-package grailstest
+package destress
 
 import fr.loria.parole.jsnoori.model.teacher.feedback.Feedback;
 import fr.loria.parole.jsnoori.model.audio.AudioSignal;

@@ -1,4 +1,4 @@
-package grailstest
+package destress
 
 class Exercise {
 	String name

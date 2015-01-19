@@ -2,6 +2,8 @@ package grailstest
 
 
 
+import destress.Exercise;
+import destress.ExerciseAutoController;
 import grails.test.mixin.*
 import spock.lang.*
 

@@ -1,5 +1,6 @@
 package grailstest
 
+import destress.Exercise;
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
