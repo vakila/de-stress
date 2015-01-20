@@ -13,5 +13,8 @@ class UrlMappings {
 		"/grails/"(view:"/grails")
 		
         "500"(view:'/error')
+		
+		//"/loggedin"(controller: 'Login', action: 'login')
+		//"/loggedout"(controller: 'Login', action: 'logout')
 	}
 }

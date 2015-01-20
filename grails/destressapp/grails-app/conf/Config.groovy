@@ -115,3 +115,35 @@ log4j.main = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'destress.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'destress.UserRole'
+grails.plugin.springsecurity.authority.className = 'destress.Role'
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+	'/':                              ['permitAll'],
+	'/index':                         ['permitAll'],
+	'/index.gsp':                     ['permitAll'],
+	'/assets/**':                     ['permitAll'],
+	'/**/js/**':                      ['permitAll'],
+	'/**/css/**':                     ['permitAll'],
+	'/**/images/**':                  ['permitAll'],
+	'/**/favicon.ico':                ['permitAll'],
+	'/grails':						  ['permitAll'],
+	//'/admin/**':					  ['ROLE_ADMIN'],
+	'/user/**':                       ['ROLE_ADMIN'],
+	'/role/**':                       ['ROLE_ADMIN'],
+	'/plugins/**':					  ['permitAll'],
+	'/login/**':                      ['permitAll'],
+	'/logout/**':                     ['permitAll'],
+	'/register/**':					  ['permitAll']
+]
+//grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/loggedin'
+//grails.plugin.springsecurity.logout.afterLogoutUrl = '/loggedout'
+grails.plugin.springsecurity.logout.postOnly = false
+
+// Spring Security UI
+grails.plugin.springsecurity.ui.register.postRegisterUrl = '/grails'
+
+// Mail

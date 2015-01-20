@@ -1,0 +1,12 @@
+<plugin name='famfamfam' version='1.0.1' grailsVersion='1.0 &gt; *'>
+  <author>Burt Beckwith</author>
+  <authorEmail>burt@burtbeckwith.com</authorEmail>
+  <title>Silk icons from famfamfam.com</title>
+  <description>1000 free icons from famfamfam.com - see http://www.famfamfam.com/lab/icons/silk/ for details</description>
+  <documentation>http://grails.org/plugin/famfamfam</documentation>
+  <resources>
+    <resource>com.burtbeckwith.grails.plugin.famfamfam.FamfamfamTagLib</resource>
+  </resources>
+  <dependencies />
+  <behavior />
+</plugin>
