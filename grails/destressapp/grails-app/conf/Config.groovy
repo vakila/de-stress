@@ -118,9 +118,9 @@ log4j.main = {
 
 
 // Added by the Spring Security Core plugin:
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'destress.User'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'destress.UserRole'
-grails.plugin.springsecurity.authority.className = 'destress.Role'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'org.ifcasl.destress.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'org.ifcasl.destress.UserRole'
+grails.plugin.springsecurity.authority.className = 'org.ifcasl.destress.Role'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/':                              ['permitAll'],
 	'/index':                         ['permitAll'],
@@ -137,8 +137,11 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/plugins/**':					  ['permitAll'],
 	'/login/**':                      ['permitAll'],
 	'/logout/**':                     ['permitAll'],
-	'/register/**':					  ['permitAll']
+	'/register/**':					  ['permitAll'],
+	//'/testing':						  ['permitAll']
 ]
+grails.plugin.springsecurity.rejectIfNoRule = false
+grails.plugin.springsecurity.fii.rejectPublicInvocations = false
 //grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/loggedin'
 //grails.plugin.springsecurity.logout.afterLogoutUrl = '/loggedout'
 grails.plugin.springsecurity.logout.postOnly = false

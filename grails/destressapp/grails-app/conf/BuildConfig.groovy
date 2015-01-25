@@ -51,6 +51,7 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.29'
         // runtime 'org.postgresql:postgresql:9.3-1101-jdbc41'
         test "org.grails:grails-datastore-test-support:1.0.2-grails-2.4"
+		//compile "jsnoori:jsnoori:0.1"
     }
 
     plugins {
@@ -79,6 +80,9 @@ grails.project.dependency.resolution = {
 		compile ":jquery-ui:1.10.4"
 		compile ":famfamfam:1.0.1"
 		compile ":spring-security-ui:1.0-RC2"
+		
+		// other plugins
+		compile ":csv:0.3.1"
 		
     }
 }

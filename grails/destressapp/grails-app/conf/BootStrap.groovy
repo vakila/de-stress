@@ -1,6 +1,6 @@
-import destress.Role
-import destress.User
-import destress.UserRole
+import org.ifcasl.destress.Role
+import org.ifcasl.destress.User
+import org.ifcasl.destress.UserRole
 
 class BootStrap {
 

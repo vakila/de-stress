@@ -16,5 +16,7 @@ class UrlMappings {
 		
 		//"/loggedin"(controller: 'Login', action: 'login')
 		//"/loggedout"(controller: 'Login', action: 'logout')
+		
+		"/testing/"(controller: 'JsnooriTest', action: 'featex')
 	}
 }
