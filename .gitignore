@@ -2,4 +2,4 @@
 *.class
 
 .DS_Store
-grails/grailstest/lib/*
+grails/destressapp/lib/*
