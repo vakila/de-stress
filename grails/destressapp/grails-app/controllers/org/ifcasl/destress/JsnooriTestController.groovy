@@ -3,6 +3,7 @@ package org.ifcasl.destress
 import fr.loria.parole.jsnoori.model.teacher.feedback.Feedback;
 import fr.loria.parole.jsnoori.model.audio.AudioSignal;
 import fr.loria.parole.jsnoori.model.segmentation.*;
+import fr.loria.parole.jsnoori.util.file.segmentation.*;
 
 class JsnooriTestController {
 	
