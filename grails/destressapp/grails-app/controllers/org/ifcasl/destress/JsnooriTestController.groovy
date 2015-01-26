@@ -25,7 +25,7 @@ class JsnooriTestController {
 		try {
 			//FeatureExtractor.main()
 			FeatureExtractor featex = new FeatureExtractor(wavPath, gridPath)
-			render "It worked: " + featex.toString()
+			render "It worked: " + featex.printWords()
 		} 
 		catch (Exception e) {
 			render e.toString()

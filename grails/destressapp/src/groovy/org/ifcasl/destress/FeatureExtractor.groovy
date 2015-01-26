@@ -5,8 +5,7 @@ import org.springframework.aop.aspectj.RuntimeTestWalker.ThisInstanceOfResidueTe
 
 import fr.loria.parole.jsnoori.model.teacher.feedback.Feedback;
 import fr.loria.parole.jsnoori.model.audio.AudioSignal;
-import fr.loria.parole.jsnoori.model.segmentation.Segmentation;
-import fr.loria.parole.jsnoori.model.segmentation.SegmentationList;
+import fr.loria.parole.jsnoori.model.segmentation.*;
 import fr.loria.parole.jsnoori.util.file.segmentation.TextGridSegmentationFileUtils;
 
 
@@ -15,6 +14,7 @@ class FeatureExtractor {
 	String wavFile
 	String gridFile
 	AudioSignal audioSignal
+	Segmentation wordsSeg
 	
 	
 	public FeatureExtractor(wavFile, gridFile) {
@@ -25,11 +25,11 @@ class FeatureExtractor {
 		SegmentationList segList = new SegmentationList(this.audioSignal)
 		this.audioSignal.setSegmentationList(segList)
 		String nameSegFile = gridFile
-		println "nameSegFile: " + nameSegFile
+		//println "nameSegFile: " + nameSegFile
 		this.audioSignal.openSegmentationFile(new TextGridSegmentationFileUtils(), nameSegFile)
 		this.audioSignal.segmentationList.setPhoneSegmentation(this.audioSignal.segmentationList.getSegmentation("RealTier"))
 		this.audioSignal.segmentationList.setSyllablesSegmentation(this.audioSignal.segmentationList.getSegmentation("SyllableTier"))
-		
+		this.wordsSeg = this.audioSignal.segmentationList.getSegmentation("WordTier")
 	}
 	
 	public String toString() {
@@ -40,13 +40,15 @@ class FeatureExtractor {
 	}
 	
 	public String printWords() {
-		Segmentation wordsSeg = this.audioSignal.segmentationList.getSegmentation("WordTier")
-		
+		def words = []
+		//Segmentation wordsSeg = this.audioSignal.segmentationList.getSegmentation("WordTier")
+		for (Segment seg : this.wordsSeg.iterator()) {
+			//println seg.getLengthMs()
+			words.add(seg.name + " : " + seg.getLength().toString())
+		}
+		return "<p>" + words.join("</p><p>") + "</p>"
 	}
 	
-	public getDuration(word) {
-		
-	}
 
 	static main(args) {
 		println "It works"
