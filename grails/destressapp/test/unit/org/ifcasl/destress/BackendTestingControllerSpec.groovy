@@ -1,6 +1,6 @@
 package org.ifcasl.destress
 
-import org.ifcasl.destress.JsnooriTestController;
+import org.ifcasl.destress.BackendTestingController;
 
 import grails.test.mixin.TestFor
 import spock.lang.Specification
@@ -8,8 +8,8 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
-@TestFor(JsnooriTestController)
-class JsnooriTestControllerSpec extends Specification {
+@TestFor(BackendTestingController)
+class BackendTestingControllerSpec extends Specification {
 
     def setup() {
     }
