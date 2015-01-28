@@ -14,8 +14,19 @@ import weka.core.converters.CSVLoader
 class DataProcessor {
 	
 	String inputCsv
+<<<<<<< HEAD
 	Instances data
 		
+=======
+	String outputFile
+	//CSVMapReader mapReader
+	//CSVWriter writer
+	List mapList
+	Set columns
+	
+	Instances data
+	
+>>>>>>> dd30d00542e6f173327b59fbfa3c8008d4ad699a
 
 	public DataProcessor(String inputCsvPath) {
 		this.inputCsv = inputCsvPath
@@ -33,10 +44,22 @@ class DataProcessor {
 		return output
 	}
 	
+<<<<<<< HEAD
 	public Instances loadCsvWeka() {
 		CSVLoader loader = new CSVLoader();
 		loader.setSource(new File(this.inputCsv));
 		return loader.getDataSet();
+=======
+	public String loadCsvWeka() {
+		CSVLoader loader = new CSVLoader();
+		loader.setSource(new File(this.inputCsv));
+		this.data = loader.getDataSet();
+	
+		String report = "<p>Header of dataset:</p>"
+		report += (new Instances(this.data, 0)).toString();
+		
+		return report
+>>>>>>> dd30d00542e6f173327b59fbfa3c8008d4ad699a
 	}
 
 }
