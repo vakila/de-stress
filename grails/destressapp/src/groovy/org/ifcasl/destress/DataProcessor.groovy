@@ -1,12 +1,14 @@
 package org.ifcasl.destress
 
-import org.grails.plugins.csv.CSVMapReader
-import org.grails.plugins.csv.CSVWriter
+//import org.grails.plugins.csv.CSVMapReader
+//import org.grails.plugins.csv.CSVWriter
 
-import weka.core.Attribute;
-import weka.core.FastVector;
-import weka.core.Instance;
-import weka.core.Instances;
+import weka.core.Attribute
+import weka.core.FastVector
+import weka.core.Instance
+import weka.core.Instances
+import weka.core.converters.ArffSaver
+import weka.core.converters.CSVLoader
 
 
 class DataProcessor {
@@ -17,6 +19,8 @@ class DataProcessor {
 	//CSVWriter writer
 	List mapList
 	Set columns
+	
+	Instances data
 	
 
 	public DataProcessor(String inputCsvPath) {
@@ -35,6 +39,17 @@ class DataProcessor {
 		output += this.columns.toString()
 		output += "</p>"
 		return output
+	}
+	
+	public String loadCsvWeka() {
+		CSVLoader loader = new CSVLoader();
+		loader.setSource(new File(this.inputCsv));
+		this.data = loader.getDataSet();
+	
+		String report = "<p>Header of dataset:</p>"
+		report += (new Instances(this.data, 0)).toString();
+		
+		return report
 	}
 
 }

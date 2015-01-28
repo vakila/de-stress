@@ -50,7 +50,8 @@ class BackendTestingController {
 	def csv() {
 		try {
 			DataProcessor dataproc = new DataProcessor(csvPath)
-			render dataproc.toString();
+			//render dataproc.toString();
+			render dataproc.loadCsvWeka()
 		}
 		catch (Exception e) {
 			e.printStackTrace()
