@@ -28,7 +28,7 @@ class DataProcessor {
 
 	public DataProcessor(String inputCsvPath) {
 		this.inputCsv = inputCsvPath
-		this.data = loadCsvWeka()
+		this.data = loadCsv()
 	}
 	
 	public String toString() {
@@ -42,11 +42,18 @@ class DataProcessor {
 		return output
 	}
 	
-	public Instances loadCsvWeka() {
+	public Instances loadCsv() {
 		CSVLoader loader = new CSVLoader();
 		loader.setSource(new File(this.inputCsv));
 		return loader.getDataSet();
 	}
 
+	public void writeArff(String outputFilePath) {
+		ArffSaver saver = new ArffSaver();
+		saver.setInstances(this.data);
+		saver.setFile(new File(outputFilePath));
+		//saver.setDestination(new File("./data/test.arff"));   // **not** necessary in 3.5.4 and later
+		saver.writeBatch();
+	}
 
 }

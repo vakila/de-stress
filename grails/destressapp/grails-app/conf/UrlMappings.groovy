@@ -19,5 +19,6 @@ class UrlMappings {
 		
 		"/testing/featex"(controller: 'BackendTesting', action: 'featex')
 		"/testing/csv"(controller: 'BackendTesting', action: 'csv')
+		"/testing/arff"(controller: 'BackendTesting', action: 'arff')
 	}
 }

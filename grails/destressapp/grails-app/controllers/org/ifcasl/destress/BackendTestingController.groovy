@@ -12,7 +12,7 @@ class BackendTestingController {
 	String gridPath = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Textgrids/FG/SH/SH01/2SH01_FGGB1_521.textgrid"
 	
 	String csvPath = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Annotation/Results/backups/DATA.csv"
-	
+	String arffOutputPath = "/Users/Anjana/Desktop/DATA.arff"
 	
     def index() { 
 		try {
@@ -51,6 +51,18 @@ class BackendTestingController {
 		try {
 			DataProcessor dataproc = new DataProcessor(csvPath)
 			render dataproc.toString()
+		}
+		catch (Exception e) {
+			e.printStackTrace()
+			render e.toString()
+		}
+	}
+	
+	def arff() {
+		try {
+			DataProcessor dataproc = new DataProcessor(csvPath)
+			dataproc.writeArff(arffOutputPath)
+			render "Wrote ARFF to: " + arffOutputPath
 		}
 		catch (Exception e) {
 			e.printStackTrace()
