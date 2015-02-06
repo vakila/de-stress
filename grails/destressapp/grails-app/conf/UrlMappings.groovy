@@ -17,8 +17,10 @@ class UrlMappings {
 		//"/loggedin"(controller: 'Login', action: 'login')
 		//"/loggedout"(controller: 'Login', action: 'logout')
 		
+		// BackendTesting 
 		"/testing/featex"(controller: 'BackendTesting', action: 'featex')
 		"/testing/csv"(controller: 'BackendTesting', action: 'csv')
 		"/testing/arff"(controller: 'BackendTesting', action: 'arff')
+		"/testing/phon"(controller: 'BackendTesting', action: 'phon')
 	}
 }
