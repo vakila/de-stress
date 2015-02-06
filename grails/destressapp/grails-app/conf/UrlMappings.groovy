@@ -22,5 +22,6 @@ class UrlMappings {
 		"/testing/csv"(controller: 'BackendTesting', action: 'csv')
 		"/testing/arff"(controller: 'BackendTesting', action: 'arff')
 		"/testing/phon"(controller: 'BackendTesting', action: 'phon')
+		"/testing/map"(controller: 'BackendTesting', action: 'map')
 	}
 }

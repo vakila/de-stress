@@ -22,6 +22,9 @@ class BackendTestingController {
 	String csvPath = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Annotation/Results/backups/DATA.csv"
 	String arffOutputPath = "/Users/Anjana/Desktop/DATA.arff"
 	
+	Language language = Language.getLanguage("de")
+	
+	
     def index() { 
 		try {
 			AudioSignal testaudio = new AudioSignal("testname", wavPath);
@@ -80,8 +83,6 @@ class BackendTestingController {
 	
 	def phon() {
 		try {
-			Language language = Language.getLanguage("de")
-			PhoneticSymbolMapper mapper = PhoneticSymbolMapperFactory.createPhoneticSymbolMapper(language);
 			Map phonfeatures = PhoneticFeaturesFactory.createPhoneticFeatures(language).phoneticfeaturearray;
 		
 			String output = "<h3>German Phonetic Features</h3>"
@@ -112,6 +113,36 @@ class BackendTestingController {
 			
 			
 			render output
+		}
+		catch (Exception e) {
+			e.printStackTrace()
+			render e.toString()
+		}
+	}
+	
+	def map() {
+		try {
+			PhoneticSymbolMapper mapper = PhoneticSymbolMapperFactory.createPhoneticSymbolMapper(language);
+			Map ipaSampa = mapper.getIPAtoSAMPAmap()
+			
+			String output = "<h3>German Phonetic Symbols</h3>"
+			output += "<table>"
+			output += """<tr>
+							<td>IPA</td>
+							<td>SAMPA</td>
+						</tr>"""
+			
+			SortedSet<String> ipas = new TreeSet<String>(ipaSampa.keySet());
+			for (String ipa in ipas) {
+				output += "<tr>"
+				output += "<td>" + ipa + "</td>"
+				output += "<td>" + mapper.IPAtoSAMPA(ipa) + "</td>"
+				output += "</tr>"
+			}
+			
+			output += "</table>"
+			render output
+						
 		}
 		catch (Exception e) {
 			e.printStackTrace()
