@@ -15,14 +15,16 @@ import fr.loria.parole.jsnoori.view.phoneticKeyboard.PhoneticSymbolMapperFactory
 
 class BackendTestingController {
 	
-	String wavPath = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Annotation/test_list1/Audio/SH05_501.wav"
+	//String wavPath = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Annotation/test_list1/Audio/SH05_501.wav"
 	//String gridPath = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Annotation/test_list1/TextGrids/SH05_501.textgrid"
-	String gridPath = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Textgrids/FG/SH/SH01/2SH01_FGGB1_521.textgrid"
+	
+	String wavPath = "/Users/Anjana/Dropbox/School/IFCASL/viwoll/CompleteAudioCorpus/FG/SH/SH02/2SH02_FGBA2_546.wav"
+	String gridPath = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Textgrids/FG/SH/SH02/2SH02_FGBA2_546.textgrid"
 	
 	String csvPath = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Annotation/Results/backups/DATA.csv"
 	String arffOutputPath = "/Users/Anjana/Desktop/DATA.arff"
 	
-	Language language = Language.getLanguage("de")
+	//Language language = Language.getLanguage("de")
 	
 	
     def index() { 
@@ -40,7 +42,7 @@ class BackendTestingController {
 		try {
 			//FeatureExtractor.main()
 			String output
-			FeatureExtractor featex = new FeatureExtractor(wavPath, gridPath, "Boot")
+			FeatureExtractor featex = new FeatureExtractor(wavPath, gridPath, "kinder")
 			//String output = featex.printWordInfo()
 			//String output = featex.getWordId("kleines")
 			//String output = featex.printWords()
@@ -48,7 +50,8 @@ class BackendTestingController {
 				output = "Word not found"
 			}
 			else {
-				output = featex.printSyllables()
+				//output = featex.printSyllables()
+				output = featex.printVowelDurations()
 			}
 			render output
 		} 
