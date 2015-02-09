@@ -14,6 +14,8 @@ import weka.core.converters.CSVLoader
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.NumericToNominal
 
+//import FeatureExtractor
+
 
 class DataProcessor {
 	
@@ -175,5 +177,32 @@ class DataProcessor {
 			output += "<p>" + getFileName(inst) + "</p>"
 		} 
 		return output
+	}
+	
+	/**
+	 * Massive function that will:
+	 * - Add extra attributes to the dataset
+	 * - TODO remove useless attributes from the dataset
+	 * - Use FeatureExtractor objects to set each Instance's values for the new Attributes
+	 * @param wavDir
+	 * @param gridDir
+	 */
+	public void extractNewFeatures(String wavDir, String gridDir) {
+		this.addNumAttribute("WORD_DUR")
+		this.addNumAttribute("SYLL2/SYLL1")
+		this.addNumAttribute("V2/V1")
+		
+		Attribute wordDurAttr = this.data.attribute("WORD_DUR")
+		Attribute relSyllDurAttr = this.data.attribute("SYLL2/SYLL1")
+		Attribute relVowelDurAttr = this.data.attribute("V2/V1")
+		Attribute wordAttr = this.data.attribute("WORD")
+		
+		for (Instance inst in this.data.enumerateInstances()) {
+			String word = inst.stringValue("WORD")
+			String fileName = getFileName(inst)
+			String wavName = [wavDir, fileName, ".wav"].join(File.separator)
+			String gridName = [gridDir, fileName, ".textgrid"].join(File.separator)
+			FeatureExtractor featex = new FeatureExtractor(wavName, gridName, word)
+		}
 	}
 }
