@@ -14,7 +14,9 @@ import weka.core.converters.CSVLoader
 class DataProcessor {
 	
 	String inputCsv
+	Instances originalData
 	Instances data
+	
 		
 	//String outputFile
 	
@@ -23,14 +25,25 @@ class DataProcessor {
 	//CSVWriter writer
 	//List mapList
 	//Set columns
-	
-	
+		
 
 	public DataProcessor(String inputCsvPath) {
 		this.inputCsv = inputCsvPath
-		this.data = loadCsv()
+		this.originalData = loadCsv(inputCsvPath)
+		this.data = new Instances(this.originalData)
+		
 	}
 	
+	
+//	public HashMap<String, Attribute> getAttributes() {
+//		HashMap<String, Attribute> attributes = new HashMap<String, Attribute>
+//		for (Attribute a : this.data.enumerateAttributes()) {
+//			attributes.put(a.name, a)
+//		}
+//		return attributes;
+//	}
+
+
 	public String toString() {
 		String output = "<p>DataProcessor object - " 
 		output += this.inputCsv 
@@ -42,18 +55,102 @@ class DataProcessor {
 		return output
 	}
 	
-	public Instances loadCsv() {
+	/**
+	 * Reads a Weka Instances object from the given CSV file
+	 * @param inputFilePath
+	 * @return
+	 */
+	public Instances loadCsv(String inputFilePath) {
 		CSVLoader loader = new CSVLoader();
-		loader.setSource(new File(this.inputCsv));
+		loader.setSource(new File(inputFilePath));
 		return loader.getDataSet();
 	}
 
-	public void writeArff(String outputFilePath) {
+	/**
+	 * Writes the given Weka Instances object to ARFF file
+	 * @param dataToWrite
+	 * @param outputFilePath
+	 */
+	public void writeArff(Instances dataToWrite, String outputFilePath) {
 		ArffSaver saver = new ArffSaver();
-		saver.setInstances(this.data);
+		saver.setInstances(dataToWrite);
 		saver.setFile(new File(outputFilePath));
 		//saver.setDestination(new File("./data/test.arff"));   // **not** necessary in 3.5.4 and later
 		saver.writeBatch();
 	}
+	
+	/**
+	 * Writes the Weka Instances object this.data to ARFF file
+	 * @param outputFilePath
+	 */
+	public void writeArff(String outputFilePath) {
+		writeArff(this.data, outputFilePath)
+	}
 
+	/**
+	 * Adds a numeric attribute with the given name 
+	 * to the Instances object this.data. 
+	 * The attribute is inserted at the penultimate position,
+	 * i.e. before the class attribute.
+	 * @param inputData
+	 * @param attrName
+	 */
+	public void addNumAttribute(String attrName) {
+		//Instances dataOut = new Instances(dataIn)
+		this.data.insertAttributeAt(new Attribute(attrName), this.data.numAttributes()-1)
+	}
+	
+	/**
+	 * Returns the file name (e.g. 2SH02_FGMA2_502) for a given instance
+	 * @param row	Weka Instance object
+	 * @return
+	 */
+	public String getFileName(Instance row) {
+		Attribute sentence = this.data.attribute("SENTENCE")
+		Attribute speakerL1 = this.data.attribute("SPEAKER_L1")
+		Attribute speakerGen = this.data.attribute("SPEAKER_GENDER")
+		Attribute speakerLevel = this.data.attribute("SPEAKER_LEVEL")
+		Attribute speakerID = this.data.attribute("SPEAKER")
+		
+		String chunk1 = "2" + row.stringValue(sentence)
+		String chunk2 = row.stringValue(speakerL1) + "G" + row.stringValue(speakerGen) + row.stringValue(speakerLevel)
+		String chunk3 = ((int)(row.value(speakerID))).toString()
+		
+		String filename = chunk1 + "_" + chunk2 + "_" + chunk3
+		return filename
+	}
+	
+	/**
+	 * Returns HTML code displaying the names for every 
+	 * Instance (row) in this.data
+	 * @return
+	 */
+	public String printFileNames() {
+		int n = data.numInstances();
+		String output = ""
+		for (int i in 0..n-1) {
+			Instance inst = this.data.instance(i)
+			output += "<p>" + getFileName(inst) + "</p>"
+		}
+		return output
+	}
+	
+	/**
+	 * Returns a string containing the filenames for 
+	 * n rows (Instances) randomly selected from this.data
+	 * @param n		Number of instances
+	 * @return
+	 */
+	public String printRandomFileNames(int n) {
+		Instances randomData = new Instances(this.data)
+		randomData.randomize(this.data.getRandomNumberGenerator(n))
+		Instances smallData = new Instances(randomData, n)
+		
+		String output = ""
+		for (int i in 0..smallData.numInstances()) {
+			Instance inst = this.data.instance(i)
+			output += "<p>" + getFileName(inst) + "</p>"
+		} 
+		return output
+	}
 }

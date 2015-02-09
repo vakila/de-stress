@@ -23,6 +23,7 @@ class BackendTestingController {
 	
 	String csvPath = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Annotation/Results/backups/DATA.csv"
 	String arffOutputPath = "/Users/Anjana/Desktop/DATA.arff"
+	String dataDir = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Data/"
 	
 	//Language language = Language.getLanguage("de")
 	
@@ -55,6 +56,24 @@ class BackendTestingController {
 			}
 			render output
 		} 
+		catch (Exception e) {
+			e.printStackTrace()
+			render e.toString()
+		}
+	}
+	
+	def addattrs() {
+		try {
+			DataProcessor dataproc = new DataProcessor(csvPath)
+			dataproc.addNumAttribute("WORD_DUR")
+			dataproc.addNumAttribute("SYLL2/SYLL1")
+			dataproc.addNumAttribute("V2/V1")
+			
+			dataproc.writeArff(dataDir + "addedAttributes.arff")
+			
+			//render dataproc.printRandomFileNames(10)
+			render dataproc.printFileNames()
+		}
 		catch (Exception e) {
 			e.printStackTrace()
 			render e.toString()
