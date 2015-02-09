@@ -7,17 +7,23 @@ import weka.core.Attribute
 import weka.core.FastVector
 import weka.core.Instance
 import weka.core.Instances
+
 import weka.core.converters.ArffSaver
 import weka.core.converters.CSVLoader
 
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.NumericToNominal
+
 
 class DataProcessor {
+	
+	static final NumericToNominal NUMTONOM = getNumToNomFilter()
 	
 	String inputCsv
 	Instances originalData
 	Instances data
 	
-		
+	//NumericToNominal numToNom
 	//String outputFile
 	
 	
@@ -30,8 +36,25 @@ class DataProcessor {
 	public DataProcessor(String inputCsvPath) {
 		this.inputCsv = inputCsvPath
 		this.originalData = loadCsv(inputCsvPath)
-		this.data = new Instances(this.originalData)
+		NUMTONOM.setInputFormat(this.originalData)
+		this.data = Filter.useFilter(this.originalData, NUMTONOM)
 		
+	}
+	
+	/**
+	 * Creates a NumericToNominal Filter object that converts
+	 * certain Attributes in the data to nominal values.
+	 * Attributes converted ([index] name):
+	 *     [4] SPEAKER
+	 * @return
+	 */
+	public static NumericToNominal getNumToNomFilter() {
+		String[] options = new String[2];
+		options[0] = "-R"
+		options[1] = "4" //indices of Attributes to convert
+		NumericToNominal filter = new NumericToNominal()
+		filter.setOptions(options)
+		return filter
 	}
 	
 	
@@ -114,7 +137,7 @@ class DataProcessor {
 		
 		String chunk1 = "2" + row.stringValue(sentence)
 		String chunk2 = row.stringValue(speakerL1) + "G" + row.stringValue(speakerGen) + row.stringValue(speakerLevel)
-		String chunk3 = ((int)(row.value(speakerID))).toString()
+		String chunk3 = row.stringValue(speakerID)
 		
 		String filename = chunk1 + "_" + chunk2 + "_" + chunk3
 		return filename
