@@ -3,14 +3,14 @@ package org.ifcasl.destress
 //import org.grails.plugins.csv.CSVMapReader
 //import org.grails.plugins.csv.CSVWriter
 
+import org.springframework.aop.aspectj.RuntimeTestWalker.ThisInstanceOfResidueTestVisitor;
+
 import weka.core.Attribute
 import weka.core.FastVector
 import weka.core.Instance
 import weka.core.Instances
-
 import weka.core.converters.ArffSaver
 import weka.core.converters.CSVLoader
-
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.NumericToNominal
 
@@ -117,12 +117,13 @@ class DataProcessor {
 	 * to the Instances object this.data. 
 	 * The attribute is inserted at the penultimate position,
 	 * i.e. before the class attribute.
-	 * @param inputData
-	 * @param attrName
+	 * @param attrName	Name of the new Attribute
+	 * @return			The new Attribute
 	 */
-	public void addNumAttribute(String attrName) {
+	public Attribute addNumAttribute(String attrName) {
 		//Instances dataOut = new Instances(dataIn)
 		this.data.insertAttributeAt(new Attribute(attrName), this.data.numAttributes()-1)
+		return this.data.attribute(attrName)
 	}
 	
 	/**
@@ -188,21 +189,41 @@ class DataProcessor {
 	 * @param gridDir
 	 */
 	public void extractNewFeatures(String wavDir, String gridDir) {
-		this.addNumAttribute("WORD_DUR")
-		this.addNumAttribute("SYLL2/SYLL1")
-		this.addNumAttribute("V2/V1")
+		println "Extracting New Features..."
+		println "wavDir: " + wavDir
+		println "gridDir: " + gridDir
+		println ""
 		
-		Attribute wordDurAttr = this.data.attribute("WORD_DUR")
-		Attribute relSyllDurAttr = this.data.attribute("SYLL2/SYLL1")
-		Attribute relVowelDurAttr = this.data.attribute("V2/V1")
-		Attribute wordAttr = this.data.attribute("WORD")
+		println "Adding attributes..."
+		Attribute WORD_DUR = this.addNumAttribute("WORD_DUR")
+		Attribute SYLL1_DUR = this.addNumAttribute("SYLL1_DUR")
+		Attribute SYLL2_DUR = this.addNumAttribute("SYLL2_DUR")
+		Attribute V1_DUR = this.addNumAttribute("V1_DUR")
+		Attribute V2_DUR = this.addNumAttribute("V2_DUR")
+		Attribute SYLL2_SYLL1 = this.addNumAttribute("SYLL2/SYLL1")
+		Attribute V2_V1 = this.addNumAttribute("V2/V1")
+		Attribute WORD = this.addNumAttribute("WORD")
+		println "Attributes added."
+		println ""
 		
+		println "Current attributes:"
+		for (Attribute attr in this.data.enumerateAttributes()) {
+			println attr.name
+		}
+		println ""
+		
+		println "Beginning Instance iteration..."
 		for (Instance inst in this.data.enumerateInstances()) {
-			String word = inst.stringValue("WORD")
+			String wordText = inst.stringValue(WORD)
 			String fileName = getFileName(inst)
 			String wavName = [wavDir, fileName, ".wav"].join(File.separator)
 			String gridName = [gridDir, fileName, ".textgrid"].join(File.separator)
-			FeatureExtractor featex = new FeatureExtractor(wavName, gridName, word)
+			
+			FeatureExtractor featex = new FeatureExtractor(wavName, gridName, wordText)
+			
+			// Duration attributes
+			
+			// Relative attributes
 		}
 	}
 }
