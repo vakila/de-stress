@@ -195,13 +195,16 @@ class DataProcessor {
 		println ""
 		
 		println "Adding attributes..."
+		// Duration
 		Attribute WORD_DUR = this.addNumAttribute("WORD_DUR")
 		Attribute SYLL1_DUR = this.addNumAttribute("SYLL1_DUR")
 		Attribute SYLL2_DUR = this.addNumAttribute("SYLL2_DUR")
 		Attribute V1_DUR = this.addNumAttribute("V1_DUR")
 		Attribute V2_DUR = this.addNumAttribute("V2_DUR")
-		Attribute SYLL2_SYLL1 = this.addNumAttribute("SYLL2/SYLL1")
-		Attribute V2_V1 = this.addNumAttribute("V2/V1")
+		Attribute SYLL1_SYLL2_DUR = this.addNumAttribute("SYLL1/SYLL2_DUR")
+		Attribute V1_V2_DUR = this.addNumAttribute("V1/V2_DUR")
+		//TODO Pitch
+		//TODO Intensity
 		println "Attributes added."
 		println ""
 		
@@ -221,9 +224,11 @@ class DataProcessor {
 			
 			FeatureExtractor featex = new FeatureExtractor(wavName, gridName, wordText)
 			
-			// Duration attributes
+			//TODO Duration attributes
 			
-			// Relative attributes
+			//TODO Pitch attributes
+			
+			//TODO Intensity attributes
 		}
 	}
 }

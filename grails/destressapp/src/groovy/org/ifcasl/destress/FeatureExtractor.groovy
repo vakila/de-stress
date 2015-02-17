@@ -3,9 +3,10 @@ package org.ifcasl.destress
 
 import org.springframework.aop.aspectj.RuntimeTestWalker.ThisInstanceOfResidueTestVisitor;
 
-import fr.loria.parole.jsnoori.model.teacher.feedback.Feedback;
-import fr.loria.parole.jsnoori.model.teacher.feedback.FeedbackComputer
-import fr.loria.parole.jsnoori.model.teacher.feedback.TimeFeedback;
+import fr.loria.parole.jsnoori.model.teacher.feedback.*
+//import fr.loria.parole.jsnoori.model.teacher.feedback.Feedback;
+//import fr.loria.parole.jsnoori.model.teacher.feedback.FeedbackComputer
+//import fr.loria.parole.jsnoori.model.teacher.feedback.TimeFeedback;
 import fr.loria.parole.jsnoori.model.audio.AudioSignal;
 import fr.loria.parole.jsnoori.model.segmentation.*;
 import fr.loria.parole.jsnoori.util.file.segmentation.TextGridSegmentationFileUtils;
@@ -54,6 +55,8 @@ class FeatureExtractor {
 		
 	}
 	
+	////////// REPORTING (PRINT) METHODS //////////
+	
 	public String toString() {
 		String description = "FeatureExtractor object:\n"
 		description += "\twavFile:\t" + this.wavFile + "\n"
@@ -61,17 +64,17 @@ class FeatureExtractor {
 		return description
 	}
 	
-	public String printWords() {
-		return printSegLengths(this.wordsSegmentation)
+	public String printWordDurations() {
+		return printSegDurations(this.wordsSegmentation)
 	}
 	
-	public String printSyllables() {
+	public String printSyllableDurations() {
 		//return printSegLengths(this.audioSignal.segmentationList.seg_syllables)
 		//def syllables = getSyllableSegments()
 		double wordBegin = this.wordSegment.getBegin()
 		double wordEnd = this.wordSegment.getEnd()
 		def syllables = this.audioSignal.segmentationList.seg_syllables.getExtractedSegments(wordBegin, wordEnd)
-		return printSegLengths(syllables)
+		return printSegDurations(syllables)
 	}
 	
 	/**
@@ -82,7 +85,7 @@ class FeatureExtractor {
 	 * @param segmentCollection		Segmentation, List<Segment>, or Segment[]
 	 * @return						String of HTML code
 	 */
-	public String printSegLengths(Object segmentCollection) {
+	public String printSegDurations(Object segmentCollection) {
 		def segs
 		if (segmentCollection == null) {
 			return "Null segmentation"
@@ -104,14 +107,21 @@ class FeatureExtractor {
 	
 	public String printWordInfo() {
 		int wordSegId = getWordId(word)
-		
-		
 		//Segment wordSeg = getWordSeg()
+		
+		// Word text & ID
 		String output = "<p>WORD: " + word + "</p>"
 		output += "<p>ID: " + wordSegId.toString() + "</p>"
+		
+		// Duration
 		output += "<p>START: " + wordSegment.getBegin().toString() + "</p>"
 		output += "<p>END: " + wordSegment.getEnd().toString() + "</p>"
 		output += "<p>DURATION: " + wordSegment.getLengthMs().toString() + " ms</p>"
+		
+		//TODO Pitch
+		
+		//TODO Intensity
+		
 		return output
 		
 	}
@@ -171,6 +181,8 @@ class FeatureExtractor {
 		return output
 	}
 	
+	////////// DURATION METHODS //////////
+	
 	/**
 	 * Modified version of TimeFeedback.computeTotalVowelDuration(seg_phone)
 	 * that converts from SAMPA to IPA before checking phone type
@@ -190,6 +202,9 @@ class FeatureExtractor {
 		}
 		return totalvowelduration_in_syllables
 	}
+	
+	
+	////////// UTILITY METHODS //////////
 	
 	/**
 	 * Extracts the part of full_segmentation that falls between the start and end
@@ -213,7 +228,11 @@ class FeatureExtractor {
 	}
 	
 	
-	
+	/**
+	 * Returns the Segment object corresponding to this.word, by finding its index with getWordId(word).
+	 * Returns null if the word is not found exactly once in the word-level segmentation.
+	 * @return
+	 */
 	public Segment getWordSegment() {
 		int wordSegId = getWordId(word)
 		if (wordSegId < 0) {
