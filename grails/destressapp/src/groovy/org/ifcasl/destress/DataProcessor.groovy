@@ -202,7 +202,6 @@ class DataProcessor {
 		Attribute V2_DUR = this.addNumAttribute("V2_DUR")
 		Attribute SYLL2_SYLL1 = this.addNumAttribute("SYLL2/SYLL1")
 		Attribute V2_V1 = this.addNumAttribute("V2/V1")
-		Attribute WORD = this.addNumAttribute("WORD")
 		println "Attributes added."
 		println ""
 		
@@ -213,6 +212,7 @@ class DataProcessor {
 		println ""
 		
 		println "Beginning Instance iteration..."
+		Attribute WORD = this.data.attribute("WORD")
 		for (Instance inst in this.data.enumerateInstances()) {
 			String wordText = inst.stringValue(WORD)
 			String fileName = getFileName(inst)

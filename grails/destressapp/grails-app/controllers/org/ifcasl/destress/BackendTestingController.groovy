@@ -25,7 +25,7 @@ class BackendTestingController {
 	String arffOutputPath = "/Users/Anjana/Desktop/DATA.arff"
 	String dataDir = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Data/"
 	
-	//Language language = Language.getLanguage("de")
+	Language language = Language.getLanguage("de")
 	
 	
     def index() { 
