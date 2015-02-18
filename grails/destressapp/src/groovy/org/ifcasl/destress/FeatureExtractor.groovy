@@ -271,7 +271,39 @@ class FeatureExtractor {
 		return totalvowelduration_in_syllables
 	}
 	
+	////////// PITCH METHODS //////////
 	
+	public float getWordF0Mean() {
+		//TODO
+	}
+	
+	public float getWordF0Max() {
+		//TODO
+	}
+	
+	public float getWordF0Min() {
+		//TODO
+	}
+	
+	public float getWordF0Range() {
+		//TODO
+	}
+	
+	public float getSyllableF0Mean(int syllIndexInWord) {
+		//TODO
+	}
+	
+	public float getSyllableF0Max(int syllIndexInWord) {
+		//TODO
+	}
+	
+	public float getSyllableF0Min(int syllIndexInWord) {
+		//TODO
+	}
+	
+	public float getSyllableF0Range(int syllIndexInWord) {
+		//TODO
+	}
 	
 	////////// UTILITY METHODS //////////
 	
