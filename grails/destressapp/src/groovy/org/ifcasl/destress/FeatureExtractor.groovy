@@ -274,35 +274,41 @@ class FeatureExtractor {
 	////////// PITCH METHODS //////////
 	
 	public float getWordF0Mean() {
-		//TODO
+		return pitchAnalysis.computePitchMeanInSegment(wordSegment)
 	}
 	
 	public float getWordF0Max() {
-		//TODO
+		return pitchAnalysis.computePitchMaxInSegment(wordSegment)
 	}
 	
 	public float getWordF0Min() {
-		//TODO
+		return pitchAnalysis.computePitchMinInSegment(wordSegment)
 	}
 	
 	public float getWordF0Range() {
-		//TODO
+		return getWordF0Max()-getWordF0Min()
 	}
 	
 	public float getSyllableF0Mean(int syllIndexInWord) {
-		//TODO
+		def syllSeg = extractedSylls.getSegment(syllIndexInWord)
+		return pitchAnalysis.computePitchMeanInSegment(syllSeg)
 	}
 	
 	public float getSyllableF0Max(int syllIndexInWord) {
-		//TODO
+		def syllSeg = extractedSylls.getSegment(syllIndexInWord)
+		return pitchAnalysis.computePitchMaxInSegment(syllSeg)
 	}
 	
 	public float getSyllableF0Min(int syllIndexInWord) {
-		//TODO
+		def syllSeg = extractedSylls.getSegment(syllIndexInWord)
+		return pitchAnalysis.computePitchMaxInSegment(syllSeg)
 	}
 	
 	public float getSyllableF0Range(int syllIndexInWord) {
-		//TODO
+		def syllSeg = extractedSylls.getSegment(syllIndexInWord)
+		def max = pitchAnalysis.computePitchMaxInSegment(syllSeg)
+		def min = pitchAnalysis.computePitchMinInSegment(syllSeg)
+		return max-min
 	}
 	
 	////////// UTILITY METHODS //////////
