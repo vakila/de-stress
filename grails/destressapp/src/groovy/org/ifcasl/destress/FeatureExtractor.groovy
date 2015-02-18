@@ -311,6 +311,48 @@ class FeatureExtractor {
 		return max-min
 	}
 	
+	public int getMaxF0Index() {
+		def syll0 = getSyllableF0Max(0)
+		def syll1 = getSyllableF0Max(1)
+		if (syll0 < syll1) {
+			return 1
+		}
+		else if (syll0 > syll1) {
+			return 0
+		}
+		else {
+			return null
+		}
+	}
+	
+	public int getMinF0Index() {
+		def syll0 = getSyllableF0Min(0)
+		def syll1 = getSyllableF0Min(1)
+		if (syll0 < syll1) {
+			return 0
+		}
+		else if (syll0 > syll1) {
+			return 1
+		}
+		else {
+			return null
+		}
+	}
+	
+	public int getMaxRangeF0Index() {
+		def syll0 = getSyllableF0Range(0)
+		def syll1 = getSyllableF0Range(1)
+		if (syll0 < syll1) {
+			return 1
+		}
+		else if (syll0 > syll1) {
+			return 0
+		}
+		else {
+			return null
+		}
+	}
+	
 	////////// UTILITY METHODS //////////
 	
 	/**

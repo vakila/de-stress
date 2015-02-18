@@ -225,6 +225,9 @@ class DataProcessor {
 		Attribute SYLL_REL_MAX = this.addNumAttribute("SYLL_REL_MAX")
 		Attribute SYLL_REL_MIN = this.addNumAttribute("SYLL_REL_MIN")
 		Attribute SYLL_REL_RANGE = this.addNumAttribute("SYLL_REL_RANGE")
+		Attribute SYLL_MAX_INDEX = this.addNumAttribute("SYLL_MAX_INDEX")
+		Attribute SYLL_MIN_INDEX = this.addNumAttribute("SYLL_MIN_INDEX")
+		Attribute SYLL_MAXRANGE_INDEX = this.addNumAttribute("SYLL_MAXRANGE_INDEX")
 		
 		////TODO Intensity
 		
@@ -290,6 +293,9 @@ class DataProcessor {
 			inst.setValue(SYLL_REL_MAX, syll0f0max/syll1f0max)
 			inst.setValue(SYLL_REL_MIN, syll0f0min/syll1f0min)
 			inst.setValue(SYLL_REL_RANGE, syll0f0range/syll1f0range)
+			inst.setValue(SYLL_MAX_INDEX, featex.getMaxF0Index())
+			inst.setValue(SYLL_MIN_INDEX, featex.getMinF0Index())
+			inst.setValue(SYLL_MAXRANGE_INDEX, featex.getMaxRangeF0Index)
 			
 			//TODO Intensity attributes
 		}
