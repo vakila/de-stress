@@ -4,18 +4,19 @@ package org.ifcasl.destress
 import org.springframework.aop.aspectj.RuntimeTestWalker.ThisInstanceOfResidueTestVisitor;
 
 import fr.loria.parole.jsnoori.model.teacher.feedback.*
-//import fr.loria.parole.jsnoori.model.teacher.feedback.Feedback;
-//import fr.loria.parole.jsnoori.model.teacher.feedback.FeedbackComputer
-//import fr.loria.parole.jsnoori.model.teacher.feedback.TimeFeedback;
 import fr.loria.parole.jsnoori.model.audio.AudioSignal;
 import fr.loria.parole.jsnoori.model.segmentation.*;
 import fr.loria.parole.jsnoori.util.file.segmentation.TextGridSegmentationFileUtils;
 import fr.loria.parole.jsnoori.util.lang.Language;
+import fr.loria.parole.jsnoori.view.phoneticKeyboard.*;
+
 
 
 class FeatureExtractor {
 
-	public Language language = Language.getLanguage("de")
+	Language language = Language.getLanguage("de")
+	PhoneticSymbolMapper phonMapper = PhoneticSymbolMapperFactory.createPhoneticSymbolMapper(language);
+	PhoneticFeatures phonFeatures = PhoneticFeaturesFactory.createPhoneticFeatures(language);
 	
 	String wavFile
 	String gridFile
@@ -27,7 +28,8 @@ class FeatureExtractor {
 	Segmentation extractedSylls
 	Segmentation extractedPhons
 	
-	FeedbackComputer fb
+	//Removing and refactoring FeedbackComputer fbc
+	PitchAnalysis pitchAnalysis
 	
 	
 	public FeatureExtractor(String wavFile, String gridFile, String word) {
@@ -48,10 +50,11 @@ class FeatureExtractor {
 		this.extractedSylls = extractPartialSegmentation(this.audioSignal.segmentationList.seg_syllables, this.wordSegment)
 		this.extractedPhons = extractPartialSegmentation(this.audioSignal.segmentationList.seg_phones, this.wordSegment)
 		
-		// Create a new FeedbackComputer 
-		// (includes Feedback, TimeFeedback, and PitchFeedback)
-		// where the trial and example audio are the same
-		this.fb = new FeedbackComputer(this.audioSignal, this.audioSignal, language)
+		this.PitchAnalysis = new PitchAnalysis(this.audioSignal)
+//		// Create a new FeedbackComputer 
+//		// (includes Feedback, TimeFeedback, and PitchFeedback)
+//		// where the trial and example audio are the same
+//		this.fbc = new FeedbackComputer(this.audioSignal, this.audioSignal, language)
 		
 	}
 	
@@ -152,7 +155,7 @@ class FeatureExtractor {
 //			}
 //		}
 		
-		double wordVowelDur = getTotalVowelDuration(this.extractedPhons)
+		double wordVowelDur = getVowelDuration(this.extractedPhons)
 		output += "<p>wordVowelDur: " + wordVowelDur.toString() + "</p><br>"
 		
 		output += """<table>
@@ -167,7 +170,7 @@ class FeatureExtractor {
 		
 		for (Segment syll : this.extractedSylls) {
 			Segmentation syllPhonSeg = extractPartialSegmentation(this.extractedPhons, syll)
-			double syllVowelDur = getTotalVowelDuration(syllPhonSeg)
+			double syllVowelDur = getVowelDuration(syllPhonSeg)
 			output += "<tr><td>" + syll.name + "</td>"
 			output += "<td>" + syll.getLength().toString() + "</td>"
 			output += "<td>" + syllVowelDur.toString() + "</td>"
@@ -184,24 +187,90 @@ class FeatureExtractor {
 	////////// DURATION METHODS //////////
 	
 	/**
+	 * Returns the duration (length) of this.wordSegment
+	 * @return
+	 */
+	public double getWordDuration() {
+		return wordSegment.getLength()
+	}
+	
+	/**
+	 * Returns the sum of each vowel's 
+	 * @return
+	 */
+	public double getVowelDurationInWord() {
+		return getVowelDuration(extractedPhons)
+	}
+	
+	/**
+	 * Returns the duration of the syllable with the given index in the word
+	 * @param syllIndexInWord	Index of the syllable within the word (e.g. 0 = first syllable, 1 = second syllable)
+	 * @return
+	 */
+	public double getSyllableDuration(int syllIndexInWord) {
+		Segment syllSeg = extractedSylls.getSegment(syllIndexInWord)
+		return syllSeg.getLength()
+	}
+	
+	/**
+	 * Returns the duration of the vowel(s) in the syllable with the given index (see getVowelDuration())
+	 * @param syllIndexInWord	Index of the syllable within the word (e.g. 0 = first syllable, 1 = second syllable)
+	 * @return
+	 */
+	public double getVowelDurationInSyllable(int syllIndexInWord) {
+		Segment syllSeg = extractedSylls.getSegment(syllIndexInWord)
+		Segmentation syllPhons = extractPartialSegmentation(extractedPhons, syllSeg)
+		return getVowelDuration(syllPhons)
+	}
+	
+	
+	/**
 	 * Modified version of TimeFeedback.computeTotalVowelDuration(seg_phone)
-	 * that converts from SAMPA to IPA before checking phone type
+	 * that converts from SAMPA to IPA before checking phone type.
+	 * Includes syllabic consonants (=l, =m, =n) as vowels.
 	 * @param seg_phones	The (partial) phone-level segmentation to be scanned for vowels
 	 * @return				Sum of durations of all vowel segments in the segmentation
 	 */
-	public double getTotalVowelDuration(Segmentation seg_phones) {
-		double totalvowelduration_in_syllables = 0
+	public double getVowelDuration(Segmentation seg_phones) {
+		def vowels = []
+		//def phonFeats = this.fbc.feedback.getPhoneticFeatures()
+		
+		// go through the phone segments and pick out those that are vowels or syllabic consonants
 		for (int p = 0; p < seg_phones.getSegmentCount(); p++) {
-			String phSampa = seg_phones.getSegment(p).getName();
+			String phSampa = seg_phones.getSegment(p).getName()
 			if (! phSampa.contains("_")) {
-				String phIpa = this.fb.feedback.getPhoneticSymbolMapper().SAMPAtoIPA(phSampa)
-						if (this.fb.feedback.getPhoneticFeatures().isVowel(phIpa)) {
-							totalvowelduration_in_syllables += seg_phones.getSegment(p).getLength();
-						}
+				String phIpa = phonMapper.SAMPAtoIPA(phSampa) //this.fbc.feedback.getPhoneticSymbolMapper().SAMPAtoIPA(phSampa)
+				if (phonFeatures.isVowel(phIpa) || phonFeatures.isSyllabic(phIpa)) {
+					vowels.add(seg_phones.getSegment(p))
+					//totalvowelduration_in_syllables += seg_phones.getSegment(p).getLength();
+				}
 			}
 		}
+		
+		// if no vowels/syllabics were found, go through again and 
+		// pick out potentially-syllabic consonants that might not have been labeled as syllabic
+		if (vowels.isEmpty()) {
+			for (int p = 0; p < seg_phones.getSegmentCount(); p++) {
+				String phSampa = seg_phones.getSegment(p).getName()
+				if (! phSampa.contains("_")) {
+					String phIpa = phonMapper.SAMPAtoIPA(phSampa) //this.fbc.feedback.getPhoneticSymbolMapper().SAMPAtoIPA(phSampa)
+					if (phIpa.matches("n") || phIpa.matches("m") || phIpa.matches("l")) {
+						vowels.add(seg_phones.getSegment(p))
+						//totalvowelduration_in_syllables += seg_phones.getSegment(p).getLength();
+					}
+				}
+			}
+		}
+		
+		// sum up the durations of the segments in vowels
+		double totalvowelduration_in_syllables = 0
+		for (vowelSeg in vowels) {
+			totalvowelduration_in_syllables += vowelSeg.getLength();
+		}
+		
 		return totalvowelduration_in_syllables
 	}
+	
 	
 	
 	////////// UTILITY METHODS //////////
@@ -245,8 +314,8 @@ class FeatureExtractor {
 	}
 	
 	/**
-	 * Searches for a segment in wordsSeg whose name matches
-	 * the given name. 
+	 * Searches for a unique segment in wordsSeg whose name matches
+	 * the given name. Returns the index of that segment, if found.
 	 * Possible outputs:
 	 * 	-1 : No segment found with this name 
 	 * 	-2 : Multiple segments found with this name
