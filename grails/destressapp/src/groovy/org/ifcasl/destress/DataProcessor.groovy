@@ -195,16 +195,39 @@ class DataProcessor {
 		println ""
 		
 		println "Adding attributes..."
-		// Duration
+		
+		//// Duration
 		Attribute WORD_DUR = this.addNumAttribute("WORD_DUR")
+		Attribute SYLL0_DUR = this.addNumAttribute("SYLL0_DUR")
 		Attribute SYLL1_DUR = this.addNumAttribute("SYLL1_DUR")
-		Attribute SYLL2_DUR = this.addNumAttribute("SYLL2_DUR")
+		Attribute V0_DUR = this.addNumAttribute("V0_DUR")
 		Attribute V1_DUR = this.addNumAttribute("V1_DUR")
-		Attribute V2_DUR = this.addNumAttribute("V2_DUR")
-		Attribute SYLL1_SYLL2_DUR = this.addNumAttribute("SYLL1/SYLL2_DUR")
-		Attribute V1_V2_DUR = this.addNumAttribute("V1/V2_DUR")
-		//TODO Pitch
-		//TODO Intensity
+		Attribute SYLL_REL_DUR = this.addNumAttribute("SYLL_REL_DUR") // SYLL0/SYLL1
+		Attribute V_REL_DUR = this.addNumAttribute("V_REL_DUR")
+		
+		////TODO Pitch
+		//Word
+		Attribute WORD_F0_MEAN = this.addNumAttribute("WORD_F0_MEAN")
+		Attribute WORD_F0_MAX = this.addNumAttribute("WORD_F0_MAX")
+		Attribute WORD_F0_MIN = this.addNumAttribute("WORD_F0_MIN")
+		Attribute WORD_F0_RANGE = this.addNumAttribute("WORD_F0_RANGE")
+		//Syllables
+		Attribute SYLL0_F0_MEAN = this.addNumAttribute("SYLL0_F0_MEAN")
+		Attribute SYLL0_F0_MAX = this.addNumAttribute("SYLL0_F0_MAX")
+		Attribute SYLL0_F0_MIN = this.addNumAttribute("SYLL0_F0_MIN")
+		Attribute SYLL0_F0_RANGE = this.addNumAttribute("SYLL0_F0_RANGE")
+		Attribute SYLL1_F0_MEAN = this.addNumAttribute("SYLL1_F0_MEAN")
+		Attribute SYLL1_F0_MAX = this.addNumAttribute("SYLL1_F0_MAX")
+		Attribute SYLL1_F0_MIN = this.addNumAttribute("SYLL1_F0_MIN")
+		Attribute SYLL1_F0_RANGE = this.addNumAttribute("SYLL1_F0_RANGE")
+		//Relative
+		Attribute SYLL_REL_MEAN = this.addNumAttribute("SYLL_REL_MEAN")
+		Attribute SYLL_REL_MAX = this.addNumAttribute("SYLL_REL_MAX")
+		Attribute SYLL_REL_MIN = this.addNumAttribute("SYLL_REL_MIN")
+		Attribute SYLL_REL_RANGE = this.addNumAttribute("SYLL_REL_RANGE")
+		
+		////TODO Intensity
+		
 		println "Attributes added."
 		println ""
 		
@@ -224,9 +247,49 @@ class DataProcessor {
 			
 			FeatureExtractor featex = new FeatureExtractor(wavName, gridName, wordText)
 			
-			//TODO Duration attributes
+			//// Duration attributes
+			inst.setValue(WORD_DUR, featex.getWordDuration())
+			def syll0dur = featex.getSyllableDuration(0)
+			def syll1dur = featex.getSyllableDuration(1)
+			inst.setValue(SYLL0_DUR, syll0dur)
+			inst.setValue(SYLL1_DUR, syll1dur)
+			inst.setValue(SYLL_REL_DUR, syll0dur/syll1dur)
+			def v0dur = featex.getVowelDurationInSyllable(0)
+			def v1dur = featex.getVowelDurationInSyllable(1)
+			inst.setValue(V0_DUR, v0dur)
+			inst.setValue(V1_DUR, v1dur)
+			inst.setValue(V_REL_DUR, v0dur/v1dur)
 			
-			//TODO Pitch attributes
+			//// Pitch attributes
+			// Word
+			inst.setValue(WORD_F0_MEAN, featex.getWordF0Mean())
+			inst.setValue(WORD_F0_MAX, featex.getWordF0Max())
+			inst.setValue(WORD_F0_MIN, featex.getWordF0Min())
+			inst.setValue(WORD_F0_RANGE, featex.getWordF0Range())
+			// Syllables
+			def syll0seg = featex.extractedSylls.getSegment(0)
+			def syll0f0mean = featex.pitchAnalysis.computePitchMeanInSegment(syll0seg)
+			def syll0f0max = featex.pitchAnalysis.computePitchMaxInSegment(syll0seg)
+			def syll0f0min = featex.pitchAnalysis.computePitchMinInSegment(syll0seg)
+			def syll0f0range = syll0f0max - syll0f0min
+			inst.setValue(SYLL0_F0_MEAN, syll0f0mean)
+			inst.setValue(SYLL0_F0_MAX, syll0f0max)
+			inst.setValue(SYLL0_F0_MIN, syll0f0min)
+			inst.setValue(SYLL0_F0_RANGE, syll0f0range)
+			def syll1seg = featex.extractedSylls.getSegment(1)
+			def syll1f0mean = featex.pitchAnalysis.computePitchMeanInSegment(syll1seg)
+			def syll1f0max = featex.pitchAnalysis.computePitchMaxInSegment(syll1seg)
+			def syll1f0min = featex.pitchAnalysis.computePitchMinInSegment(syll1seg)
+			def syll1f0range = syll1f0max - syll1f0min
+			inst.setValue(SYLL1_F0_MEAN, syll1f0mean)
+			inst.setValue(SYLL1_F0_MAX, syll1f0max)
+			inst.setValue(SYLL1_F0_MIN, syll1f0min)
+			inst.setValue(SYLL1_F0_RANGE, syll1f0range)
+			// Relative
+			inst.setValue(SYLL_REL_MEAN, syll0f0mean/syll1f0mean)
+			inst.setValue(SYLL_REL_MAX, syll0f0max/syll1f0max)
+			inst.setValue(SYLL_REL_MIN, syll0f0min/syll1f0min)
+			inst.setValue(SYLL_REL_RANGE, syll0f0range/syll1f0range)
 			
 			//TODO Intensity attributes
 		}
