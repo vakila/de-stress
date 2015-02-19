@@ -236,68 +236,102 @@ class DataProcessor {
 		
 		println "Current attributes:"
 		for (Attribute attr in this.data.enumerateAttributes()) {
-			println attr.name
+			println attr.name()
 		}
 		println ""
 		
 		println "Beginning Instance iteration..."
 		Attribute WORD = this.data.attribute("WORD")
+		Attribute SENTENCE_TYPE = this.data.attribute("SENTENCE_TYPE")
+		Attribute SENTENCE = this.data.attribute("SENTENCE")
+		
 		for (Instance inst in this.data.enumerateInstances()) {
+			
+		
+			//// Get this instance's files & create FeatureExtractor
 			String wordText = inst.stringValue(WORD)
+			String sentType = inst.stringValue(SENTENCE_TYPE)
+			String sentence = inst.stringValue(SENTENCE)
 			String fileName = getFileName(inst)
-			String wavName = [wavDir, fileName, ".wav"].join(File.separator)
-			String gridName = [gridDir, fileName, ".textgrid"].join(File.separator)
+			println "Instance: " + fileName
+			String wavName = [wavDir, sentType, sentence, fileName+".wav"].join(File.separator)
+			String gridName = [gridDir, sentType, sentence, fileName+".textgrid"].join(File.separator)
 			
 			FeatureExtractor featex = new FeatureExtractor(wavName, gridName, wordText)
+		
+		
+			try {
+				//// Duration 
+				//println "Adding duration features..."
+				inst.setValue(WORD_DUR, featex.getWordDuration())
+				def syll0dur = featex.getSyllableDuration(0)
+				def syll1dur = featex.getSyllableDuration(1)
+				inst.setValue(SYLL0_DUR, syll0dur)
+				inst.setValue(SYLL1_DUR, syll1dur)
+				inst.setValue(SYLL_REL_DUR, syll0dur/syll1dur)
+				def v0dur = featex.getVowelDurationInSyllable(0)
+				def v1dur = featex.getVowelDurationInSyllable(1)
+				inst.setValue(V0_DUR, v0dur)
+				inst.setValue(V1_DUR, v1dur)
+				inst.setValue(V_REL_DUR, v0dur/v1dur)
+				//println "Done."
+			} catch (Exception e) {
+				println "ERROR: couldn't extract Duration features"
+				e.printStackTrace()
+				continue
+			}
 			
-			//// Duration attributes
-			inst.setValue(WORD_DUR, featex.getWordDuration())
-			def syll0dur = featex.getSyllableDuration(0)
-			def syll1dur = featex.getSyllableDuration(1)
-			inst.setValue(SYLL0_DUR, syll0dur)
-			inst.setValue(SYLL1_DUR, syll1dur)
-			inst.setValue(SYLL_REL_DUR, syll0dur/syll1dur)
-			def v0dur = featex.getVowelDurationInSyllable(0)
-			def v1dur = featex.getVowelDurationInSyllable(1)
-			inst.setValue(V0_DUR, v0dur)
-			inst.setValue(V1_DUR, v1dur)
-			inst.setValue(V_REL_DUR, v0dur/v1dur)
+			try {
+				//// Pitch 
+				//println "Adding pitch features..."
+				// Word
+				inst.setValue(WORD_F0_MEAN, featex.getWordF0Mean())
+				inst.setValue(WORD_F0_MAX, featex.getWordF0Max())
+				inst.setValue(WORD_F0_MIN, featex.getWordF0Min())
+				inst.setValue(WORD_F0_RANGE, featex.getWordF0Range())
+				// Syllables
+				//def syll0seg = featex.extractedSylls.getSegment(0)
+				def syll0f0mean = featex.getSyllableF0Mean(0) //.pitchAnalysis.computePitchMeanInSegment(syll0seg)
+				def syll0f0max = featex.getSyllableF0Max(0) //.pitchAnalysis.computePitchMaxInSegment(syll0seg)
+				def syll0f0min = featex.getSyllableF0Min(0) //.pitchAnalysis.computePitchMinInSegment(syll0seg)
+				def syll0f0range = syll0f0max - syll0f0min
+				inst.setValue(SYLL0_F0_MEAN, syll0f0mean)
+				inst.setValue(SYLL0_F0_MAX, syll0f0max)
+				inst.setValue(SYLL0_F0_MIN, syll0f0min)
+				inst.setValue(SYLL0_F0_RANGE, syll0f0range)
+				//def syll1seg = featex.extractedSylls.getSegment(1)
+				def syll1f0mean = featex.getSyllableF0Mean(1) //.pitchAnalysis.computePitchMeanInSegment(syll1seg)
+				def syll1f0max = featex.getSyllableF0Max(1) //.pitchAnalysis.computePitchMaxInSegment(syll1seg)
+				def syll1f0min = featex.getSyllableF0Min(1) //.pitchAnalysis.computePitchMinInSegment(syll1seg)
+				def syll1f0range = syll1f0max - syll1f0min
+				inst.setValue(SYLL1_F0_MEAN, syll1f0mean)
+				inst.setValue(SYLL1_F0_MAX, syll1f0max)
+				inst.setValue(SYLL1_F0_MIN, syll1f0min)
+				inst.setValue(SYLL1_F0_RANGE, syll1f0range)
+				// Relative
+				inst.setValue(SYLL_REL_MEAN, syll0f0mean/syll1f0mean)
+				inst.setValue(SYLL_REL_MAX, syll0f0max/syll1f0max)
+				inst.setValue(SYLL_REL_MIN, syll0f0min/syll1f0min)
+				inst.setValue(SYLL_REL_RANGE, syll0f0range/syll1f0range)
+				inst.setValue(SYLL_MAX_INDEX, featex.getMaxF0Index())
+				inst.setValue(SYLL_MIN_INDEX, featex.getMinF0Index())
+				inst.setValue(SYLL_MAXRANGE_INDEX, featex.getMaxRangeF0Index())
+				//println "Done."
+			} catch (Exception e) {
+				println "ERROR: couldn't extract Pitch features"
+				e.printStackTrace()
+			}
 			
-			//// Pitch attributes
-			// Word
-			inst.setValue(WORD_F0_MEAN, featex.getWordF0Mean())
-			inst.setValue(WORD_F0_MAX, featex.getWordF0Max())
-			inst.setValue(WORD_F0_MIN, featex.getWordF0Min())
-			inst.setValue(WORD_F0_RANGE, featex.getWordF0Range())
-			// Syllables
-			//def syll0seg = featex.extractedSylls.getSegment(0)
-			def syll0f0mean = featex.getSyllableF0Mean(0) //.pitchAnalysis.computePitchMeanInSegment(syll0seg)
-			def syll0f0max = featex.getSyllableF0Max(0) //.pitchAnalysis.computePitchMaxInSegment(syll0seg)
-			def syll0f0min = featex.getSyllableF0Min(0) //.pitchAnalysis.computePitchMinInSegment(syll0seg)
-			def syll0f0range = syll0f0max - syll0f0min
-			inst.setValue(SYLL0_F0_MEAN, syll0f0mean)
-			inst.setValue(SYLL0_F0_MAX, syll0f0max)
-			inst.setValue(SYLL0_F0_MIN, syll0f0min)
-			inst.setValue(SYLL0_F0_RANGE, syll0f0range)
-			//def syll1seg = featex.extractedSylls.getSegment(1)
-			def syll1f0mean = featex.getSyllableF0Mean(1) //.pitchAnalysis.computePitchMeanInSegment(syll1seg)
-			def syll1f0max = featex.getSyllableF0Max(1) //.pitchAnalysis.computePitchMaxInSegment(syll1seg)
-			def syll1f0min = featex.getSyllableF0Min(1) //.pitchAnalysis.computePitchMinInSegment(syll1seg)
-			def syll1f0range = syll1f0max - syll1f0min
-			inst.setValue(SYLL1_F0_MEAN, syll1f0mean)
-			inst.setValue(SYLL1_F0_MAX, syll1f0max)
-			inst.setValue(SYLL1_F0_MIN, syll1f0min)
-			inst.setValue(SYLL1_F0_RANGE, syll1f0range)
-			// Relative
-			inst.setValue(SYLL_REL_MEAN, syll0f0mean/syll1f0mean)
-			inst.setValue(SYLL_REL_MAX, syll0f0max/syll1f0max)
-			inst.setValue(SYLL_REL_MIN, syll0f0min/syll1f0min)
-			inst.setValue(SYLL_REL_RANGE, syll0f0range/syll1f0range)
-			inst.setValue(SYLL_MAX_INDEX, featex.getMaxF0Index())
-			inst.setValue(SYLL_MIN_INDEX, featex.getMinF0Index())
-			inst.setValue(SYLL_MAXRANGE_INDEX, featex.getMaxRangeF0Index)
 			
-			//TODO Intensity attributes
-		}
+			//TODO Intensity 
+			
+		} //end for loop over instances
+		println "Done with Instance iteration."
+		
+//		println "Saving this.data to file..."
+//		writeArff("DATA_extractnewfeatures.arff")
+//		println "Done."
+		
+		return
 	}
 }

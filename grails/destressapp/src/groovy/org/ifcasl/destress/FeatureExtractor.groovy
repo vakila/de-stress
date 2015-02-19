@@ -50,7 +50,7 @@ class FeatureExtractor {
 		this.extractedSylls = extractPartialSegmentation(this.audioSignal.segmentationList.seg_syllables, this.wordSegment)
 		this.extractedPhons = extractPartialSegmentation(this.audioSignal.segmentationList.seg_phones, this.wordSegment)
 		
-		this.PitchAnalysis = new PitchAnalysis(this.audioSignal)
+		this.pitchAnalysis = new PitchAnalysis(this.audioSignal)
 //		// Create a new FeedbackComputer 
 //		// (includes Feedback, TimeFeedback, and PitchFeedback)
 //		// where the trial and example audio are the same
