@@ -405,7 +405,7 @@ class FeatureExtractor {
 	 * @return
 	 */
 	public int getWordId(String name) {
-		println "Searching for word: " + name
+		//println "Searching for word: " + name
 		boolean segFound = false;
 		int segID = -1;
 		for (int i = 0; i < wordsSegmentation.segments.size(); i++) {
@@ -415,7 +415,7 @@ class FeatureExtractor {
 				//print "name matches : "
 				if (segFound == true) {
 					// we have found more than one segment with that name
-					println "multiple matches"
+					//println "multiple matches"
 					return -2;
 				}
 				else {
@@ -425,9 +425,9 @@ class FeatureExtractor {
 				}
 			}
 		}
-		if (segFound == false) {
-			println "Word not found"
-		} else { println "Word found" }
+//		if (segFound == false) {
+//			println "Word not found"
+//		} else { println "Word found" }
 		return segID;
 	}
 	

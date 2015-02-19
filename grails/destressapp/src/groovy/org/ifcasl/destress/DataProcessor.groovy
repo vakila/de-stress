@@ -188,7 +188,7 @@ class DataProcessor {
 	 * @param wavDir
 	 * @param gridDir
 	 */
-	public void extractNewFeatures(String wavDir, String gridDir) {
+	public List extractNewFeatures(String wavDir, String gridDir) {
 		println "Extracting New Features..."
 		println "wavDir: " + wavDir
 		println "gridDir: " + gridDir
@@ -245,6 +245,8 @@ class DataProcessor {
 		Attribute SENTENCE_TYPE = this.data.attribute("SENTENCE_TYPE")
 		Attribute SENTENCE = this.data.attribute("SENTENCE")
 		
+		def errors = []
+		
 		for (Instance inst in this.data.enumerateInstances()) {
 			
 		
@@ -253,11 +255,27 @@ class DataProcessor {
 			String sentType = inst.stringValue(SENTENCE_TYPE)
 			String sentence = inst.stringValue(SENTENCE)
 			String fileName = getFileName(inst)
-			println "Instance: " + fileName
+			//println "Instance: " + fileName
+			
+//			if (errors.contains(fileName)) {
+//				println "Skipping instance to avoid error."
+//				continue
+//			}
+			
 			String wavName = [wavDir, sentType, sentence, fileName+".wav"].join(File.separator)
 			String gridName = [gridDir, sentType, sentence, fileName+".textgrid"].join(File.separator)
 			
-			FeatureExtractor featex = new FeatureExtractor(wavName, gridName, wordText)
+			def featex
+			
+			try {
+				featex = new FeatureExtractor(wavName, gridName, wordText)
+
+			} catch (Exception e) {
+				println fileName + " - " + wordText +  " ERROR: couldn't create FeatureExtractor"
+				e.printStackTrace()
+				errors.add(fileName + " - " + wordText + " ----- couldn't create FeatureExtractor - " + e.message)
+				continue
+			}
 		
 		
 			try {
@@ -276,8 +294,9 @@ class DataProcessor {
 				inst.setValue(V_REL_DUR, v0dur/v1dur)
 				//println "Done."
 			} catch (Exception e) {
-				println "ERROR: couldn't extract Duration features"
+				println fileName + " - " + wordText + " ERROR: couldn't extract Duration features"
 				e.printStackTrace()
+				errors.add(fileName + " - " + wordText + " ----- couldn't extract Duration features - " + e.message)
 				continue
 			}
 			
@@ -318,8 +337,9 @@ class DataProcessor {
 				inst.setValue(SYLL_MAXRANGE_INDEX, featex.getMaxRangeF0Index())
 				//println "Done."
 			} catch (Exception e) {
-				println "ERROR: couldn't extract Pitch features"
+				println fileName + " - " + wordText + " ERROR: couldn't extract Pitch features"
 				e.printStackTrace()
+				errors.add(fileName + " - " + wordText + " ----- couldn't extract Pitch features - " + e.message)
 			}
 			
 			
@@ -332,6 +352,6 @@ class DataProcessor {
 //		writeArff("DATA_extractnewfeatures.arff")
 //		println "Done."
 		
-		return
+		return errors
 	}
 }
