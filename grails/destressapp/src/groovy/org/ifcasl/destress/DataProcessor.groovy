@@ -40,6 +40,7 @@ class DataProcessor {
 		this.originalData = loadCsv(inputCsvPath)
 		NUMTONOM.setInputFormat(this.originalData)
 		this.data = Filter.useFilter(this.originalData, NUMTONOM)
+		renameSpeakerValues()
 		
 	}
 	
@@ -89,6 +90,14 @@ class DataProcessor {
 		CSVLoader loader = new CSVLoader();
 		loader.setSource(new File(inputFilePath));
 		return loader.getDataSet();
+	}
+	
+	public void renameSpeakerValues() {
+		Attribute SPEAKER = this.data.attribute("SPEAKER")
+		for (int i = 0; i < SPEAKER.numValues(); i++) {
+			def val_i = SPEAKER.value(i)
+			this.data.renameAttributeValue(SPEAKER, val_i, val_i.padLeft(3, "0"))
+		}
 	}
 
 	/**
@@ -244,12 +253,13 @@ class DataProcessor {
 		Attribute WORD = this.data.attribute("WORD")
 		Attribute SENTENCE_TYPE = this.data.attribute("SENTENCE_TYPE")
 		Attribute SENTENCE = this.data.attribute("SENTENCE")
+		//Attribute SPEAKER = this.data.attribute("SPEAKER")
+		Attribute SPEAKER_L1 = this.data.attribute("SPEAKER_L1")
 		
 		def errors = []
 		
 		for (Instance inst in this.data.enumerateInstances()) {
 			
-		
 			//// Get this instance's files & create FeatureExtractor
 			String wordText = inst.stringValue(WORD)
 			String sentType = inst.stringValue(SENTENCE_TYPE)
@@ -262,11 +272,18 @@ class DataProcessor {
 //				continue
 //			}
 			
-			String wavName = [wavDir, sentType, sentence, fileName+".wav"].join(File.separator)
-			String gridName = [gridDir, sentType, sentence, fileName+".textgrid"].join(File.separator)
+			String langPair = inst.stringValue(SPEAKER_L1) + "G"
+			String wavName = [wavDir, langPair, sentType, sentence, fileName+".wav"].join(File.separator)
+			String gridName = [gridDir, langPair, sentType, sentence, fileName+".textgrid"].join(File.separator)
 			
-			assert new File(wavName).exists()
-			assert new File(gridName).exists()
+			//assert new File(wavName).exists()
+			//assert new File(gridName).exists()
+			for (f in [wavName, gridName]) {
+				if (! new File(f).exists()) {
+					println fileName + " - " + wordText +  " ERROR: File missing - " + f
+					errors.add(fileName + " - " + wordText + " ----- File missing - " + f)
+				}
+			}
 
 			
 			def featex
