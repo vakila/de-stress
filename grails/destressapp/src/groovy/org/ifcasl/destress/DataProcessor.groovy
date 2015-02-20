@@ -334,7 +334,7 @@ class DataProcessor {
 				def syll0f0mean = featex.getSyllableF0Mean(0) //.pitchAnalysis.computePitchMeanInSegment(syll0seg)
 				def syll0f0max = featex.getSyllableF0Max(0) //.pitchAnalysis.computePitchMaxInSegment(syll0seg)
 				def syll0f0min = featex.getSyllableF0Min(0) //.pitchAnalysis.computePitchMinInSegment(syll0seg)
-				def syll0f0range = syll0f0max - syll0f0min
+				def syll0f0range = featex.getSyllableF0Range(0) //syll0f0max - syll0f0min
 				inst.setValue(SYLL0_F0_MEAN, syll0f0mean)
 				inst.setValue(SYLL0_F0_MAX, syll0f0max)
 				inst.setValue(SYLL0_F0_MIN, syll0f0min)
@@ -343,7 +343,7 @@ class DataProcessor {
 				def syll1f0mean = featex.getSyllableF0Mean(1) //.pitchAnalysis.computePitchMeanInSegment(syll1seg)
 				def syll1f0max = featex.getSyllableF0Max(1) //.pitchAnalysis.computePitchMaxInSegment(syll1seg)
 				def syll1f0min = featex.getSyllableF0Min(1) //.pitchAnalysis.computePitchMinInSegment(syll1seg)
-				def syll1f0range = syll1f0max - syll1f0min
+				def syll1f0range = featex.getSyllableF0Range(1) //syll1f0max - syll1f0min
 				inst.setValue(SYLL1_F0_MEAN, syll1f0mean)
 				inst.setValue(SYLL1_F0_MAX, syll1f0max)
 				inst.setValue(SYLL1_F0_MIN, syll1f0min)

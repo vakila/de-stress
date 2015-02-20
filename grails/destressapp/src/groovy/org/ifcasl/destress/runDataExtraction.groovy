@@ -31,7 +31,8 @@ private extractToArff(String csvName, String arffName) {
 	println "Done."
 }
 
-//extractToArff(FGcsv, FGwavDir, FGgridDir, "FG_extracted.arff")
-//extractToArff(GGcsv, GGwavDir, GGgridDir, "GG_extracted.arff")
+//extractToArff(FGcsv, "FG_extracted.arff")
+//extractToArff(GGcsv, "GG_extracted.arff")
 
 extractToArff(bothCsv, "FG_GG.arff")
+
