@@ -140,7 +140,7 @@ class DataProcessor {
 		
 		String chunk1 = "2" + row.stringValue(sentence)
 		String chunk2 = row.stringValue(speakerL1) + "G" + row.stringValue(speakerGen) + row.stringValue(speakerLevel)
-		String chunk3 = row.stringValue(speakerID)
+		String chunk3 = row.stringValue(speakerID).padLeft(3,'0')
 		
 		String filename = chunk1 + "_" + chunk2 + "_" + chunk3
 		return filename
@@ -264,6 +264,10 @@ class DataProcessor {
 			
 			String wavName = [wavDir, sentType, sentence, fileName+".wav"].join(File.separator)
 			String gridName = [gridDir, sentType, sentence, fileName+".textgrid"].join(File.separator)
+			
+			assert new File(wavName).exists()
+			assert new File(gridName).exists()
+
 			
 			def featex
 			
