@@ -10,6 +10,8 @@ import weka.core.FastVector
 import weka.core.Instance
 import weka.core.Instances
 import weka.core.converters.ArffSaver
+import weka.core.converters.ArffLoader
+import weka.core.converters.CSVSaver
 import weka.core.converters.CSVLoader
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.NumericToNominal
@@ -59,6 +61,39 @@ class DataProcessor {
 		filter.setOptions(options)
 		return filter
 	}
+	
+	/**
+	 * Converts the given ARFF file to a CSV file with the given name
+	 * @param arffFile
+	 * @param csvFile
+	 * @return
+	 */
+	public static arffToCsv(String arffFile, String csvFile) {
+		ArffLoader loader = new ArffLoader()
+		loader.setSource(new File(arffFile))
+		Instances data = loader.getDataSet()
+		CSVSaver saver = new CSVSaver()
+		saver.setInstances(data)
+		saver.setFile(new File(csvFile))
+		saver.writeBatch()
+	}
+	
+	/**
+	 * Converts the given CSV file to an ARFF file with the given name
+	 * @param csvFile
+	 * @param arffFile
+	 * @return
+	 */
+	public static csvToArff(String csvFile, String arffFile) {
+		CSVLoader loader = new CSVLoader();
+		loader.setSource(new File(csvFile)); 
+		Instances data = loader.getDataSet();
+		ArffSaver saver = new ArffSaver();
+		saver.setInstances(data);
+		saver.setFile(new File(arffFile));
+		saver.writeBatch();
+	}
+	
 	
 	
 //	public HashMap<String, Attribute> getAttributes() {
@@ -192,7 +227,6 @@ class DataProcessor {
 	/**
 	 * Massive function that will:
 	 * - Add extra attributes to the dataset
-	 * - TODO remove useless attributes from the dataset
 	 * - Use FeatureExtractor objects to set each Instance's values for the new Attributes
 	 * @param wavDir
 	 * @param gridDir
@@ -214,7 +248,7 @@ class DataProcessor {
 		Attribute SYLL_REL_DUR = this.addNumAttribute("SYLL_REL_DUR") // SYLL0/SYLL1
 		Attribute V_REL_DUR = this.addNumAttribute("V_REL_DUR")
 		
-		////TODO Pitch
+		//// Pitch
 		//Word
 		Attribute WORD_F0_MEAN = this.addNumAttribute("WORD_F0_MEAN")
 		Attribute WORD_F0_MAX = this.addNumAttribute("WORD_F0_MAX")

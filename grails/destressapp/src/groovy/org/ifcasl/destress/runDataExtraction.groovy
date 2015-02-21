@@ -34,5 +34,9 @@ private extractToArff(String csvName, String arffName) {
 //extractToArff(FGcsv, "FG_extracted.arff")
 //extractToArff(GGcsv, "GG_extracted.arff")
 
-extractToArff(bothCsv, "FG_GG.arff")
+//extractToArff(bothCsv, "FG_GG.arff")
+
+//String dataDir = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Data/"
+//DataProcessor.arffToCsv(dataDir+"FG_GG.arff", dataDir+"FG_GG-extracted.csv")
+//DataProcessor.csvToArff(dataDir+"FG_GG-extracted.csv", dataDir+"test.arff")
 
