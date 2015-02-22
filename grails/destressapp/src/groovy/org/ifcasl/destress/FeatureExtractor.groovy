@@ -301,7 +301,7 @@ class FeatureExtractor {
 	
 	public float getSyllableF0Min(int syllIndexInWord) {
 		def syllSeg = extractedSylls.getSegment(syllIndexInWord)
-		return pitchAnalysis.computePitchMaxInSegment(syllSeg)
+		return pitchAnalysis.computePitchMinInSegment(syllSeg)
 	}
 	
 	public float getSyllableF0Range(int syllIndexInWord) {
