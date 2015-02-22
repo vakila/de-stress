@@ -311,6 +311,11 @@ class FeatureExtractor {
 		return max-min
 	}
 	
+	/**
+	 * Returns the index (0 or 1) of the syllable with the highest F0 max,
+	 * or -1 if the two syllables' F0 max values are equal.
+	 * @return
+	 */
 	public int getMaxF0Index() {
 		def syll0 = getSyllableF0Max(0)
 		def syll1 = getSyllableF0Max(1)
@@ -321,10 +326,15 @@ class FeatureExtractor {
 			return 0
 		}
 		else {
-			return null
+			return -1 //null
 		}
 	}
 	
+	/**
+	 * Returns the index (0 or 1) of the syllable with the lowest (nonzero) F0 min,
+	 * or -1 if the two syllables' F0 min values are equal.
+	 * @return
+	 */
 	public int getMinF0Index() {
 		def syll0 = getSyllableF0Min(0)
 		def syll1 = getSyllableF0Min(1)
@@ -335,10 +345,15 @@ class FeatureExtractor {
 			return 1
 		}
 		else {
-			return null
+			return -1 //null
 		}
 	}
 	
+	/**
+	 * Returns the index (0 or 1) of the syllable with the highest F0 range,
+	 * or -1 if the two syllables' F0 range values are equal.
+	 * @return
+	 */
 	public int getMaxRangeF0Index() {
 		def syll0 = getSyllableF0Range(0)
 		def syll1 = getSyllableF0Range(1)
@@ -349,7 +364,7 @@ class FeatureExtractor {
 			return 0
 		}
 		else {
-			return null
+			return -1 //null
 		}
 	}
 	
