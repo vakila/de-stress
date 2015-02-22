@@ -245,8 +245,8 @@ class DataProcessor {
 		Attribute SYLL1_DUR = this.addNumAttribute("SYLL1_DUR")
 		Attribute V0_DUR = this.addNumAttribute("V0_DUR")
 		Attribute V1_DUR = this.addNumAttribute("V1_DUR")
-		Attribute SYLL_REL_DUR = this.addNumAttribute("SYLL_REL_DUR") // SYLL0/SYLL1
-		Attribute V_REL_DUR = this.addNumAttribute("V_REL_DUR")
+		Attribute REL_SYLL_DUR = this.addNumAttribute("REL_SYLL_DUR") // SYLL0/SYLL1
+		Attribute REL_V_DUR = this.addNumAttribute("REL_V_DUR")
 		
 		//// Pitch
 		//Word
@@ -264,13 +264,13 @@ class DataProcessor {
 		Attribute SYLL1_F0_MIN = this.addNumAttribute("SYLL1_F0_MIN")
 		Attribute SYLL1_F0_RANGE = this.addNumAttribute("SYLL1_F0_RANGE")
 		//Relative
-		Attribute SYLL_REL_MEAN = this.addNumAttribute("SYLL_REL_MEAN")
-		Attribute SYLL_REL_MAX = this.addNumAttribute("SYLL_REL_MAX")
-		Attribute SYLL_REL_MIN = this.addNumAttribute("SYLL_REL_MIN")
-		Attribute SYLL_REL_RANGE = this.addNumAttribute("SYLL_REL_RANGE")
-		Attribute SYLL_MAX_INDEX = this.addNumAttribute("SYLL_MAX_INDEX")
-		Attribute SYLL_MIN_INDEX = this.addNumAttribute("SYLL_MIN_INDEX")
-		Attribute SYLL_MAXRANGE_INDEX = this.addNumAttribute("SYLL_MAXRANGE_INDEX")
+		Attribute REL_SYLL_F0_MEAN = this.addNumAttribute("REL_SYLL_F0_MEAN")
+		Attribute REL_SYLL_F0_MAX = this.addNumAttribute("REL_SYLL_F0_MAX")
+		Attribute REL_SYLL_F0_MIN = this.addNumAttribute("REL_SYLL_F0_MIN")
+		Attribute REL_SYLL_F0_RANGE = this.addNumAttribute("REL_SYLL_F0_RANGE")
+		Attribute F0_MAX_INDEX = this.addNumAttribute("F0_MAX_INDEX")
+		Attribute F0_MIN_INDEX = this.addNumAttribute("F0_MIN_INDEX")
+		Attribute F0_MAXRANGE_INDEX = this.addNumAttribute("F0_MAXRANGE_INDEX")
 		
 		////TODO Intensity
 		
@@ -341,12 +341,12 @@ class DataProcessor {
 				def syll1dur = featex.getSyllableDuration(1)
 				inst.setValue(SYLL0_DUR, syll0dur)
 				inst.setValue(SYLL1_DUR, syll1dur)
-				inst.setValue(SYLL_REL_DUR, syll0dur/syll1dur)
+				inst.setValue(REL_SYLL_DUR, syll0dur/syll1dur)
 				def v0dur = featex.getVowelDurationInSyllable(0)
 				def v1dur = featex.getVowelDurationInSyllable(1)
 				inst.setValue(V0_DUR, v0dur)
 				inst.setValue(V1_DUR, v1dur)
-				inst.setValue(V_REL_DUR, v0dur/v1dur)
+				inst.setValue(REL_V_DUR, v0dur/v1dur)
 				//println "Done."
 			} catch (Exception e) {
 				println fileName + " - " + wordText + " ERROR: couldn't extract Duration features"
@@ -383,13 +383,13 @@ class DataProcessor {
 				inst.setValue(SYLL1_F0_MIN, syll1f0min)
 				inst.setValue(SYLL1_F0_RANGE, syll1f0range)
 				// Relative
-				inst.setValue(SYLL_REL_MEAN, syll0f0mean/syll1f0mean)
-				inst.setValue(SYLL_REL_MAX, syll0f0max/syll1f0max)
-				inst.setValue(SYLL_REL_MIN, syll0f0min/syll1f0min)
-				inst.setValue(SYLL_REL_RANGE, syll0f0range/syll1f0range)
-				inst.setValue(SYLL_MAX_INDEX, featex.getMaxF0Index())
-				inst.setValue(SYLL_MIN_INDEX, featex.getMinF0Index())
-				inst.setValue(SYLL_MAXRANGE_INDEX, featex.getMaxRangeF0Index())
+				inst.setValue(REL_SYLL_F0_MEAN, syll0f0mean/syll1f0mean)
+				inst.setValue(REL_SYLL_F0_MAX, syll0f0max/syll1f0max)
+				inst.setValue(REL_SYLL_F0_MIN, syll0f0min/syll1f0min)
+				inst.setValue(REL_SYLL_F0_RANGE, syll0f0range/syll1f0range)
+				inst.setValue(F0_MAX_INDEX, featex.getMaxF0Index())
+				inst.setValue(F0_MIN_INDEX, featex.getMinF0Index())
+				inst.setValue(F0_MAXRANGE_INDEX, featex.getMaxRangeF0Index())
 				//println "Done."
 			} catch (Exception e) {
 				println fileName + " - " + wordText + " ERROR: couldn't extract Pitch features"
