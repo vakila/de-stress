@@ -341,17 +341,30 @@ class FeatureExtractor {
 	 * @return
 	 */
 	public float getRelSyllF0Mean() {
-		//TODO inst.setValue(REL_SYLL_F0_MEAN, syll0f0mean/syll1f0mean)
-		
+		//TODO
 	}
-	//TODO inst.setValue(REL_SYLL_F0_MAX, syll0f0max/syll1f0max)
-	//TODO inst.setValue(REL_SYLL_F0_MIN, syll0f0min/syll1f0min)
-	//TODO inst.setValue(REL_SYLL_F0_RANGE, syll0f0range/syll1f0range)
+	public float getRelSyllF0Max() {
+		//TODO
+	}
+	public float getRelSyllF0Min() {
+		//TODO
+	}
+	public float getRelSyllF0Range() {
+		//TODO
+	}
 	
-	//TODO REL_VOWEL_F0_MEAN
-	//TODO "_MAX
-	//TODO "_MIN
-	//TODO "_RANGE
+	public float getRelVowelF0Mean() {
+		//TODO
+	}
+	public float getRelVowelF0Max() {
+		//TODO
+	}
+	public float getRelVowelF0Min() {
+		//TODO
+	}
+	public float getRelVowelF0Range() {
+		//TODO
+	}
 	
 	
 	/**
