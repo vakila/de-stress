@@ -94,7 +94,9 @@ class DataProcessor {
 		saver.writeBatch();
 	}
 	
-	
+	public static combineArffs(String[] arffFiles) {
+		//TODO - thesis-code#66
+	}
 	
 //	public HashMap<String, Attribute> getAttributes() {
 //		HashMap<String, Attribute> attributes = new HashMap<String, Attribute>
