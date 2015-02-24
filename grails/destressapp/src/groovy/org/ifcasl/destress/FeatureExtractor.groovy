@@ -37,8 +37,8 @@ class FeatureExtractor {
 		this.wavFile = wavFile
 		this.gridFile = gridFile
 		this.word = word.toLowerCase()
-		this.audioSignal = new AudioSignal(wavFile)
-		//this.audioSignal = new AudioSignal(wavFile, wavFile) //passing wavFile as both "name" and "wavefile" params
+		//this.audioSignal = new AudioSignal(wavFile)
+		this.audioSignal = new AudioSignal(wavFile, wavFile) //passing wavFile as both "name" and "wavefile" params
 		//SegmentationList segList = new SegmentationList(this.audioSignal)
 		//this.audioSignal.setSegmentationList(segList)
 		String nameSegFile = gridFile
@@ -245,11 +245,24 @@ class FeatureExtractor {
 		return totalvowelduration_in_syllables
 	}
 	
+	/**
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getSyllableDuration(index) to get the duration of each syllable.
+	 * Returns the value for Syllable 1 divided by the value for Syllable 0.
+	 * @return
+	 */
 	public double getRelSyllDuration() {
-		//TODO
+		return getSyllableDuration(1)/getSyllableDuration(0)
 	}
+	
+	/**
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getVowelDuration(index) to get the duration of each syllable's vowel(s).
+	 * Returns the value for Vowel 1 divided by the value for Vowel 0.
+	 * @return
+	 */
 	public double getRelVowelDuration() {
-		//TODO
+		return getVowelDurationInSyllable(1)/getVowelDurationInSyllable(0)
 	}
 	
 	
@@ -335,35 +348,77 @@ class FeatureExtractor {
 	
 	
 	/**
-	 * Assumes the word only has two syllables, 
-	 * uses getSyllableF0Max(index) to get the max of each syllable,
-	 * and returns TODO
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getSyllableF0Mean(index) to get the mean F0 of each syllable.
+	 * Returns the value for Syllable 1 divided by the value for Syllable 0.
 	 * @return
 	 */
 	public float getRelSyllF0Mean() {
-		//TODO
+		return getSyllableF0Mean(1)/getSyllableF0Mean(0)
 	}
+	/**
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getSyllableF0Max(index) to get the max F0 of each syllable.
+	 * Returns the value for Syllable 1 divided by the value for Syllable 0.
+	 * @return
+	 */
 	public float getRelSyllF0Max() {
-		//TODO
+		return getSyllableF0Max(1)/getSyllableF0Max(0)
 	}
+	/**
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getSyllableF0Min(index) to get the min F0 of each syllable.
+	 * Returns the value for Syllable 1 divided by the value for Syllable 0.
+	 * @return
+	 */
 	public float getRelSyllF0Min() {
-		//TODO
+		return getSyllableF0Min(1)/getSyllableF0Min(0)
 	}
+	/**
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getSyllableF0Range(index) to get the F0 range of each syllable.
+	 * Returns the value for Syllable 1 divided by the value for Syllable 0.
+	 * @return
+	 */
 	public float getRelSyllF0Range() {
-		//TODO
+		return getSyllableF0Range(1)/getSyllableF0Range(0)
 	}
 	
+	/**
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getVowelF0Mean(index) to get the mean F0 of each syllable's vowel(s).
+	 * Returns the value for Vowel 1 divided by the value for Vowel 0.
+	 * @return
+	 */
 	public float getRelVowelF0Mean() {
-		//TODO
+		return getVowelF0Mean(1)/getVowelF0Mean(0)
 	}
+	/**
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getVowelF0Max(index) to get the max F0 of each syllable's vowel(s).
+	 * Returns the value for Vowel 1 divided by the value for Vowel 0.
+	 * @return
+	 */
 	public float getRelVowelF0Max() {
-		//TODO
+		return getVowelF0Max(1)/getVowelF0Max(0)
 	}
+	/**
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getVowelF0Min(index) to get the min F0 of each syllable's vowel(s).
+	 * Returns the value for Vowel 1 divided by the value for Vowel 0.
+	 * @return
+	 */
 	public float getRelVowelF0Min() {
-		//TODO
+		return getVowelF0Min(1)/getVowelF0Min(0)
 	}
+	/**
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getVowelF0Range(index) to get the F0 range of each syllable's vowel(s).
+	 * Returns the value for Vowel 1 divided by the value for Vowel 0.
+	 * @return
+	 */
 	public float getRelVowelF0Range() {
-		//TODO
+		return getVowelF0Range(1)/getVowelF0Range(0)
 	}
 	
 	
@@ -487,25 +542,40 @@ class FeatureExtractor {
 	}
 	
 	/**
-	 * Assumes the word only has two syllables,
-	 * uses getSyllableEnergyMax(index) to get the max of each syllable,
-	 * and returns TODO
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getSyllableEnergyMean(index) to get the mean energy of each syllable.
+	 * Returns the value for Syllable 1 divided by the value for Syllable 0.
 	 * @return
 	 */
 	public double getRelSyllEnergyMean() {
-		//TODO	
+		return getSyllableEnergyMean(1)/getSyllableEnergyMean(0)	
 	}
-	
+	/**
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getSyllableEnergyMax(index) to get the max energy of each syllable.
+	 * Returns the value for Syllable 1 divided by the value for Syllable 0.
+	 * @return
+	 */
 	public double getRelSyllEnergyMax() {
-		//TODO
+		return getSyllableEnergyMax(1)/getSyllableEnergyMax(0)	
 	}
-	
+	/**
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getVowelEnergyMean(index) to get the mean energy of each syllable's vowel(s).
+	 * Returns the value for Vowel 1 divided by the value for Vowel 0.
+	 * @return
+	 */
 	public double getRelVowelEnergyMean() {
-		//TODO
+		return getVowelEnergyMean(1)/getVowelEnergyMean(0)	
 	}
-	
+	/**
+	 * Assumes the word only has two syllables, 0 and 1.
+	 * Uses getVowelEnergyMax(index) to get the max energy of each syllable's vowel(s).
+	 * Returns the value for Vowel 1 divided by the value for Vowel 0.
+	 * @return
+	 */
 	public double getRelVowelEnergyMax() {
-		//TODO
+		return getVowelEnergyMax(1)/getVowelEnergyMax(0)	
 	}
 	
 	////////// UTILITY METHODS //////////
