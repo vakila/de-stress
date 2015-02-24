@@ -250,7 +250,7 @@ class DataProcessor {
 		Attribute REL_SYLL_DUR = this.addNumAttribute("REL_SYLL_DUR") // SYLL0/SYLL1
 		Attribute REL_V_DUR = this.addNumAttribute("REL_V_DUR")
 		
-		//// Pitch
+		//// F0
 		//Word
 		Attribute WORD_F0_MEAN = this.addNumAttribute("WORD_F0_MEAN")
 		Attribute WORD_F0_MAX = this.addNumAttribute("WORD_F0_MAX")
@@ -287,7 +287,7 @@ class DataProcessor {
 		Attribute F0_MIN_INDEX = this.addNumAttribute("F0_MIN_INDEX")
 		Attribute F0_MAXRANGE_INDEX = this.addNumAttribute("F0_MAXRANGE_INDEX")
 		
-		//// Intensity
+		//// Energy
 		//Word
 		Attribute WORD_ENERGY_MEAN = this.addNumAttribute("WORD_ENERGY_MEAN")
 		Attribute WORD_ENERGY_MAX = this.addNumAttribute("WORD_ENERGY_MAX")
@@ -386,8 +386,8 @@ class DataProcessor {
 			}
 			
 			try {
-				//// Pitch 
-				//println "Adding pitch features..."
+				//// F0 
+				//println "Adding F0 features..."
 				// Word
 				inst.setValue(WORD_F0_MEAN, featex.getWordF0Mean())
 				inst.setValue(WORD_F0_MAX, featex.getWordF0Max())
@@ -424,13 +424,13 @@ class DataProcessor {
 				inst.setValue(F0_MAXRANGE_INDEX, featex.getMaxRangeF0Index())
 				//println "Done."
 			} catch (Exception e) {
-				println fileName + " - " + wordText + " ERROR: couldn't extract Pitch features"
+				println fileName + " - " + wordText + " ERROR: couldn't extract F0 features"
 				e.printStackTrace()
-				errors.add(fileName + " - " + wordText + " ----- couldn't extract Pitch features - " + e.message)
+				errors.add(fileName + " - " + wordText + " ----- couldn't extract F0 features - " + e.message)
 			}
 			
 			
-			//Intensity 
+			//Energy 
 			try {
 				//Word
 				inst.setValue(WORD_ENERGY_MEAN, featex.getWordEnergyMean())

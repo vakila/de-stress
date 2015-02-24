@@ -124,9 +124,9 @@ class FeatureExtractor {
 		output += "<p>END: " + wordSegment.getEnd().toString() + "</p>"
 		output += "<p>DURATION: " + wordSegment.getLengthMs().toString() + " ms</p>"
 		
-		//TODO Pitch
+		//TODO F0
 		
-		//TODO Intensity
+		//TODO Energy
 		
 		return output
 		
@@ -253,7 +253,7 @@ class FeatureExtractor {
 	}
 	
 	
-	////////// PITCH METHODS //////////
+	////////// F0 METHODS //////////
 	
 	public float getWordF0Mean() {
 		return pitchAnalysis.computePitchMeanInSegment(wordSegment)
@@ -424,7 +424,7 @@ class FeatureExtractor {
 		}
 	}
 	
-	////////// INTENSITY METHODS //////////
+	////////// ENERGY METHODS //////////
 	
 	public double getWordEnergyMean() {
 		return energyAnalysis.computeEnergyMeanInSegment(wordSegment)
