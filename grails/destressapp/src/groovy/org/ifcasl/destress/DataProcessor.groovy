@@ -266,7 +266,14 @@ class DataProcessor {
 		Attribute SYLL1_F0_MIN = this.addNumAttribute("SYLL1_F0_MIN")
 		Attribute SYLL1_F0_RANGE = this.addNumAttribute("SYLL1_F0_RANGE")
 		//Vowels
-			//TODO
+		Attribute V0_F0_MEAN = this.addNumAttribute("V0_F0_MEAN")
+		Attribute V0_F0_MAX = this.addNumAttribute("V0_F0_MAX")
+		Attribute V0_F0_MIN = this.addNumAttribute("V0_F0_MIN")
+		Attribute V0_F0_RANGE = this.addNumAttribute("V0_F0_RANGE")
+		Attribute V1_F0_MEAN = this.addNumAttribute("V1_F0_MEAN")
+		Attribute V1_F0_MAX = this.addNumAttribute("V1_F0_MAX")
+		Attribute V1_F0_MIN = this.addNumAttribute("V1_F0_MIN")
+		Attribute V1_F0_RANGE = this.addNumAttribute("V1_F0_RANGE")
 		//Relative
 		Attribute REL_SYLL_F0_MEAN = this.addNumAttribute("REL_SYLL_F0_MEAN")
 		Attribute REL_SYLL_F0_MAX = this.addNumAttribute("REL_SYLL_F0_MAX")
@@ -280,7 +287,7 @@ class DataProcessor {
 		Attribute F0_MIN_INDEX = this.addNumAttribute("F0_MIN_INDEX")
 		Attribute F0_MAXRANGE_INDEX = this.addNumAttribute("F0_MAXRANGE_INDEX")
 		
-		////TODO Intensity
+		//// Intensity
 		//Word
 		Attribute WORD_ENERGY_MEAN = this.addNumAttribute("WORD_ENERGY_MEAN")
 		Attribute WORD_ENERGY_MAX = this.addNumAttribute("WORD_ENERGY_MAX")
@@ -395,6 +402,14 @@ class DataProcessor {
 				inst.setValue(SYLL1_F0_MAX, featex.getSyllableF0Max(1))
 				inst.setValue(SYLL1_F0_MIN, featex.getSyllableF0Min(1))
 				inst.setValue(SYLL1_F0_RANGE, featex.getSyllableF0Range(1))
+				inst.setValue(V0_F0_MEAN, featex.getVowelF0Mean(0))
+				inst.setValue(V0_F0_MAX, featex.getVowelF0Max(0))
+				inst.setValue(V0_F0_MIN, featex.getVowelF0Min(0))
+				inst.setValue(V0_F0_RANGE, featex.getVowelF0Range(0))
+				inst.setValue(V1_F0_MEAN, featex.getVowelF0Mean(1))
+				inst.setValue(V1_F0_MAX, featex.getVowelF0Max(1))
+				inst.setValue(V1_F0_MIN, featex.getVowelF0Min(1))
+				inst.setValue(V1_F0_RANGE, featex.getVowelF0Range(1))
 				// Relative
 				inst.setValue(REL_SYLL_F0_MEAN, featex.getRelSyllF0Mean())
 				inst.setValue(REL_SYLL_F0_MAX, featex.getRelSyllF0Max())
@@ -415,7 +430,7 @@ class DataProcessor {
 			}
 			
 			
-			//TODO Intensity 
+			//Intensity 
 			try {
 				//Word
 				inst.setValue(WORD_ENERGY_MEAN, featex.getWordEnergyMean())
