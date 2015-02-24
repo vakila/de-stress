@@ -225,42 +225,13 @@ class FeatureExtractor {
 	
 	
 	/**
-	 * Modified version of TimeFeedback.computeTotalVowelDuration(seg_phone)
-	 * that converts from SAMPA to IPA before checking phone type.
-	 * Includes syllabic consonants (=l, =m, =n) as vowels.
+	 * Uses getVowelSegments() and Segment.getLength() to sum up the 
+	 * durations of each vowel (or syllabic consonant) segment in the segmentation.
 	 * @param seg_phones	The (partial) phone-level segmentation to be scanned for vowels
-	 * @return				Sum of durations of all vowel segments in the segmentation
+	 * @return				Sum of durations of vowels in that segmentation
 	 */
 	public double getVowelDuration(Segmentation seg_phones) {
-		def vowels = []
-		//def phonFeats = this.fbc.feedback.getPhoneticFeatures()
-		
-		// go through the phone segments and pick out those that are vowels or syllabic consonants
-		for (int p = 0; p < seg_phones.getSegmentCount(); p++) {
-			String phSampa = seg_phones.getSegment(p).getName()
-			if (! phSampa.contains("_")) {
-				String phIpa = phonMapper.SAMPAtoIPA(phSampa) //this.fbc.feedback.getPhoneticSymbolMapper().SAMPAtoIPA(phSampa)
-				if (phonFeatures.isVowel(phIpa) || phonFeatures.isSyllabic(phIpa)) {
-					vowels.add(seg_phones.getSegment(p))
-					//totalvowelduration_in_syllables += seg_phones.getSegment(p).getLength();
-				}
-			}
-		}
-		
-		// if no vowels/syllabics were found, go through again and 
-		// pick out potentially-syllabic consonants that might not have been labeled as syllabic
-		if (vowels.isEmpty()) {
-			for (int p = 0; p < seg_phones.getSegmentCount(); p++) {
-				String phSampa = seg_phones.getSegment(p).getName()
-				if (! phSampa.contains("_")) {
-					String phIpa = phonMapper.SAMPAtoIPA(phSampa) //this.fbc.feedback.getPhoneticSymbolMapper().SAMPAtoIPA(phSampa)
-					if (phIpa.matches("n") || phIpa.matches("m") || phIpa.matches("l")) {
-						vowels.add(seg_phones.getSegment(p))
-						//totalvowelduration_in_syllables += seg_phones.getSegment(p).getLength();
-					}
-				}
-			}
-		}
+		def vowels = getVowelSegments(seg_phones)
 		
 		// sum up the durations of the segments in vowels
 		double totalvowelduration_in_syllables = 0
@@ -270,6 +241,8 @@ class FeatureExtractor {
 		
 		return totalvowelduration_in_syllables
 	}
+	
+	
 	
 	////////// PITCH METHODS //////////
 	
@@ -310,6 +283,47 @@ class FeatureExtractor {
 		def min = pitchAnalysis.computePitchMinInSegment(syllSeg)
 		return max-min
 	}
+	
+	public float getVowelF0Mean(int syllIndexInWord) {
+		def vowels = getVowelsInSyllable(syllIndexInWord)
+		def sumMeans = 0f
+		for (v in vowels) {
+			sumMeans += pitchAnalysis.computePitchMeanInSegment(v)
+		}
+		def avgMean = sumMeans/vowels.size()
+		return avgMean
+	}
+	
+	public float getVowelF0Max(int syllIndexInWord) {
+		def vowels = getVowelsInSyllable(syllIndexInWord)
+		def maxF0 = 0f
+		for (v in vowels) {
+			def thisMax = pitchAnalysis.computePitchMaxInSegment(v)
+			if (thisMax > maxF0) {
+				maxF0 = thisMax
+			}
+		}
+		return maxF0
+	}
+	
+	public float getVowelF0Min(int syllIndexInWord) {
+		def vowels = getVowelsInSyllable(syllIndexInWord)
+		def minF0 = getSyllableF0Max(syllIndexInWord)
+		for (v in vowels) {
+			def thisMin = pitchAnalysis.computePitchMinInSegment(v)
+			if (0 < thisMin && thisMin < minF0) {
+				minF0 = thisMin
+			}
+		}
+		return minF0
+	}
+	
+	public float getVowelF0Range(int syllIndexInWord) {
+		def max = getVowelF0Max(syllIndexInWord)
+		def min = getVowelF0Min(syllIndexInWord)
+		return max-min
+	}
+	
 	
 	/**
 	 * Returns the index (0 or 1) of the syllable with the highest F0 max,
@@ -444,6 +458,61 @@ class FeatureExtractor {
 //			println "Word not found"
 //		} else { println "Word found" }
 		return segID;
+	}
+	
+	
+	
+	/**
+	 * Modified version of TimeFeedback.computeTotalVowelDuration(seg_phone)
+	 * that converts from SAMPA to IPA before checking phone type.
+	 * Includes syllabic consonants (=l, =m, =n) as vowels.
+	 * @param seg_phones	The (partial) phone-level segmentation to be scanned for vowels
+	 * @return				List of vowel segments in that segmentation
+	 */
+	public List getVowelSegments(Segmentation seg_phones) {
+		def vowels = []
+		//def phonFeats = this.fbc.feedback.getPhoneticFeatures()
+
+		// go through the phone segments and pick out those that are vowels or syllabic consonants
+		for (int p = 0; p < seg_phones.getSegmentCount(); p++) {
+			String phSampa = seg_phones.getSegment(p).getName()
+			if (! phSampa.contains("_")) {
+				String phIpa = phonMapper.SAMPAtoIPA(phSampa) //this.fbc.feedback.getPhoneticSymbolMapper().SAMPAtoIPA(phSampa)
+				if (phonFeatures.isVowel(phIpa) || phonFeatures.isSyllabic(phIpa)) {
+					vowels.add(seg_phones.getSegment(p))
+					//totalvowelduration_in_syllables += seg_phones.getSegment(p).getLength();
+				}
+			}
+		}
+
+		// if no vowels/syllabics were found, go through again and
+		// pick out potentially-syllabic consonants that might not have been labeled as syllabic
+		if (vowels.isEmpty()) {
+			for (int p = 0; p < seg_phones.getSegmentCount(); p++) {
+				String phSampa = seg_phones.getSegment(p).getName()
+				if (! phSampa.contains("_")) {
+					String phIpa = phonMapper.SAMPAtoIPA(phSampa) //this.fbc.feedback.getPhoneticSymbolMapper().SAMPAtoIPA(phSampa)
+					if (phIpa.matches("n") || phIpa.matches("m") || phIpa.matches("l")) {
+						vowels.add(seg_phones.getSegment(p))
+						//totalvowelduration_in_syllables += seg_phones.getSegment(p).getLength();
+					}
+				}
+			}
+		}
+		return vowels
+	}
+	
+	/**
+	 * Uses getVowelSegments() to get the list of vowel segments 
+	 * in the syllable with the given index
+	 * @param syllIndexInWord		0 = first syllable, 1 = second syllable
+	 * @return						List of vowel segments in that syllable
+	 */
+	private List getVowelsInSyllable(int syllIndexInWord) {
+		Segment syllSeg = extractedSylls.getSegment(syllIndexInWord)
+		Segmentation syllPhons = extractPartialSegmentation(extractedPhons, syllSeg)
+		def vowels = getVowelSegments(syllPhons)
+		return vowels
 	}
 	
 
