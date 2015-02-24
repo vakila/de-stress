@@ -30,13 +30,15 @@ class FeatureExtractor {
 	
 	//Removing and refactoring FeedbackComputer fbc
 	PitchAnalysis pitchAnalysis
+	EnergyAnalysis energyAnalysis
 	
 	
 	public FeatureExtractor(String wavFile, String gridFile, String word) {
 		this.wavFile = wavFile
 		this.gridFile = gridFile
 		this.word = word.toLowerCase()
-		this.audioSignal = new AudioSignal(wavFile, wavFile) //passing wavFile as both "name" and "wavefile" params
+		this.audioSignal = new AudioSignal(wavFile)
+		//this.audioSignal = new AudioSignal(wavFile, wavFile) //passing wavFile as both "name" and "wavefile" params
 		//SegmentationList segList = new SegmentationList(this.audioSignal)
 		//this.audioSignal.setSegmentationList(segList)
 		String nameSegFile = gridFile
@@ -51,6 +53,7 @@ class FeatureExtractor {
 		this.extractedPhons = extractPartialSegmentation(this.audioSignal.segmentationList.seg_phones, this.wordSegment)
 		
 		this.pitchAnalysis = new PitchAnalysis(this.audioSignal)
+		this.energyAnalysis = new EnergyAnalysis(this.audioSignal)
 //		// Create a new FeedbackComputer 
 //		// (includes Feedback, TimeFeedback, and PitchFeedback)
 //		// where the trial and example audio are the same
@@ -242,6 +245,12 @@ class FeatureExtractor {
 		return totalvowelduration_in_syllables
 	}
 	
+	public double getRelSyllDuration() {
+		//TODO
+	}
+	public double getRelVowelDuration() {
+		//TODO
+	}
 	
 	
 	////////// PITCH METHODS //////////
@@ -326,6 +335,26 @@ class FeatureExtractor {
 	
 	
 	/**
+	 * Assumes the word only has two syllables, 
+	 * uses getSyllableF0Max(index) to get the max of each syllable,
+	 * and returns TODO
+	 * @return
+	 */
+	public float getRelSyllF0Mean() {
+		//TODO inst.setValue(REL_SYLL_F0_MEAN, syll0f0mean/syll1f0mean)
+		
+	}
+	//TODO inst.setValue(REL_SYLL_F0_MAX, syll0f0max/syll1f0max)
+	//TODO inst.setValue(REL_SYLL_F0_MIN, syll0f0min/syll1f0min)
+	//TODO inst.setValue(REL_SYLL_F0_RANGE, syll0f0range/syll1f0range)
+	
+	//TODO REL_VOWEL_F0_MEAN
+	//TODO "_MAX
+	//TODO "_MIN
+	//TODO "_RANGE
+	
+	
+	/**
 	 * Returns the index (0 or 1) of the syllable with the highest F0 max,
 	 * or -1 if the two syllables' F0 max values are equal.
 	 * @return
@@ -380,6 +409,90 @@ class FeatureExtractor {
 		else {
 			return -1 //null
 		}
+	}
+	
+	////////// INTENSITY METHODS //////////
+	
+	public double getWordEnergyMean() {
+		return energyAnalysis.computeEnergyMeanInSegment(wordSegment)
+	}
+	
+	public double getWordEnergyMax() {
+		return energyAnalysis.computeEnergyMaxInSegment(wordSegment)
+	}
+	
+	public double getSyllableEnergyMean(int syllIndexInWord) {
+		def syllSeg = extractedSylls.getSegment(syllIndexInWord)
+		return energyAnalysis.computeEnergyMeanInSegment(syllSeg)
+	}
+	
+	public double getSyllableEnergyMax(int syllIndexInWord) {
+		def syllSeg = extractedSylls.getSegment(syllIndexInWord)
+		return energyAnalysis.computeEnergyMaxInSegment(syllSeg)
+	}
+	
+	public double getVowelEnergyMean(int syllIndexInWord) {
+		def vowels = getVowelsInSyllable(syllIndexInWord)
+		def sumMeans = 0f
+		for (v in vowels) {
+			sumMeans += energyAnalysis.computeEnergyMeanInSegment(v)
+		}
+		def avgMean = sumMeans/vowels.size()
+		return avgMean
+	}
+	
+	public double getVowelEnergyMax(int syllIndexInWord) {
+		def vowels = getVowelsInSyllable(syllIndexInWord)
+		def maxF0 = 0f
+		for (v in vowels) {
+			def thisMax = energyAnalysis.computeEnergyMaxInSegment(v)
+			if (thisMax > maxF0) {
+				maxF0 = thisMax
+			}
+		}
+		return maxF0
+	}
+	
+	/**
+	 * Assumes the word only has two syllables.
+	 * Returns the index (0 or 1) of the syllable with the highest F0 max,
+	 * or -1 if the two syllables' F0 max values are equal.
+	 * @return
+	 */
+	public int getMaxEnergyIndex() {
+		def syll0 = getSyllableEnergyMax(0)
+		def syll1 = getSyllableEnergyMax(1)
+		if (syll0 < syll1) {
+			return 1
+		}
+		else if (syll0 > syll1) {
+			return 0
+		}
+		else {
+			return -1 //null
+		}
+	}
+	
+	/**
+	 * Assumes the word only has two syllables,
+	 * uses getSyllableEnergyMax(index) to get the max of each syllable,
+	 * and returns TODO
+	 * @return
+	 */
+	public double getRelSyllEnergyMean() {
+		//TODO	
+	}
+	
+	public double getRelSyllEnergyMax() {
+		//TODO
+	}
+	
+	public double getRelVowelEnergyMean() {
+		//TODO
+	}
+	
+	public double getRelVowelEnergyMax() {
+		//TODO
 	}
 	
 	////////// UTILITY METHODS //////////
