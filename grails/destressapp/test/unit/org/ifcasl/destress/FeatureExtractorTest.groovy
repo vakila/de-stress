@@ -12,8 +12,8 @@ import static org.junit.Assert.*;
 
 class FeatureExtractorTest extends GroovyTestCase {
 
-	String wavFile = "/Users/Anjana/Dropbox/School/IFCASL/viwoll/CompleteAudioCorpus/FG/SR/SR31/2SR31_FGWB2_510.wav" //2SR31_FGMB2_525.wav"
-	String gridFile = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Textgrids/FG/SR/SR31/2SR31_FGWB2_510.textgrid" //2SR31_FGMB2_525.textgrid"
+	String wavFile = "/Users/Anjana/Dropbox/School/IFCASL/viwoll/CompleteAudioCorpus/FG/SR/SR31/2SR31_FGMB2_525.wav" //2SR31_FGWB2_510.wav" //
+	String gridFile = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Textgrids/FG/SR/SR31/2SR31_FGMB2_525.textgrid" //2SR31_FGWB2_510.textgrid" //
 	FeatureExtractor featex
 	
 	
