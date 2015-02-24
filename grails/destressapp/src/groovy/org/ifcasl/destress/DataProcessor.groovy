@@ -265,6 +265,8 @@ class DataProcessor {
 		Attribute SYLL1_F0_MAX = this.addNumAttribute("SYLL1_F0_MAX")
 		Attribute SYLL1_F0_MIN = this.addNumAttribute("SYLL1_F0_MIN")
 		Attribute SYLL1_F0_RANGE = this.addNumAttribute("SYLL1_F0_RANGE")
+		//Vowels
+			//TODO
 		//Relative
 		Attribute REL_SYLL_F0_MEAN = this.addNumAttribute("REL_SYLL_F0_MEAN")
 		Attribute REL_SYLL_F0_MAX = this.addNumAttribute("REL_SYLL_F0_MAX")
@@ -279,6 +281,25 @@ class DataProcessor {
 		Attribute F0_MAXRANGE_INDEX = this.addNumAttribute("F0_MAXRANGE_INDEX")
 		
 		////TODO Intensity
+		//Word
+		Attribute WORD_ENERGY_MEAN = this.addNumAttribute("WORD_ENERGY_MEAN")
+		Attribute WORD_ENERGY_MAX = this.addNumAttribute("WORD_ENERGY_MAX")
+		//Syllables
+		Attribute SYLL0_ENERGY_MEAN = this.addNumAttribute("SYLL0_ENERGY_MEAN")
+		Attribute SYLL0_ENERGY_MAX = this.addNumAttribute("SYLL0_ENERGY_MAX")
+		Attribute SYLL1_ENERGY_MEAN = this.addNumAttribute("SYLL1_ENERGY_MEAN")
+		Attribute SYLL1_ENERGY_MAX = this.addNumAttribute("SYLL1_ENERGY_MAX")
+		//Vowels
+		Attribute V0_ENERGY_MEAN = this.addNumAttribute("V0_ENERGY_MEAN")
+		Attribute V0_ENERGY_MAX = this.addNumAttribute("V0_ENERGY_MAX")
+		Attribute V1_ENERGY_MEAN = this.addNumAttribute("V1_ENERGY_MEAN")
+		Attribute V1_ENERGY_MAX = this.addNumAttribute("V1_ENERGY_MAX")	
+		//Relative
+		Attribute REL_SYLL_ENERGY_MEAN = this.addNumAttribute("REL_SYLL_ENERGY_MEAN")
+		Attribute REL_SYLL_ENERGY_MAX = this.addNumAttribute("REL_SYLL_ENERGY_MAX")
+		Attribute REL_VOWEL_ENERGY_MEAN = this.addNumAttribute("REL_VOWEL_ENERGY_MEAN")
+		Attribute REL_VOWEL_ENERGY_MAX = this.addNumAttribute("REL_VOWEL_ENERGY_MAX")
+		Attribute ENERGY_MAX_INDEX = this.addNumAttribute("ENERGY_MAX_INDEX")
 		
 		println "Attributes added."
 		println ""
@@ -395,6 +416,32 @@ class DataProcessor {
 			
 			
 			//TODO Intensity 
+			try {
+				//Word
+				inst.setValue(WORD_ENERGY_MEAN, featex.getWordEnergyMean())
+				inst.setValue(WORD_ENERGY_MAX, featex.getWordEnergyMax())
+				//Syllables
+				inst.setValue(SYLL0_ENERGY_MEAN, featex.getSyllableEnergyMean(0))
+				inst.setValue(SYLL0_ENERGY_MAX, featex.getSyllableEnergyMax(0))
+				inst.setValue(SYLL1_ENERGY_MEAN, featex.getSyllableEnergyMean(1))
+				inst.setValue(SYLL1_ENERGY_MAX, featex.getSyllableEnergyMax(1))
+				//VOWELS
+				inst.setValue(V0_ENERGY_MEAN, featex.getVowelEnergyMean(0))
+				inst.setValue(V0_ENERGY_MAX, featex.getVowelEnergyMax(0))
+				inst.setValue(V1_ENERGY_MEAN, featex.getVowelEnergyMean(1))
+				inst.setValue(V1_ENERGY_MAX, featex.getVowelEnergyMax(1))
+				//Relative
+				inst.setValue(REL_SYLL_ENERGY_MEAN, featex.getRelSyllEnergyMean())
+				inst.setValue(REL_SYLL_ENERGY_MAX, featex.getRelSyllEnergyMax())
+				inst.setValue(REL_VOWEL_ENERGY_MEAN, featex.getRelVowelEnergyMean())
+				inst.setValue(REL_VOWEL_ENERGY_MAX, featex.getRelVowelEnergyMax())
+				inst.setValue(ENERGY_MAX_INDEX, featex.getMaxEnergyIndex())
+			} catch (Exception e) {
+				println fileName + " - " + wordText + " ERROR: couldn't extract Energy features"
+				e.printStackTrace()
+				errors.add(fileName + " - " + wordText + " ----- couldn't extract Energy features - " + e.message)
+			
+			}
 			
 		} //end for loop over instances
 		println "Done with Instance iteration."
