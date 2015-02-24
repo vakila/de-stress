@@ -67,6 +67,24 @@ class FeatureExtractorTest extends GroovyTestCase {
 		println "syllableF0Min(1): " + featex.getSyllableF0Min(1)
 		println "syllableF0Range(1): " + featex.getSyllableF0Range(1)
 		
+		assert featex.getVowelF0Mean(0) > 0
+		assert featex.getVowelF0Max(0) > 0
+		assert featex.getVowelF0Min(0) > 0
+		assert featex.getVowelF0Range(0) > 0
+		println "vowelF0Mean(0): " + featex.getVowelF0Mean(0)
+		println "vowelF0Max(0): " + featex.getVowelF0Max(0)
+		println "vowelF0Min(0): " + featex.getVowelF0Min(0)
+		println "vowelF0Range(0): " + featex.getVowelF0Range(0)
+		
+		assert featex.getVowelF0Mean(1) > 0
+		assert featex.getVowelF0Max(1) > 0
+		assert featex.getVowelF0Min(1) > 0
+		assert featex.getVowelF0Range(1) > 0
+		println "vowelF0Mean(1): " + featex.getVowelF0Mean(1)
+		println "vowelF0Max(1): " + featex.getVowelF0Max(1)
+		println "vowelF0Min(1): " + featex.getVowelF0Min(1)
+		println "vowelF0Range(1): " + featex.getVowelF0Range(1)
+		
 		assertNotNull(featex.getMaxF0Index())
 		println "maxF0Index: " + featex.getMaxF0Index()
 		assertNotNull(featex.getMinF0Index())
