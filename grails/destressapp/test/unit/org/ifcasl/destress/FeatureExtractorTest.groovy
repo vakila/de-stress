@@ -15,18 +15,20 @@ class FeatureExtractorTest extends GroovyTestCase {
 	String wavDir = "/Users/Anjana/Dropbox/School/IFCASL/viwoll/CompleteAudioCorpus/"
 	String gridDir = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Textgrids/"
 	
-	//String wavFile = wavDir + "FG/SR/SR31/2SR31_FGMB2_525.wav" //2SR31_FGWB2_510.wav" //
-	//String gridFile = gridDir +"FG/SR/SR31/2SR31_FGMB2_525.textgrid" //2SR31_FGWB2_510.textgrid" //
+	String wavFile = wavDir + "FG/SR/SR31/2SR31_FGMB2_525.wav" //2SR31_FGWB2_510.wav" //
+	String gridFile = gridDir +"FG/SR/SR31/2SR31_FGMB2_525.textgrid" //2SR31_FGWB2_510.textgrid" //
+	String word = "tatort" //SR31
 	
-	String wavFile = wavDir + "FG/SR/SR15/2SR15_FGMC1_545.wav"
-	String gridFile = gridDir + "FG/SR/SR15/2SR15_FGMC1_545.textgrid"
+	//String wavFile = wavDir + "FG/SR/SR15/2SR15_FGMC1_545.wav"
+	//String gridFile = gridDir + "FG/SR/SR15/2SR15_FGMC1_545.textgrid"
+	//String word = "halten" //SR15
 	
 	FeatureExtractor featex
 	
 	
 	public void setUp() throws Exception {
-		featex = new FeatureExtractor(wavFile, gridFile, "halten")
-		
+		featex = new FeatureExtractor(wavFile, gridFile, word)
+		assert featex.wordSegment != null
 	}
 
 	
