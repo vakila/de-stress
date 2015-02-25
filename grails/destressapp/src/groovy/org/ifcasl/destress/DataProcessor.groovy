@@ -382,7 +382,7 @@ class DataProcessor {
 				println fileName + " - " + wordText + " ERROR: couldn't extract Duration features"
 				e.printStackTrace()
 				errors.add(fileName + " - " + wordText + " ----- couldn't extract Duration features - " + e.message)
-				continue
+				//continue
 			}
 			
 			try {
