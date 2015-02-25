@@ -37,6 +37,7 @@ class FeatureExtractor {
 		this.wavFile = wavFile
 		this.gridFile = gridFile
 		this.word = word.toLowerCase()
+		//println "word: " + this.word
 		//this.audioSignal = new AudioSignal(wavFile)
 		this.audioSignal = new AudioSignal(wavFile, wavFile) //passing wavFile as both "name" and "wavefile" params
 		//SegmentationList segList = new SegmentationList(this.audioSignal)
@@ -46,9 +47,11 @@ class FeatureExtractor {
 		this.audioSignal.openSegmentationFile(new TextGridSegmentationFileUtils(), nameSegFile)
 		this.audioSignal.segmentationList.setPhoneSegmentation(this.audioSignal.segmentationList.getSegmentation("RealTier"))
 		this.audioSignal.segmentationList.setSyllablesSegmentation(this.audioSignal.segmentationList.getSegmentation("SyllableTier"))
-		//println this.audioSignal.segmentationList
+		//println "segmentationList: " + this.audioSignal.segmentationList
 		this.wordsSegmentation = this.audioSignal.segmentationList.getSegmentation("WordTier")
+		//println "wordsSegmentation.name: " + this.wordsSegmentation.getName()
 		this.wordSegment = getWordSegment()
+		//println "wordSegment.name: " + this.wordSegment.getName()
 		this.extractedSylls = extractPartialSegmentation(this.audioSignal.segmentationList.seg_syllables, this.wordSegment)
 		this.extractedPhons = extractPartialSegmentation(this.audioSignal.segmentationList.seg_phones, this.wordSegment)
 		
@@ -672,10 +675,12 @@ class FeatureExtractor {
 		// go through the phone segments and pick out those that are vowels or syllabic consonants
 		for (int p = 0; p < seg_phones.getSegmentCount(); p++) {
 			String phSampa = seg_phones.getSegment(p).getName()
+			//println p + ": " + phSampa
 			if (! phSampa.contains("_")) {
 				String phIpa = phonMapper.SAMPAtoIPA(phSampa) //this.fbc.feedback.getPhoneticSymbolMapper().SAMPAtoIPA(phSampa)
 				if (phonFeatures.isVowel(phIpa) || phonFeatures.isSyllabic(phIpa)) {
 					vowels.add(seg_phones.getSegment(p))
+					//println " |-> VOWEL"
 					//totalvowelduration_in_syllables += seg_phones.getSegment(p).getLength();
 				}
 			}
@@ -695,6 +700,7 @@ class FeatureExtractor {
 				}
 			}
 		}
+		//println "vowels: " + vowels.collect { it.getName() + " - " + it.getBegin() + ":" + it.getEnd()}
 		return vowels
 	}
 	
