@@ -25,6 +25,13 @@ class BackendTestingController {
 	String arffOutputPath = "/Users/Anjana/Desktop/DATA.arff"
 	String dataDir = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Data/"
 	
+	String FGwavDir = "/Users/Anjana/Dropbox/School/IFCASL/viwoll/CompleteAudioCorpus/FG"
+	String GGwavDir = "/Users/Anjana/Dropbox/School/IFCASL/viwoll/CompleteAudioCorpus/GG"
+	String FGgridDir = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Textgrids/FG"
+	String GGgridDir = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Textgrids/GG"
+	String FGcsv = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Data/FG-consolidated.csv"
+	String GGcsv = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Annotation/GG/GG-annotation.csv"
+	
 	Language language = Language.getLanguage("de")
 	
 	
@@ -38,6 +45,8 @@ class BackendTestingController {
 			render e.printStackTrace();
 		}
 	}
+	
+	
 	
 	def featex() {
 		try {
@@ -69,7 +78,7 @@ class BackendTestingController {
 			dataproc.addNumAttribute("SYLL2/SYLL1")
 			dataproc.addNumAttribute("V2/V1")
 			
-			dataproc.writeArff(dataDir + "addedAttributes.arff")
+			dataproc.writeDataToArff(dataDir + "addedAttributes.arff")
 			
 			//render dataproc.printRandomFileNames(10)
 			render dataproc.printFileNames()
@@ -78,6 +87,24 @@ class BackendTestingController {
 			e.printStackTrace()
 			render e.toString()
 		}
+	}
+	
+	def extractFG() {
+		//try {
+			DataProcessor dataproc = new DataProcessor(FGcsv)
+			def errors = dataproc.extractNewFeatures(FGwavDir, FGgridDir)
+			dataproc.writeDataToArff(dataDir + "FG_extracted.arff")
+			
+			def output = "<h3>Errors:</h3>"
+			for (e in errors) {
+				output += "<p>" + e + "</p>"
+			}
+			render output
+		//}
+		//catch (Exception e) {
+		//	e.printStackTrace()
+		//	render e.toString()
+		//}
 	}
 	
 	def csv() {
@@ -94,7 +121,7 @@ class BackendTestingController {
 	def arff() {
 		try {
 			DataProcessor dataproc = new DataProcessor(csvPath)
-			dataproc.writeArff(arffOutputPath)
+			dataproc.writeDataToArff(arffOutputPath)
 			render "Wrote ARFF to: " + arffOutputPath
 		}
 		catch (Exception e) {
