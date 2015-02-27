@@ -5,14 +5,14 @@ class Exercise {
 	String description
 	static belongsTo = Lesson
 	static hasMany = [lessons:Lesson]//, widgets:MyWidget]
-	
-	Word word 
-	
+
+	Word word
+
     static constraints = {
 		name (blank: false)
-		//description (blank: false)
+		description (widget:'textarea')
     }
-	
+
 	String toString(){
 		return name
 	}
