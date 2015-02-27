@@ -605,6 +605,7 @@ class FeatureExtractor {
 	}
 	
 	
+	//TODO use Segmentation.getSegmentByName(name) instead
 	/**
 	 * Returns the Segment object corresponding to this.word, by finding its index with getWordId(word).
 	 * Returns null if the word is not found exactly once in the word-level segmentation.
