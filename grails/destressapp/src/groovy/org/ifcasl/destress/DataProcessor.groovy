@@ -62,20 +62,55 @@ class DataProcessor {
 		return filter
 	}
 	
+	
+	
 	/**
-	 * Converts the given ARFF file to a CSV file with the given name
-	 * @param arffFile
+	 * Reads a Weka Instances object from the given CSV file
+	 * @param inputFilePath
+	 * @return
+	 */
+	public static Instances loadCsv(String inputFilePath) {
+		CSVLoader loader = new CSVLoader();
+		loader.setSource(new File(inputFilePath));
+		return loader.getDataSet();
+	}
+
+	/**
+	 * Saves an Instances object to a CSV file with the given name
+	 * @param data
 	 * @param csvFile
 	 * @return
 	 */
-	public static arffToCsv(String arffFile, String csvFile) {
-		ArffLoader loader = new ArffLoader()
-		loader.setSource(new File(arffFile))
-		Instances data = loader.getDataSet()
+	public static void writeCsv(Instances data, String csvFile) {
 		CSVSaver saver = new CSVSaver()
 		saver.setInstances(data)
 		saver.setFile(new File(csvFile))
 		saver.writeBatch()
+	}
+
+	/**
+	 * Loads an Instances object from the given ARFF file
+	 * @param arffFile
+	 * @return
+	 */
+	public static Instances loadArff(String arffFile) {
+		ArffLoader loader = new ArffLoader()
+		loader.setSource(new File(arffFile))
+		Instances data = loader.getDataSet()
+		return data
+	}
+	
+	/**
+	 * Writes the given Weka Instances object to ARFF file
+	 * @param dataToWrite
+	 * @param outputFilePath
+	 */
+	public static void writeArff(Instances dataToWrite, String outputFilePath) {
+		ArffSaver saver = new ArffSaver();
+		saver.setInstances(dataToWrite);
+		saver.setFile(new File(outputFilePath));
+		//saver.setDestination(new File("./data/test.arff"));   // **not** necessary in 3.5.4 and later
+		saver.writeBatch();
 	}
 	
 	/**
@@ -84,19 +119,55 @@ class DataProcessor {
 	 * @param arffFile
 	 * @return
 	 */
-	public static csvToArff(String csvFile, String arffFile) {
-		CSVLoader loader = new CSVLoader();
-		loader.setSource(new File(csvFile)); 
-		Instances data = loader.getDataSet();
-		ArffSaver saver = new ArffSaver();
-		saver.setInstances(data);
-		saver.setFile(new File(arffFile));
-		saver.writeBatch();
+	public static void csvToArff(String csvFile, String arffFile) {
+		Instances data = loadCsv(csvFile)
+		writeArff(data, arffFile)
 	}
 	
-	public static combineArffs(String[] arffFiles) {
-		//TODO - thesis-code#66
+	/**
+	 * Converts the given ARFF file to a CSV file with the given name
+	 * @param arffFile
+	 * @param csvFile
+	 * @return
+	 */
+	public static void arffToCsv(String arffFile, String csvFile) {
+		Instances data = loadArff(arffFile)
+		writeCsv(data, csvFile)
 	}
+	
+//	public static void createCombinedArff(String outputFile, String... inputFiles) {
+//		//TODO - thesis-code#66
+//		
+//	}
+//	
+//	/**
+//	 * Recursively merges the given datasets
+//	 * @param datasets	List of datasets as Instance objects
+//	 * @return
+//	 */
+//	public static Instances combineDatasets(Instance... datasets) {
+//		if (datasets.length < 2) {
+//			throw new Exception("Please provide at least 2 datasets to merge")
+//		}
+//		else if (datasets.length == 2) {
+//			Instances data1 = datasets[0]
+//			Instances data2 = datasets[1]
+//			
+//			//TODO 
+//		}
+//		else {
+//			return combineDatasets(datasets[0], combineDatasets(datasets[1..-1]))
+//		}
+//	}
+	
+	/**
+	 * Writes the Weka Instances object this.data to ARFF file
+	 * @param outputFilePath
+	 */
+	public void writeDataToArff(String outputFilePath) {
+		writeDataToArff(this.data, outputFilePath)
+	}
+	
 	
 //	public HashMap<String, Attribute> getAttributes() {
 //		HashMap<String, Attribute> attributes = new HashMap<String, Attribute>
@@ -106,6 +177,7 @@ class DataProcessor {
 //		return attributes;
 //	}
 
+	
 
 	public String toString() {
 		String output = "<p>DataProcessor object - " 
@@ -118,16 +190,7 @@ class DataProcessor {
 		return output
 	}
 	
-	/**
-	 * Reads a Weka Instances object from the given CSV file
-	 * @param inputFilePath
-	 * @return
-	 */
-	public Instances loadCsv(String inputFilePath) {
-		CSVLoader loader = new CSVLoader();
-		loader.setSource(new File(inputFilePath));
-		return loader.getDataSet();
-	}
+	
 	
 	public void renameSpeakerValues() {
 		Attribute SPEAKER = this.data.attribute("SPEAKER")
@@ -135,27 +198,6 @@ class DataProcessor {
 			def val_i = SPEAKER.value(i)
 			this.data.renameAttributeValue(SPEAKER, val_i, val_i.padLeft(3, "0"))
 		}
-	}
-
-	/**
-	 * Writes the given Weka Instances object to ARFF file
-	 * @param dataToWrite
-	 * @param outputFilePath
-	 */
-	public void writeArff(Instances dataToWrite, String outputFilePath) {
-		ArffSaver saver = new ArffSaver();
-		saver.setInstances(dataToWrite);
-		saver.setFile(new File(outputFilePath));
-		//saver.setDestination(new File("./data/test.arff"));   // **not** necessary in 3.5.4 and later
-		saver.writeBatch();
-	}
-	
-	/**
-	 * Writes the Weka Instances object this.data to ARFF file
-	 * @param outputFilePath
-	 */
-	public void writeArff(String outputFilePath) {
-		writeArff(this.data, outputFilePath)
 	}
 
 	/**
