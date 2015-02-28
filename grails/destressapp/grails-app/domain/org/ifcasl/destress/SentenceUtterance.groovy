@@ -1,6 +1,6 @@
 package org.ifcasl.destress
 
-class Utterance {
+class SentenceUtterance {
 
     Speaker speaker
 
@@ -11,6 +11,6 @@ class Utterance {
 
     Date dateCreated
 
-    //features? i.e. make this equivalent to a Weka Instance?
+    // features like overall duration, f0/intensity mean/max/min?
 
 }

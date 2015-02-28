@@ -1,6 +1,6 @@
 package org.ifcasl.destress
 
-class UtteranceController {
+class SentenceUtteranceController {
 
     static scaffold = true
 

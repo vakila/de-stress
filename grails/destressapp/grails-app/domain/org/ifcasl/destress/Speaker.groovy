@@ -8,6 +8,8 @@ class Speaker {
     AgeGender ageGender
     SkillLevel skillLevel
 
+    // speech characteristics? e.g. F0 range
+
     static constraints = {
         speakerNumber(unique: true)
     }
