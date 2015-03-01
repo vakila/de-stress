@@ -19,6 +19,8 @@ class Word {
 
 	Integer stressIndex
 
+	Date dateCreated
+
     static constraints = {
 
 		text(unique: 'sentence')

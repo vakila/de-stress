@@ -13,4 +13,8 @@ class Speaker {
     static constraints = {
         speakerNumber(unique: true)
     }
+
+    String toString(){
+		return [nativeLanguage, ageGender, skillLevel, speakerNumber].join("_")
+	}
 }
