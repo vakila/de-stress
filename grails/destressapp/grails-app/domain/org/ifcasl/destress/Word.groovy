@@ -58,6 +58,7 @@ class Word {
 		//
 		// return sentence + "-" + display
 
-		return sentence + "-" + text
+		//return sentence + "-" + text
+		return text
 	}
 }
