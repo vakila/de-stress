@@ -20,22 +20,22 @@ import weka.filters.unsupervised.attribute.NumericToNominal
 
 
 class DataProcessor {
-	
+
 	static final NumericToNominal NUMTONOM = getNumToNomFilter()
-	
+
 	String inputCsv
 	Instances originalData
 	Instances data
-	
+
 	//NumericToNominal numToNom
 	//String outputFile
-	
-	
+
+
 	//CSVMapReader mapReader
 	//CSVWriter writer
 	//List mapList
 	//Set columns
-		
+
 
 	public DataProcessor(String inputCsvPath) {
 		this.inputCsv = inputCsvPath
@@ -43,9 +43,9 @@ class DataProcessor {
 		NUMTONOM.setInputFormat(this.originalData)
 		this.data = Filter.useFilter(this.originalData, NUMTONOM)
 		renameSpeakerValues()
-		
+
 	}
-	
+
 	/**
 	 * Creates a NumericToNominal Filter object that converts
 	 * certain Attributes in the data to nominal values.
@@ -61,9 +61,9 @@ class DataProcessor {
 		filter.setOptions(options)
 		return filter
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Reads a Weka Instances object from the given CSV file
 	 * @param inputFilePath
@@ -99,7 +99,7 @@ class DataProcessor {
 		Instances data = loader.getDataSet()
 		return data
 	}
-	
+
 	/**
 	 * Writes the given Weka Instances object to ARFF file
 	 * @param dataToWrite
@@ -112,7 +112,7 @@ class DataProcessor {
 		//saver.setDestination(new File("./data/test.arff"));   // **not** necessary in 3.5.4 and later
 		saver.writeBatch();
 	}
-	
+
 	/**
 	 * Converts the given CSV file to an ARFF file with the given name
 	 * @param csvFile
@@ -123,7 +123,7 @@ class DataProcessor {
 		Instances data = loadCsv(csvFile)
 		writeArff(data, arffFile)
 	}
-	
+
 	/**
 	 * Converts the given ARFF file to a CSV file with the given name
 	 * @param arffFile
@@ -134,12 +134,12 @@ class DataProcessor {
 		Instances data = loadArff(arffFile)
 		writeCsv(data, csvFile)
 	}
-	
+
 //	public static void createCombinedArff(String outputFile, String... inputFiles) {
 //		//TODO - thesis-code#66
-//		
+//
 //	}
-//	
+//
 //	/**
 //	 * Recursively merges the given datasets
 //	 * @param datasets	List of datasets as Instance objects
@@ -152,23 +152,23 @@ class DataProcessor {
 //		else if (datasets.length == 2) {
 //			Instances data1 = datasets[0]
 //			Instances data2 = datasets[1]
-//			
-//			//TODO 
+//
+//			//TODO
 //		}
 //		else {
 //			return combineDatasets(datasets[0], combineDatasets(datasets[1..-1]))
 //		}
 //	}
-	
+
 	/**
 	 * Writes the Weka Instances object this.data to ARFF file
 	 * @param outputFilePath
 	 */
 	public void writeDataToArff(String outputFilePath) {
-		writeDataToArff(this.data, outputFilePath)
+		writeArff(this.data, outputFilePath)
 	}
-	
-	
+
+
 //	public HashMap<String, Attribute> getAttributes() {
 //		HashMap<String, Attribute> attributes = new HashMap<String, Attribute>
 //		for (Attribute a : this.data.enumerateAttributes()) {
@@ -177,21 +177,21 @@ class DataProcessor {
 //		return attributes;
 //	}
 
-	
+
 
 	public String toString() {
-		String output = "<p>DataProcessor object - " 
-		output += this.inputCsv 
-		//output += " - " 
+		String output = "<p>DataProcessor object - "
+		output += this.inputCsv
+		//output += " - "
 		//output += this.mapReader.toList()[0]
-		output += "</p>"	
+		output += "</p>"
 		output += "<p>Header of dataset:</p>"
 		output += "<p>" + (new Instances(this.data, 0)).toString() + "</p>"
 		return output
 	}
-	
-	
-	
+
+
+
 	public void renameSpeakerValues() {
 		Attribute SPEAKER = this.data.attribute("SPEAKER")
 		for (int i = 0; i < SPEAKER.numValues(); i++) {
@@ -201,8 +201,8 @@ class DataProcessor {
 	}
 
 	/**
-	 * Adds a numeric attribute with the given name 
-	 * to the Instances object this.data. 
+	 * Adds a numeric attribute with the given name
+	 * to the Instances object this.data.
 	 * The attribute is inserted at the penultimate position,
 	 * i.e. before the class attribute.
 	 * @param attrName	Name of the new Attribute
@@ -213,7 +213,7 @@ class DataProcessor {
 		this.data.insertAttributeAt(new Attribute(attrName), this.data.numAttributes()-1)
 		return this.data.attribute(attrName)
 	}
-	
+
 	/**
 	 * Returns the file name (e.g. 2SH02_FGMA2_502) for a given instance
 	 * @param row	Weka Instance object
@@ -225,17 +225,17 @@ class DataProcessor {
 		Attribute speakerGen = this.data.attribute("SPEAKER_GENDER")
 		Attribute speakerLevel = this.data.attribute("SPEAKER_LEVEL")
 		Attribute speakerID = this.data.attribute("SPEAKER")
-		
+
 		String chunk1 = "2" + row.stringValue(sentence)
 		String chunk2 = row.stringValue(speakerL1) + "G" + row.stringValue(speakerGen) + row.stringValue(speakerLevel)
 		String chunk3 = row.stringValue(speakerID).padLeft(3,'0')
-		
+
 		String filename = chunk1 + "_" + chunk2 + "_" + chunk3
 		return filename
 	}
-	
+
 	/**
-	 * Returns HTML code displaying the names for every 
+	 * Returns HTML code displaying the names for every
 	 * Instance (row) in this.data
 	 * @return
 	 */
@@ -248,9 +248,9 @@ class DataProcessor {
 		}
 		return output
 	}
-	
+
 	/**
-	 * Returns a string containing the filenames for 
+	 * Returns a string containing the filenames for
 	 * n rows (Instances) randomly selected from this.data
 	 * @param n		Number of instances
 	 * @return
@@ -259,15 +259,15 @@ class DataProcessor {
 		Instances randomData = new Instances(this.data)
 		randomData.randomize(this.data.getRandomNumberGenerator(n))
 		Instances smallData = new Instances(randomData, n)
-		
+
 		String output = ""
 		for (int i in 0..smallData.numInstances()) {
 			Instance inst = this.data.instance(i)
 			output += "<p>" + getFileName(inst) + "</p>"
-		} 
+		}
 		return output
 	}
-	
+
 	/**
 	 * Massive function that will:
 	 * - Add extra attributes to the dataset
@@ -280,9 +280,9 @@ class DataProcessor {
 		println "wavDir: " + wavDir
 		println "gridDir: " + gridDir
 		println ""
-		
+
 		println "Adding attributes..."
-		
+
 		//// Duration
 		Attribute WORD_DUR = this.addNumAttribute("WORD_DUR")
 		Attribute SYLL0_DUR = this.addNumAttribute("SYLL0_DUR")
@@ -291,7 +291,7 @@ class DataProcessor {
 		Attribute V1_DUR = this.addNumAttribute("V1_DUR")
 		Attribute REL_SYLL_DUR = this.addNumAttribute("REL_SYLL_DUR") // SYLL0/SYLL1
 		Attribute REL_V_DUR = this.addNumAttribute("REL_V_DUR")
-		
+
 		//// F0
 		//Word
 		Attribute WORD_F0_MEAN = this.addNumAttribute("WORD_F0_MEAN")
@@ -328,7 +328,7 @@ class DataProcessor {
 		Attribute F0_MAX_INDEX = this.addNumAttribute("F0_MAX_INDEX")
 		Attribute F0_MIN_INDEX = this.addNumAttribute("F0_MIN_INDEX")
 		Attribute F0_MAXRANGE_INDEX = this.addNumAttribute("F0_MAXRANGE_INDEX")
-		
+
 		//// Energy
 		//Word
 		Attribute WORD_ENERGY_MEAN = this.addNumAttribute("WORD_ENERGY_MEAN")
@@ -342,50 +342,50 @@ class DataProcessor {
 		Attribute V0_ENERGY_MEAN = this.addNumAttribute("V0_ENERGY_MEAN")
 		Attribute V0_ENERGY_MAX = this.addNumAttribute("V0_ENERGY_MAX")
 		Attribute V1_ENERGY_MEAN = this.addNumAttribute("V1_ENERGY_MEAN")
-		Attribute V1_ENERGY_MAX = this.addNumAttribute("V1_ENERGY_MAX")	
+		Attribute V1_ENERGY_MAX = this.addNumAttribute("V1_ENERGY_MAX")
 		//Relative
 		Attribute REL_SYLL_ENERGY_MEAN = this.addNumAttribute("REL_SYLL_ENERGY_MEAN")
 		Attribute REL_SYLL_ENERGY_MAX = this.addNumAttribute("REL_SYLL_ENERGY_MAX")
 		Attribute REL_VOWEL_ENERGY_MEAN = this.addNumAttribute("REL_VOWEL_ENERGY_MEAN")
 		Attribute REL_VOWEL_ENERGY_MAX = this.addNumAttribute("REL_VOWEL_ENERGY_MAX")
 		Attribute ENERGY_MAX_INDEX = this.addNumAttribute("ENERGY_MAX_INDEX")
-		
+
 		println "Attributes added."
 		println ""
-		
+
 		println "Current attributes:"
 		for (Attribute attr in this.data.enumerateAttributes()) {
 			println attr.name()
 		}
 		println ""
-		
+
 		println "Beginning Instance iteration..."
 		Attribute WORD = this.data.attribute("WORD")
 		Attribute SENTENCE_TYPE = this.data.attribute("SENTENCE_TYPE")
 		Attribute SENTENCE = this.data.attribute("SENTENCE")
 		//Attribute SPEAKER = this.data.attribute("SPEAKER")
 		Attribute SPEAKER_L1 = this.data.attribute("SPEAKER_L1")
-		
+
 		def errors = []
-		
+
 		for (Instance inst in this.data.enumerateInstances()) {
-			
+
 			//// Get this instance's files & create FeatureExtractor
 			String wordText = inst.stringValue(WORD)
 			String sentType = inst.stringValue(SENTENCE_TYPE)
 			String sentence = inst.stringValue(SENTENCE)
 			String fileName = getFileName(inst)
 			//println "Instance: " + fileName
-			
+
 //			if (errors.contains(fileName)) {
 //				println "Skipping instance to avoid error."
 //				continue
 //			}
-			
+
 			String langPair = inst.stringValue(SPEAKER_L1) + "G"
 			String wavName = [wavDir, langPair, sentType, sentence, fileName+".wav"].join(File.separator)
 			String gridName = [gridDir, langPair, sentType, sentence, fileName+".textgrid"].join(File.separator)
-			
+
 			//assert new File(wavName).exists()
 			//assert new File(gridName).exists()
 			for (f in [wavName, gridName]) {
@@ -395,9 +395,9 @@ class DataProcessor {
 				}
 			}
 
-			
+
 			def featex
-			
+
 			try {
 				featex = new FeatureExtractor(wavName, gridName, wordText)
 
@@ -407,10 +407,10 @@ class DataProcessor {
 				errors.add(fileName + " - " + wordText + " ----- couldn't create FeatureExtractor - " + e.message)
 				continue
 			}
-		
-		
+
+
 			try {
-				//// Duration 
+				//// Duration
 				//println "Adding duration features..."
 				inst.setValue(WORD_DUR, featex.getWordDuration())
 				inst.setValue(SYLL0_DUR, featex.getSyllableDuration(0))
@@ -426,9 +426,9 @@ class DataProcessor {
 				errors.add(fileName + " - " + wordText + " ----- couldn't extract Duration features - " + e.message)
 				//continue
 			}
-			
+
 			try {
-				//// F0 
+				//// F0
 				//println "Adding F0 features..."
 				// Word
 				inst.setValue(WORD_F0_MEAN, featex.getWordF0Mean())
@@ -470,9 +470,9 @@ class DataProcessor {
 				e.printStackTrace()
 				errors.add(fileName + " - " + wordText + " ----- couldn't extract F0 features - " + e.message)
 			}
-			
-			
-			//Energy 
+
+
+			//Energy
 			try {
 				//Word
 				inst.setValue(WORD_ENERGY_MEAN, featex.getWordEnergyMean())
@@ -497,16 +497,16 @@ class DataProcessor {
 				println fileName + " - " + wordText + " ERROR: couldn't extract Energy features"
 				e.printStackTrace()
 				errors.add(fileName + " - " + wordText + " ----- couldn't extract Energy features - " + e.message)
-			
+
 			}
-			
+
 		} //end for loop over instances
 		println "Done with Instance iteration."
-		
+
 //		println "Saving this.data to file..."
 //		writeArff("DATA_extractnewfeatures.arff")
 //		println "Done."
-		
+
 		return errors
 	}
 }
