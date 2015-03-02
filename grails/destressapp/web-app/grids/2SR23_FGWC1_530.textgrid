@@ -1,0 +1,418 @@
+File type = "ooTextFile"
+Object class = "TextGrid"
+
+xmin = 0 
+xmax = 3.88 
+tiers? <exists> 
+size = 7 
+item []: 
+    item [1]:
+        class = "IntervalTier" 
+        name = "$$RealTier" 
+        xmin = 0 
+        xmax = 3.88 
+        intervals: size = 35 
+        intervals [1]:
+            xmin = 0 
+            xmax = 0.912 
+            text = "#" 
+        intervals [2]:
+            xmin = 0.912 
+            xmax = 0.932 
+            text = "Q" 
+        intervals [3]:
+            xmin = 0.932 
+            xmax = 1.052 
+            text = "Q_" 
+        intervals [4]:
+            xmin = 1.052 
+            xmax = 1.102 
+            text = "I" 
+        intervals [5]:
+            xmin = 1.102 
+            xmax = 1.172 
+            text = "m" 
+        intervals [6]:
+            xmin = 1.172 
+            xmax = 1.282 
+            text = "f" 
+        intervals [7]:
+            xmin = 1.282 
+            xmax = 1.372 
+            text = "r" 
+        intervals [8]:
+            xmin = 1.372 
+            xmax = 1.442 
+            text = "y:" 
+        intervals [9]:
+            xmin = 1.442 
+            xmax = 1.512 
+            text = "l" 
+        intervals [10]:
+            xmin = 1.512 
+            xmax = 1.562 
+            text = "I" 
+        intervals [11]:
+            xmin = 1.562 
+            xmax = 1.632 
+            text = "N" 
+        intervals [12]:
+            xmin = 1.632 
+            xmax = 1.802 
+            text = "f" 
+        intervals [13]:
+            xmin = 1.802 
+            xmax = 1.832 
+            text = "l" 
+        intervals [14]:
+            xmin = 1.832 
+            xmax = 1.862 
+            text = "i:" 
+        intervals [15]:
+            xmin = 1.862 
+            xmax = 1.882 
+            text = "g" 
+        intervals [16]:
+            xmin = 1.882 
+            xmax = 1.902 
+            text = "g_" 
+        intervals [17]:
+            xmin = 1.902 
+            xmax = 2.022 
+            text = "n" 
+        intervals [18]:
+            xmin = 2.022 
+            xmax = 2.062 
+            text = "p" 
+        intervals [19]:
+            xmin = 2.062 
+            xmax = 2.112 
+            text = "p_" 
+        intervals [20]:
+            xmin = 2.112 
+            xmax = 2.252 
+            text = "O" 
+        intervals [21]:
+            xmin = 2.252 
+            xmax = 2.322 
+            text = "l" 
+        intervals [22]:
+            xmin = 2.322 
+            xmax = 2.352 
+            text = "@" 
+        intervals [23]:
+            xmin = 2.352 
+            xmax = 2.442 
+            text = "n" 
+        intervals [24]:
+            xmin = 2.442 
+            xmax = 2.462 
+            text = "d" 
+        intervals [25]:
+            xmin = 2.462 
+            xmax = 2.492 
+            text = "d_" 
+        intervals [26]:
+            xmin = 2.492 
+            xmax = 2.572 
+            text = "U6" 
+        intervals [27]:
+            xmin = 2.572 
+            xmax = 2.662 
+            text = "C" 
+        intervals [28]:
+            xmin = 2.662 
+            xmax = 2.692 
+            text = "d" 
+        intervals [29]:
+            xmin = 2.692 
+            xmax = 2.732 
+            text = "d_" 
+        intervals [30]:
+            xmin = 2.732 
+            xmax = 2.762 
+            text = "i:" 
+        intervals [31]:
+            xmin = 2.762 
+            xmax = 2.832 
+            text = "l" 
+        intervals [32]:
+            xmin = 2.832 
+            xmax = 2.902 
+            text = "U" 
+        intervals [33]:
+            xmin = 2.902 
+            xmax = 3.042 
+            text = "f" 
+        intervals [34]:
+            xmin = 3.042 
+            xmax = 3.132 
+            text = "t" 
+        intervals [35]:
+            xmin = 3.132 
+            xmax = 3.88 
+            text = "t_" 
+    item [2]:
+        class = "IntervalTier" 
+        name = "$$AlignTier" 
+        xmin = 0 
+        xmax = 3.88 
+        intervals: size = 35 
+        intervals [1]:
+            xmin = 0 
+            xmax = 0.912 
+            text = "#" 
+        intervals [2]:
+            xmin = 0.912 
+            xmax = 0.932 
+            text = "Q" 
+        intervals [3]:
+            xmin = 0.932 
+            xmax = 1.052 
+            text = "Q_" 
+        intervals [4]:
+            xmin = 1.052 
+            xmax = 1.102 
+            text = "I" 
+        intervals [5]:
+            xmin = 1.102 
+            xmax = 1.172 
+            text = "m" 
+        intervals [6]:
+            xmin = 1.172 
+            xmax = 1.282 
+            text = "f" 
+        intervals [7]:
+            xmin = 1.282 
+            xmax = 1.372 
+            text = "r" 
+        intervals [8]:
+            xmin = 1.372 
+            xmax = 1.442 
+            text = "y:" 
+        intervals [9]:
+            xmin = 1.442 
+            xmax = 1.512 
+            text = "l" 
+        intervals [10]:
+            xmin = 1.512 
+            xmax = 1.562 
+            text = "I" 
+        intervals [11]:
+            xmin = 1.562 
+            xmax = 1.632 
+            text = "N" 
+        intervals [12]:
+            xmin = 1.632 
+            xmax = 1.802 
+            text = "f" 
+        intervals [13]:
+            xmin = 1.802 
+            xmax = 1.832 
+            text = "l" 
+        intervals [14]:
+            xmin = 1.832 
+            xmax = 1.862 
+            text = "i:" 
+        intervals [15]:
+            xmin = 1.862 
+            xmax = 1.882 
+            text = "g" 
+        intervals [16]:
+            xmin = 1.882 
+            xmax = 1.902 
+            text = "g_" 
+        intervals [17]:
+            xmin = 1.902 
+            xmax = 2.022 
+            text = "n" 
+        intervals [18]:
+            xmin = 2.022 
+            xmax = 2.062 
+            text = "p" 
+        intervals [19]:
+            xmin = 2.062 
+            xmax = 2.112 
+            text = "p_" 
+        intervals [20]:
+            xmin = 2.112 
+            xmax = 2.252 
+            text = "O" 
+        intervals [21]:
+            xmin = 2.252 
+            xmax = 2.322 
+            text = "l" 
+        intervals [22]:
+            xmin = 2.322 
+            xmax = 2.352 
+            text = "@" 
+        intervals [23]:
+            xmin = 2.352 
+            xmax = 2.442 
+            text = "n" 
+        intervals [24]:
+            xmin = 2.442 
+            xmax = 2.462 
+            text = "d" 
+        intervals [25]:
+            xmin = 2.462 
+            xmax = 2.492 
+            text = "d_" 
+        intervals [26]:
+            xmin = 2.492 
+            xmax = 2.572 
+            text = "U6" 
+        intervals [27]:
+            xmin = 2.572 
+            xmax = 2.662 
+            text = "C" 
+        intervals [28]:
+            xmin = 2.662 
+            xmax = 2.692 
+            text = "d" 
+        intervals [29]:
+            xmin = 2.692 
+            xmax = 2.732 
+            text = "d_" 
+        intervals [30]:
+            xmin = 2.732 
+            xmax = 2.762 
+            text = "i:" 
+        intervals [31]:
+            xmin = 2.762 
+            xmax = 2.832 
+            text = "l" 
+        intervals [32]:
+            xmin = 2.832 
+            xmax = 2.902 
+            text = "U" 
+        intervals [33]:
+            xmin = 2.902 
+            xmax = 3.042 
+            text = "f" 
+        intervals [34]:
+            xmin = 3.042 
+            xmax = 3.132 
+            text = "t" 
+        intervals [35]:
+            xmin = 3.132 
+            xmax = 3.88 
+            text = "t_" 
+    item [3]:
+        class = "IntervalTier" 
+        name = "SyllableTier" 
+        xmin = 0 
+        xmax = 3.88 
+        intervals: size = 11 
+        intervals [1]:
+            xmin = 0 
+            xmax = 0.912 
+            text = "#" 
+        intervals [2]:
+            xmin = 0.912 
+            xmax = 1.172 
+            text = "im-1" 
+        intervals [3]:
+            xmin = 1.172 
+            xmax = 1.442 
+            text = "frühling-1" 
+        intervals [4]:
+            xmin = 1.442 
+            xmax = 1.632 
+            text = "frühling-2" 
+        intervals [5]:
+            xmin = 1.632 
+            xmax = 1.862 
+            text = "fliegen-1" 
+        intervals [6]:
+            xmin = 1.862 
+            xmax = 2.022 
+            text = "fliegen-2" 
+        intervals [7]:
+            xmin = 2.022 
+            xmax = 2.252 
+            text = "pollen-1" 
+        intervals [8]:
+            xmin = 2.252 
+            xmax = 2.442 
+            text = "pollen-2" 
+        intervals [9]:
+            xmin = 2.442 
+            xmax = 2.662 
+            text = "durch-1" 
+        intervals [10]:
+            xmin = 2.662 
+            xmax = 2.762 
+            text = "die-1" 
+        intervals [11]:
+            xmin = 2.762 
+            xmax = 3.88 
+            text = "luft-1" 
+    item [4]:
+        class = "IntervalTier" 
+        name = "$$WordTier" 
+        xmin = 0 
+        xmax = 3.88 
+        intervals: size = 8 
+        intervals [1]:
+            xmin = 0 
+            xmax = 0.912 
+            text = "#" 
+        intervals [2]:
+            xmin = 0.912 
+            xmax = 1.172 
+            text = "im" 
+        intervals [3]:
+            xmin = 1.172 
+            xmax = 1.632 
+            text = "frühling" 
+        intervals [4]:
+            xmin = 1.632 
+            xmax = 2.022 
+            text = "fliegen" 
+        intervals [5]:
+            xmin = 2.022 
+            xmax = 2.442 
+            text = "pollen" 
+        intervals [6]:
+            xmin = 2.442 
+            xmax = 2.662 
+            text = "durch" 
+        intervals [7]:
+            xmin = 2.662 
+            xmax = 2.762 
+            text = "die" 
+        intervals [8]:
+            xmin = 2.762 
+            xmax = 3.88 
+            text = "luft" 
+    item [5]:
+        class = "IntervalTier" 
+        name = "$$CanonTier" 
+        xmin = 0 
+        xmax = 3.88 
+        intervals: size = 1 
+        intervals [1]:
+            xmin = 0 
+            xmax = 3.88 
+            text = "Q I m   f r y: l I N   f l i: g =n   p O l @ n   d U6 C   d i:   l U f t" 
+    item [6]:
+        class = "IntervalTier" 
+        name = "$$TextTier" 
+        xmin = 0 
+        xmax = 3.88 
+        intervals: size = 1 
+        intervals [1]:
+            xmin = 0 
+            xmax = 3.88 
+            text = "Im Frühling fliegen Pollen durch die Luft." 
+    item [7]:
+        class = "IntervalTier" 
+        name = "$$CommentTier" 
+        xmin = 0 
+        xmax = 3.88 
+        intervals: size = 1 
+        intervals [1]:
+            xmin = 0 
+            xmax = 3.88 
+            text = "" 
