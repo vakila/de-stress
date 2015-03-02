@@ -138,7 +138,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/login/**':                      ['permitAll'],
 	'/logout/**':                     ['permitAll'],
 	'/register/**':					  ['permitAll'],
-	//'/testing':						  ['permitAll']
+	'/**/audio/**':					  ['permitAll']
 ]
 grails.plugin.springsecurity.rejectIfNoRule = false
 grails.plugin.springsecurity.fii.rejectPublicInvocations = false
@@ -150,3 +150,18 @@ grails.plugin.springsecurity.logout.postOnly = false
 grails.plugin.springsecurity.ui.register.postRegisterUrl = '/grails'
 
 // Mail
+
+
+
+// Audio and TextGrid files
+environments {
+    development {
+        audioFolder = "/Users/Anjana/Dropbox/School/THESIS/CODE/de-stress/grails/destressapp/web-app/audio"
+    }
+    test {
+        audioFolder = "/Users/Anjana/Dropbox/School/THESIS/CODE/de-stress/grails/destressapp/web-app/audio"
+    }
+    production {
+        audioFolder = "/Users/Anjana/Dropbox/School/THESIS/CODE/de-stress/grails/destressapp/web-app/audio"
+    }
+}

@@ -37,12 +37,16 @@
 						action="diagnosis"
 						id="${ex.id}" >
 		            <label>Student word utterance: </label>
-					<g:select 	name="studentUtterance"
-		  						from="${fgUtts}"/>
+					<g:select 	id="fgUtts.id" name="fgUtts.id"
+		  						from="${fgUtts}"
+								optionKey="id"
+								/>
 
 					<label>Reference word utterance: </label>
-					<g:select 	name="referenceUtterance"
-		  						from="${ggUtts}"/>
+					<g:select 	id="ggUtts.id" name="ggUtts.id"
+		  						from="${ggUtts}"
+								optionKey="id"
+								/>
 
 
 		            <g:submitButton name="Submit" value="Submit"/>

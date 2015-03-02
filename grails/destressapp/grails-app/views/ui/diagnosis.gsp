@@ -28,14 +28,24 @@
 
 			</div>
 
-			<br>
+			<br><br>
 
 
 
 
 			<div>
+				<h4>Student utterance:</h4>
 				<p>${studUtt}</p>
+				<!--<audio src="${studWav}" controls></audio>-->
+				<audio src="<g:resource dir="audio" file="${studWav}" />" controls></audio>
+				<p><g:link action="download" id="${studUtt.id}">Download</g:link></p>
+
+				<br>
+				<h4>Reference utterance:</h4>
 				<p>${refUtt}</p>
+				<audio src="<g:resource dir="audio" file="${refWav}" />" controls></audio>
+				<p><g:link action="download" id="${refUtt.id}">Download</g:link></p>
+
 			</div>
 		</div>
 	</body>
