@@ -4,7 +4,7 @@ class Diagnosis {
 
     Exercise exercise
 
-    DiagnosisMethod diagnosisMethod
+    //DiagnosisMethod diagnosisMethod // or make this property of exercise?
 
     WordUtterance studentUtterance
     List referenceUtterances

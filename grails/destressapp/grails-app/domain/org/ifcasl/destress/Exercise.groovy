@@ -6,6 +6,8 @@ class Exercise {
 
 	Word word
 
+	DiagnosisMethod diagnosisMethod
+
 	static belongsTo = Lesson
 	static hasMany = [lessons:Lesson]//, widgets:MyWidget]
 
