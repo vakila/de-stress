@@ -23,9 +23,9 @@ class Word {
 
     static constraints = {
 
-		text(unique: 'sentence')
 		sentence()
 		wordsBefore()
+		text(unique: 'sentence')
 		syllables(minSize: 2)
 		wordsAfter()
 		stressIndex(min:0)

@@ -3,8 +3,7 @@ package org.ifcasl.destress
 class Speaker {
 
     String speakerNumber
-    String nativeLanguage
-
+    Language nativeLanguage
     AgeGender ageGender
     SkillLevel skillLevel
 

@@ -88,7 +88,7 @@ class BootStrap {
 			w.addToSyllables(wordInfo[2][1])
 			w.save()
 			println "Done."
-			assert w.toString().contains(wordInfo[0])
+			//assert w.toString().contains(wordInfo[0])
 			// assert w.toString().contains(wordInfo[2][0])
 			// assert w.toString().contains(wordInfo[2][1])
 
@@ -119,7 +119,7 @@ class BootStrap {
 					println "Creating SentenceUtterance " + sentNum + "_" + spkr.speakerNumber +"..."
 					String sentType = sentNum.substring(0,2)
 					String sampName = "2" + sentNum + "_"
-					sampName += spkr.nativeLanguage + "G" + spkr.ageGender + spkr.skillLevel
+					sampName += spkr.nativeLanguage.value + "G" + spkr.ageGender + spkr.skillLevel
 					sampName += "_" + spkr.speakerNumber
 					println "sampName: " + sampName
 					String wav = WAVEDIR + spkr.nativeLanguage + ["G", sentType, sentNum, sampName+".wav"].join("/")
@@ -171,7 +171,14 @@ class BootStrap {
 
 
 
-		////// CREATE SENTENCE & WORD UTTERANCES
+		////// CREATE EXERCISE
+		def ex = new Exercise(
+			name:"Test exercise",
+			description:"Some description goes here",
+			word:Word.get(1)
+			)
+		ex.save()
+		assert Exercise.count() == 1
 
 
     }

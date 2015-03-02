@@ -4,10 +4,12 @@ class Diagnosis {
 
     Exercise exercise
 
-    WordUtterance studentWordUtterance
-    //WordUtterance referenceWordUtterance
-
     DiagnosisMethod diagnosisMethod
+
+    WordUtterance studentUtterance
+    List referenceUtterances
+    static hasMany = [referenceUtterances:WordUtterance]
+
 
     Float durationScore
     Float f0Score
@@ -19,8 +21,8 @@ class Diagnosis {
     Date dateCreated
 
     static constraints = {
-        exercise()
-        studentWordUtterance()
+        //exercise()
+        //studentUtterance()
         //referenceWordUtterance(blank:true,nullable:true)
     }
 }

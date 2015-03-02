@@ -3,14 +3,18 @@ package org.ifcasl.destress
 class Exercise {
 	String name
 	String description
+
+	Word word
+
 	static belongsTo = Lesson
 	static hasMany = [lessons:Lesson]//, widgets:MyWidget]
 
-	Word word
 
     static constraints = {
 		name (blank: false)
 		description (widget:'textarea')
+		word()
+		lessons()
     }
 
 	String toString(){
