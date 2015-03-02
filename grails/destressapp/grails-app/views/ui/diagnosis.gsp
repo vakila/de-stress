@@ -31,22 +31,11 @@
 			<br>
 
 
+
+
 			<div>
-				<p>Choose utterances to compare</p>
-				<g:form controller="ui"
-						action="diagnosis"
-						id="${ex.id}" >
-		            <label>Student word utterance: </label>
-					<g:select 	name="studentUtterance"
-		  						from="${fgUtts}"/>
-
-					<label>Reference word utterance: </label>
-					<g:select 	name="referenceUtterance"
-		  						from="${ggUtts}"/>
-
-
-		            <g:submitButton name="Submit" value="Submit"/>
-		        </g:form>
+				<p>${studUtt}</p>
+				<p>${refUtt}</p>
 			</div>
 		</div>
 	</body>

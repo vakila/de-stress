@@ -7,6 +7,8 @@ class UrlMappings {
             }
         }
 
+		"/ui/exercise/$id/$action?"(controller:'ui')
+
         //"/"(view:"/index")
 		"/"(view:"/grails")
 		//"/"(controller: 'Index', action: 'index')
