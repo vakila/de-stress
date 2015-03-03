@@ -82,10 +82,56 @@ class UiController {
         //TODO validate that input from multiple refUtts selects are not the same utterance
 
         //TODO diagnosis logic
+        def diag = getDiagnosis(ex, studUtts, refUtts)
 
 
         //render(view:"exercise", model:[ex:ex,fgUtts:[],ggUtts:[]])
         [ex:ex,studUtt:studUtt,refUtts:refUtts,studWav:studWav]//,refWavs:refWavs]
+    }
+
+    public Diagnosis getDiagnosis(Exercise ex, WordUtterance studUtt, List refUtts) {
+        def scorer = ex.diagnosisMethod.scorer
+
+        // Get 3 scores
+        def durScore
+        def f0Score
+        def intScore
+        if (scorer.useJsnooriScores) {
+            if (refUtts.size()==1) {
+                def refUtt = refUtts.get(0)
+
+                // get scores from FeedbackComputer
+                def fbc = JsnooriBridge.getFeedbackComputer(ex, studUtt, refUtt)
+                durScore = fbc.timeFeedback.getScore()
+                f0Score = fbc.pitchFeedback.getPitchScore()
+                intScore = fbc.energyFeedback.getEnergyScore()
+            }
+            else { // not exactly 1 reference
+                throw new Exception("I can only handle 1 reference utterance at the moment, and you've given me " +  refUtts.size().toString())
+                }
+        }
+        else { //not using Jsnoori scores
+            throw new Exception("I can only handle Jsnoori scores at the moment, and the scorer " + scorer.toString() + " doesn't use them")
+        }
+
+
+        // Get overall score
+        def durWt = scorer.durationWeight
+        def f0Wt = scorer.f0Weight
+        def intWt = scorer.intensityWeight
+        def allScore = durScore*durWt + f0Score*f0Wt + intScore*intWt
+
+        // Create diagnosis object
+        def diag = new Diagnosis(exercise:ex,
+                                 studentUtterance:studUtt,
+                                 referenceUtterances:refUtts,
+                                 durationScore:durScore,
+                                 f0Score:f0Score,
+                                 intensityScore:intScore,
+                                 overallScore:allScore,
+                                 )
+        diag.save()
+        return diag
     }
 
 
