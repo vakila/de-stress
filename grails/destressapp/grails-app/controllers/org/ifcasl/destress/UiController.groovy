@@ -81,7 +81,7 @@ class UiController {
         }
         //TODO validate that input from multiple refUtts selects are not the same utterance
 
-
+        //TODO diagnosis logic
 
 
         //render(view:"exercise", model:[ex:ex,fgUtts:[],ggUtts:[]])
