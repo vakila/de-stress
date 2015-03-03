@@ -6,10 +6,13 @@ class WordUtterance {
 
     Word word
 
+    // Weka instance?
+
     String toString() {
         return sentenceUtterance.toString() + "_" + word.text
     }
-    
+
+
     //
     // //// Duration
     // Float WORD_DUR
