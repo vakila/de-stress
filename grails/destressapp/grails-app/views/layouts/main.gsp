@@ -20,7 +20,7 @@
 		<!-- <div id="grailsLogo" role="banner">
 			<a href="http://grails.org"><asset:image src="grails_logo.png" alt="Grails"/></a>  -->
 		<div id="destressLogo" role="banner">
-			<h1>de-stress</h1>
+			<a href="/"><h1>de-stress</h1></a>
 		</div>
 		<g:layoutBody/>
 		<div class="footer" role="contentinfo"></div>

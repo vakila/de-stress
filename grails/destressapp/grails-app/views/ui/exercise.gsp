@@ -32,25 +32,36 @@
 
 
 			<div>
-				<p>Choose utterances to compare</p>
+				<h3>Choose utterance to evaluate</h3>
+
 				<g:form controller="ui"
 						action="diagnosis"
-						id="${ex.id}" >
-		            <label>Student word utterance: </label>
-					<g:select 	id="fgUtts.id" name="fgUtts.id"
-		  						from="${fgUtts}"
-								optionKey="id"
-								/>
+						id="${ex.id}">
+					<table>
+					<tr>
+			            <td><label><h4>Student utterance:</h4> </label></td>
+						<td><g:select 	id="fgUtts.id" name="fgUtts.id"
+			  						from="${fgUtts}"
+									optionKey="id"
+									/></td>
+					</tr>
+					<g:if test="${ggUtts}">
+						<g:each var="i" in="${nRefs}">
+							<tr>
+							<td><label><h4>Reference utterance ${i}:</h4> </label></td>
+							<td><g:select 	id="ggUtts.${i}" name="ggUtts.${i}"
+				  						from="${ggUtts}"
+										optionKey="id"
+										/></td>
+							</tr>
+						</g:each>
 
-					<label>Reference word utterance: </label>
-					<g:select 	id="ggUtts.id" name="ggUtts.id"
-		  						from="${ggUtts}"
-								optionKey="id"
-								/>
-
+					</g:if>
+					</table>
 
 		            <g:submitButton name="Submit" value="Submit"/>
 		        </g:form>
+
 			</div>
 		</div>
 	</body>

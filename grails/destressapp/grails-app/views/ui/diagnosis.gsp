@@ -40,11 +40,13 @@
 				<audio src="<g:resource dir="audio" file="${studWav}" />" controls></audio>
 				<p><g:link action="download" id="${studUtt.id}">Download</g:link></p>
 
-				<br>
-				<h4>Reference utterance:</h4>
-				<p>${refUtt}</p>
-				<audio src="<g:resource dir="audio" file="${refWav}" />" controls></audio>
-				<p><g:link action="download" id="${refUtt.id}">Download</g:link></p>
+				<g:each var="refUtt" in="${refUtts}">
+					<br>
+					<h4>Reference utterance ${refUtts.indexOf(refUtt)+1}:</h4>
+					<p>${refUtt}</p>
+					<audio src="<g:resource dir="audio" file="${refUtt.sentenceUtterance.sampleName + ".wav"}" />" controls></audio>
+					<p><g:link action="download" id="${refUtt.id}">Download</g:link></p>
+				</g:each>
 
 			</div>
 		</div>
