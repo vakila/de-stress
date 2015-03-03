@@ -202,16 +202,39 @@ class BootStrap {
 		assert WordUtterance.count() == 60
 		//println "Done."
 
+		////// CREATE SCORER & DIAGNOSIS METHOD
+		def scorer = new Scorer(
+			name:"SimpleScorer",
+			description:"Uses FeedbackComputer scores, equal weights",
+			durationWeight:0.34d,
+			f0Weight:0.33d,
+			intensityWeight:0.33d)
+		scorer.save()
+		assert Scorer.count() == 1
+
+		def dm = new DiagnosisMethod(
+			name:"SimpleDM",
+			description:"Manual choice, SimpleScorer",
+			scorer:scorer,
+			referenceType:"SINGLE",
+			selectionType:"MANUAL",
+			)
+		dm.save()
+		println(dm)
+		//assert DiagnosisMethod.count() == 1
 
 
 		////// CREATE EXERCISE
-		def ex = new Exercise(
-			name:"Test exercise",
-			description:"Some description goes here",
-			word:Word.get(1)
-			)
-		ex.save()
-		assert Exercise.count() == 1
+		// def ex = new Exercise(
+		// 	name:"SimpleExercise",
+		// 	description:"Simplest config possible",
+		// 	word:Word.get(1),
+		// 	diagnosisMethod:DiagnosisMethod.get(dm.getID())
+		// 	)
+		// ex.save()
+		// assert Exercise.count() == 1
+
+
 
 
     }
