@@ -8,7 +8,7 @@ class Scorer {
     String name
     String description
 
-    //FeedbackComputer feedbackComputer
+    Boolean useJsnooriScores
 
     DurationScorer durationScorer
     F0Scorer f0Scorer
@@ -23,17 +23,32 @@ class Scorer {
     static constraints = {
         name()
         description(blank:true,nullable:true)
-        // //must either have a feedbackComputer or the 3 scorers
-        // feedbackComputer(blank:true,nullable:true, validator: {val, obj ->
-        //     if (val == null) {
-        //         if (!obj.durationScorer || !obj.f0Scorer || !obj.intensityScorer) {
-        //             return ['mustHaveScorers']
-        //         }
-        //     }
-        //     })
-        durationScorer(blank:true,nullable:true)
-        f0Scorer(blank:true,nullable:true)
-        intensityScorer(blank:true,nullable:true)
+        // must either use Jsnoori scores or have the 3 scorers
+        useJsnooriScores(//validator: {val, obj ->
+            // if (!val) {
+            //     if (!obj.durationScorer || !obj.f0Scorer || !obj.intensityScorer) {
+            //         return ['mustHaveScorers']
+            //     }
+            // }
+            // else {
+            //     if (obj.durationScorer || obj.f0Scorer || obj.intensityScorer) {
+            //         return ['cannotUseScorers']
+            //     }
+            // }
+            // }
+            )
+        durationScorer(blank:true,nullable:true,validator:{ val,obj ->
+            if (!val && !obj.useJsnooriScores) return ['mustUseScorer']
+            if (val && obj.useJsnooriscores) return ['cannotUseScorer']
+            })
+        f0Scorer(blank:true,nullable:true,validator:{ val,obj ->
+            if (!val && !obj.useJsnooriScores) return ['mustUseScorer']
+            if (val && obj.useJsnooriscores) return ['cannotUseScorer']
+            })
+        intensityScorer(blank:true,nullable:true,validator:{ val,obj ->
+            if (!val && !obj.useJsnooriScores) return ['mustUseScorer']
+            if (val && obj.useJsnooriscores) return ['cannotUseScorer']
+            })
 
         //weights must be between 0 and 1 (inclusive)
         //weights must sum to 1 (constrain on intensityWeight?)

@@ -206,6 +206,7 @@ class BootStrap {
 		def scorer = new Scorer(
 			name:"SimpleScorer",
 			description:"Uses FeedbackComputer scores, equal weights",
+			useJsnooriScores:true,
 			durationWeight:0.34d,
 			f0Weight:0.33d,
 			intensityWeight:0.33d)

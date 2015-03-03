@@ -35,7 +35,14 @@ public class DiagnosisMethod {
     static constraints = {
         name()
         description(blank:true,nullable:true)
-        scorer()
+        // if number of references is 0, scorer cannot use Jsnoori scores
+        scorer(validator:{ scorer,obj ->
+            if (obj.numberOfReferences==0) {
+                if (scorer.useJsnooriScores) {
+                    return ['cannotUseJsnooriScores']
+                }
+            }
+            })
         numberOfReferences(min:0)
         selectionType(blank:true,nullable:true,validator:{ val,obj ->
             if (val==null && obj.numberOfReferences > 0) {
