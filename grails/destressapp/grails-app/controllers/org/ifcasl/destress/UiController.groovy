@@ -18,22 +18,29 @@ class UiController {
                 }
             }
         }
-        def cGG = WordUtterance.createCriteria()
-        def ggUtts = cGG {
-            and {
-                eq("word",ex.word)
-                sentenceUtterance {
-                    speaker {
-                        eq("nativeLanguage", Language.G)
+
+        def ggUtts
+        // def refType = ex.diagnosisMethod.referenceType
+        // if (refType!=ReferenceType.ABSTRACT) {
+        def nRefs = ex.diagnosisMethod.numberOfReferences
+        if (nRefs > 0) {
+            def cGG = WordUtterance.createCriteria()
+            ggUtts = cGG {
+                and {
+                    eq("word",ex.word)
+                    sentenceUtterance {
+                        speaker {
+                            eq("nativeLanguage", Language.G)
+                        }
                     }
                 }
             }
         }
-        // println "WordUtterances for this word:"
-        // for (utt in fgUtts) {
-        //     println utt
-        // }
-        render(view:"exercise", model:[ex:ex,fgUtts:fgUtts,ggUtts:ggUtts])
+
+        render(view:"exercise", model:[ex:ex,
+                                       fgUtts:fgUtts,
+                                       ggUtts:ggUtts,
+                                       nRefs:(1..nRefs)])
     }
 
     def record() {
@@ -57,20 +64,29 @@ class UiController {
     def diagnosis() {
         def ex = Exercise.get(params['id'])
 
-        //def grailsApplication = new SentenceUtterance().domainClass.grailsApplication
         def basePath = grailsApplication.mainContext.servletContext.getRealPath("/web-app/")
 
-        //def studUtt = params['studentUtterance']
         def studUtt = WordUtterance.get(params['fgUtts.id'])
-        //def studWav = studUtt.sentenceUtterance.waveFile
-        //def studWav = "/audio/" + studUtt.sentenceUtterance.sampleName + ".wav"
         def studWav = studUtt.sentenceUtterance.sampleName + ".wav"
 
-        def refUtt = WordUtterance.get(params['ggUtts.id'])
-        //def refWav = grailsApplication.parentContext.getResource("/audio/" + refUtt.sentenceUtterance.sampleName + ".wav")
-        def refWav = refUtt.sentenceUtterance.sampleName + ".wav"
+        def refUtts = []
+        //def refWavs = []
+        def nRefs = ex.diagnosisMethod.numberOfReferences
+        for (i in 1..nRefs) {
+            def refUtt = WordUtterance.get(params['ggUtts.' + i])
+            //def refWav = grailsApplication.parentContext.getResource("/audio/" + refUtt.sentenceUtterance.sampleName + ".wav")
+            //def refWav = refUtt.sentenceUtterance.sampleName + ".wav"
+            refUtts.add(refUtt)
+            //refWavs.add(refWav)
+        }
+        //TODO validate that input from multiple refUtts selects are not the same utterance
+
+
+
 
         //render(view:"exercise", model:[ex:ex,fgUtts:[],ggUtts:[]])
-        [ex:ex,studUtt:studUtt,refUtt:refUtt,studWav:studWav,refWav:refWav]
+        [ex:ex,studUtt:studUtt,refUtts:refUtts,studWav:studWav]//,refWavs:refWavs]
     }
+
+
 }

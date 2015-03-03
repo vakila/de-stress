@@ -212,27 +212,47 @@ class BootStrap {
 		scorer.save()
 		assert Scorer.count() == 1
 
-		def dm = new DiagnosisMethod(
+		def dm1 = new DiagnosisMethod(
 			name:"SimpleDM",
 			description:"Manual choice, SimpleScorer",
 			scorer:scorer,
-			referenceType:"SINGLE",
+			//referenceType:"SINGLE",
+			numberOfReferences:1,
 			selectionType:"MANUAL",
 			)
-		dm.save()
-		println(dm)
-		//assert DiagnosisMethod.count() == 1
+		dm1.save()
+		//println(dm1)
+
+		def dm2 = new DiagnosisMethod(
+			name:"MultiDM",
+			description:"Multi Manual choice, SimpleScorer",
+			scorer:scorer,
+			//referenceType:"MULTI",
+			selectionType:"MANUAL",
+			numberOfReferences:2,
+			)
+		dm2.save()
+		//println(dm2)
+		assert DiagnosisMethod.count() == 2
 
 
-		////// CREATE EXERCISE
-		// def ex = new Exercise(
-		// 	name:"SimpleExercise",
-		// 	description:"Simplest config possible",
-		// 	word:Word.get(1),
-		// 	diagnosisMethod:DiagnosisMethod.get(dm.getID())
-		// 	)
-		// ex.save()
-		// assert Exercise.count() == 1
+		//// CREATE EXERCISES
+		def ex1 = new Exercise(
+			name:"SimpleExercise",
+			description:"Simplest config possible",
+			word:Word.get(1),
+			diagnosisMethod:dm1)
+		ex1.save()
+
+		def ex2 = new Exercise(
+			name:"MultiExercise",
+			description:"Simple multiref",
+			word:Word.get(2),
+			diagnosisMethod:dm2)
+		ex2.save()
+
+
+		assert Exercise.count() == 2
 
 
 

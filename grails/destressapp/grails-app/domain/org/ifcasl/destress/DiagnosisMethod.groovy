@@ -7,9 +7,10 @@ public class DiagnosisMethod {
 
     Scorer scorer
 
-    ReferenceType referenceType //SINGLE, MULTI, or ABSTRACT
+    //ReferenceType referenceType //SINGLE, MULTI, or ABSTRACT
+    Integer numberOfReferences
 
-    // for SINGLE or MULTI reference types
+    // for >0 references (SINGLE or MULTI reference types)
     SelectionType selectionType //MANUAL, AUTO, or FIXED
 
         // for AUTO selection type
@@ -18,13 +19,12 @@ public class DiagnosisMethod {
         // for FIXED selection type
         //TODO
 
-        // for MULTI reference type
-        Integer numberOfReferences
+        // for >2 references (MULTI reference type)
             //TODO
             // combination type?
 
 
-    // for ABSTRACT reference type
+    // for 0 references (ABSTRACT reference type)
     //TODO
         // Weka classifier
         // Feature extractor?
@@ -36,23 +36,40 @@ public class DiagnosisMethod {
         name()
         description(blank:true,nullable:true)
         scorer()
-        referenceType()
-        selectionType(blank:true,nullable:true,validator:{ val, obj ->
-            if (val==null && obj.referenceType!=ReferenceType.ABSTRACT) {
-                return ['needSelectionType', obj.referenceType]
+        numberOfReferences(min:0)
+        selectionType(blank:true,nullable:true,validator:{ val,obj ->
+            if (val==null && obj.numberOfReferences > 0) {
+                return ['needSelectionType', obj.numberOfReferences]
             }
-        })
-        numberOfReferences(min:2,blank:true,nullable:true,validator:{ val, obj ->
-            if (val==null && obj.referenceType==ReferenceType.MULTI) {
-                return ['needNumberOfReferences']
-            }
-        })
+            })
+
+        // old constraints
+        //referenceType()
+        // selectionType(blank:true,nullable:true,validator:{ val, obj ->
+        //     if (val==null && obj.referenceType!=ReferenceType.ABSTRACT) {
+        //         return ['needSelectionType', obj.referenceType]
+        //     }
+        // })
+        // numberOfReferences(min:2,blank:true,nullable:true,validator:{ val, obj ->
+        //     if (val==null && obj.referenceType==ReferenceType.MULTI) {
+        //         return ['needNumberOfReferences']
+        //     }
+        // })
 
     }
 
     String toString() {
-        //TODO more informative string?
-        return name
+        // String stringy = name + "-" + referenceType
+        // if (referenceType != ReferenceType.ABSTRACT) {
+        //     stringy += "-" + selectionType
+        //     if (referenceType == ReferenceType.MULTI) {
+        //         stringy += "-" + numberOfReferences + "refs"
+        //     }
+        // }
+        String stringy = name + "-" + numberOfReferences + "refs"
+        if (numberOfReferences > 0) stringy += "-" + selectionType
+        return stringy
+        //return name
     }
 
 }
