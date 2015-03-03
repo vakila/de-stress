@@ -61,10 +61,22 @@ class UiController {
         return false
     }
 
-    def diagnosis() {
+    def downloadFeedback(long id) {
+        Diagnosis diag = Diagnosis.get(id)
+        def path = grailsApplication.mainContext.servletContext.getRealPath("/") + "audio/feedback/" + diag.feedbackWaveFile
+        File file = new File(path)
+        response.setContentType('audio/wav')
+        response.setContentLength (file.bytes.length)
+        response.setHeader("Content-disposition", "attachment;filename=${file.getName()}")
+        response.outputStream << file.newInputStream() // Performing a binary stream copy
+
+        return false
+    }
+
+    def feedback() {
         def ex = Exercise.get(params['id'])
 
-        def basePath = grailsApplication.mainContext.servletContext.getRealPath("/web-app/")
+        //def basePath = grailsApplication.mainContext.servletContext.getRealPath("/web-app/")
 
         def studUtt = WordUtterance.get(params['fgUtts.id'])
         def studWav = studUtt.sentenceUtterance.sampleName + ".wav"
@@ -81,58 +93,35 @@ class UiController {
         }
         //TODO validate that input from multiple refUtts selects are not the same utterance
 
-        //TODO diagnosis logic
-        def diag = getDiagnosis(ex, studUtts, refUtts)
+        def diag = DiagnosisUtil.getDiagnosis(ex, studUtt, refUtts)
+
+        // get scores & colors
+        def durPct = new Float(diag.durationScore * 100f)
+        def f0Pct = new Float(diag.f0Score * 100f)
+        def intPct = new Float(diag.intensityScore * 100f)
+        def allPct = new Float(diag.overallScore * 100f)
+
+        def durCol = DiagnosisUtil.getColor(diag.durationScore)
+        def f0Col = DiagnosisUtil.getColor(diag.f0Score)
+        def intCol = DiagnosisUtil.getColor(diag.intensityScore)
+        def allCol = DiagnosisUtil.getColor(diag.overallScore)
+
+        // get feedback audio
+        def fbWav = diag.feedbackWaveFile
+        println fbWav
 
 
         //render(view:"exercise", model:[ex:ex,fgUtts:[],ggUtts:[]])
-        [ex:ex,studUtt:studUtt,refUtts:refUtts,studWav:studWav]//,refWavs:refWavs]
+        [ex:ex,diag:diag,
+               studUtt:studUtt,refUtts:refUtts,
+               studWav:studWav,fbWav:fbWav,
+               durPct:durPct,durCol:durCol,
+               f0Pct:f0Pct,f0Col:f0Col,
+               intPct:intPct,intCol:intCol,
+               allPct:allPct,allCol:allCol]//,refWavs:refWavs]
     }
 
-    public Diagnosis getDiagnosis(Exercise ex, WordUtterance studUtt, List refUtts) {
-        def scorer = ex.diagnosisMethod.scorer
 
-        // Get 3 scores
-        def durScore
-        def f0Score
-        def intScore
-        if (scorer.useJsnooriScores) {
-            if (refUtts.size()==1) {
-                def refUtt = refUtts.get(0)
-
-                // get scores from FeedbackComputer
-                def fbc = JsnooriBridge.getFeedbackComputer(ex, studUtt, refUtt)
-                durScore = fbc.timeFeedback.getScore()
-                f0Score = fbc.pitchFeedback.getPitchScore()
-                intScore = fbc.energyFeedback.getEnergyScore()
-            }
-            else { // not exactly 1 reference
-                throw new Exception("I can only handle 1 reference utterance at the moment, and you've given me " +  refUtts.size().toString())
-                }
-        }
-        else { //not using Jsnoori scores
-            throw new Exception("I can only handle Jsnoori scores at the moment, and the scorer " + scorer.toString() + " doesn't use them")
-        }
-
-
-        // Get overall score
-        def durWt = scorer.durationWeight
-        def f0Wt = scorer.f0Weight
-        def intWt = scorer.intensityWeight
-        def allScore = durScore*durWt + f0Score*f0Wt + intScore*intWt
-
-        // Create diagnosis object
-        def diag = new Diagnosis(exercise:ex,
-                                 studentUtterance:studUtt,
-                                 referenceUtterances:refUtts,
-                                 durationScore:durScore,
-                                 f0Score:f0Score,
-                                 intensityScore:intScore,
-                                 overallScore:allScore,
-                                 )
-        diag.save()
-        return diag
-    }
 
 
 }

@@ -7,19 +7,19 @@ import fr.loria.parole.jsnoori.util.file.segmentation.TextGridSegmentationFileUt
 import fr.loria.parole.jsnoori.model.segmentation.*
 
 
-static class JsnooriBridge{
+class JsnooriBridge{
 
     public static GERMAN = Language.getLanguage("de")
 
 
     public static FeedbackComputer getFeedbackComputer(Exercise ex, WordUtterance studUtt, WordUtterance refUtt) {
         // Get utterance files
-        String trialName = //TODO
-        String trialWave = //TODO
-        String trialGrid = //TODO
-        String exampleName = //TODO
-        String exampleWave = //TODO
-        String exampleGrid = //TODO
+        String trialName = studUtt.sentenceUtterance.sampleName
+        String trialWave = studUtt.sentenceUtterance.waveFile
+        String trialGrid = studUtt.sentenceUtterance.gridFile
+        String exampleName = refUtt.sentenceUtterance.sampleName
+        String exampleWave = refUtt.sentenceUtterance.waveFile
+        String exampleGrid = refUtt.sentenceUtterance.gridFile
 
         // Get AudioSignals
         AudioSignal trialSignal = new AudioSignal(trialName, trialWave)

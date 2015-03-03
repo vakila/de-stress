@@ -13,9 +13,9 @@ class BootStrap {
 
 	def WORDS = [
 			//[sentence, text, syllables, stressIndex, wordsBefore, wordsAfter],
-			["SR23", "frühling", ["Früh","ling"], 0, "In", "fliegen Pollen durch die Luft."],
-			["SR23", "fliegen", ["flie","gen"], 0, "In Frühling", "Pollen durch die Luft."],
-			["SR23", "pollen", ["Pol","len"], 0, "In Frühling fliegen", "durch die Luft."],
+			["SR23", "frühling", ["Früh","ling"], 0, "Im", "fliegen Pollen durch die Luft."],
+			["SR23", "fliegen", ["flie","gen"], 0, "Im Frühling", "Pollen durch die Luft."],
+			["SR23", "pollen", ["Pol","len"], 0, "Im Frühling fliegen", "durch die Luft."],
 			["SR31", "mörder", ["Mör","der"], 0, "Der", "hat den Tatort wieder besucht."],
 			["SR31", "tatort", ["Tat","ort"], 0, "Der Mörder hat den", "wieder besucht."]
 			//["SH05", "Flagge", ["Flag","ge"], "Die", "des IOC besteht aus 5 Ringen as Symbol"
@@ -136,10 +136,10 @@ class BootStrap {
 					def grailsApplication = new SentenceUtterance().domainClass.grailsApplication
 
 			        String waveName = sampName + ".wav"
-			        String waveNewPath = grailsApplication.mainContext.servletContext.getRealPath("/") + "audio/" + waveName
+			        String waveNewPath = grailsApplication.mainContext.servletContext.getRealPath("/") + "/audio/" + waveName
 
 					String gridName = sampName + ".textgrid"
-					String gridNewPath = grailsApplication.mainContext.servletContext.getRealPath("/") + "grids/" + gridName
+					String gridNewPath = grailsApplication.mainContext.servletContext.getRealPath("/") + "/grids/" + gridName
 
 			        println "################# TESTING ###################"
 			        println "sampName: " + sampName

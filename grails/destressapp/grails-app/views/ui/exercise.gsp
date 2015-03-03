@@ -11,33 +11,35 @@
 			<h1>Exercise ${ex.name}</h1>
 
 			<div><!--Display Exercise info-->
-
+				<!--
                 <p>${ex.description}</p>
 
                 <p>Word: ${ex.word.text} </p>
 
                 <br>
-
-                <p>${ex.word.wordsBefore}
-                    <g:link controller="Word" action="show" id="${ex.word.id}">
+				-->
+				<div style="width:90%; text-align:center; font-size:2em; margin-left:auto; margin-right:auto">
+					${ex.word.wordsBefore}
+                    <!--<g:link controller="Word" action="show" id="${ex.word.id}">-->
                         <g:each var="syll" in="${ex.word.syllables}">
-                            <b>${syll}</b>
+                            <a><span style="font-size:2em">${syll}</b></a>
                         </g:each>
-                    </g:link>
-                    ${ex.word.wordsAfter}</p>
+                    <!--</g:link>-->
+                    ${ex.word.wordsAfter}
+				</div>
 
 			</div>
 
 			<br>
 
 
-			<div>
+			<div style="padding:20px; margin:auto; width:60%;">
 				<h3>Choose utterance to evaluate</h3>
 
 				<g:form controller="ui"
-						action="diagnosis"
+						action="feedback"
 						id="${ex.id}">
-					<table>
+					<table style="margin:auto">
 					<tr>
 			            <td><label><h4>Student utterance:</h4> </label></td>
 						<td><g:select 	id="fgUtts.id" name="fgUtts.id"

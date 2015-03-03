@@ -10,6 +10,9 @@ class Diagnosis {
     List referenceUtterances
     static hasMany = [referenceUtterances:WordUtterance]
 
+    // temporary
+    String feedbackWaveFile
+
 
     Float durationScore
     Float f0Score
@@ -21,8 +24,21 @@ class Diagnosis {
     Date dateCreated
 
     static constraints = {
-        //exercise()
-        //studentUtterance()
-        //referenceWordUtterance(blank:true,nullable:true)
+        exercise()
+        studentUtterance()
+        referenceUtterances(blank:true,nullable:true)
+        durationScore()
+        f0Score()
+        intensityScore()
+        overallScore()
+        feedbackWaveFile(blank:true,nullable:true)
+        dateCreated()
+
+    }
+
+    String toString() {
+        //return [exercise.toString(),studentUtterance.toString()].join("-")
+        return ["Ex"+exercise.getId(),studentUtterance].join("-")
+        //return "test-diagnosis"
     }
 }
