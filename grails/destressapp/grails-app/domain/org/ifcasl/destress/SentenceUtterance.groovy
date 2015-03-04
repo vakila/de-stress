@@ -50,7 +50,8 @@ class SentenceUtterance {
     }
 
     String toString() {
-        return sentence + "_" + speaker.speakerNumber
+        //return sentence + "_" + speaker.speakerNumber
+        return sampleName
     }
 
 
