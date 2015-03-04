@@ -15,7 +15,7 @@ class DiagnosisUtil {
                 def refUtt = refUtts.get(0)
 
                 // get scores from FeedbackComputer
-                fbc = JsnooriBridge.getFeedbackComputer(ex, studUtt, refUtt)
+                fbc = JsnooriUtil.getFeedbackComputer(ex, studUtt, refUtt)
                 durScore = fbc.timeFeedback.getScore()
                 f0Score = fbc.pitchFeedback.getPitchScore()
                 intScore = fbc.energyFeedback.getEnergyScore()
@@ -28,7 +28,7 @@ class DiagnosisUtil {
                 def intTotal = 0f
                 for (refUtt in refUtts) {
 
-                    fbc = JsnooriBridge.getFeedbackComputer(ex, studUtt, refUtt)
+                    fbc = JsnooriUtil.getFeedbackComputer(ex, studUtt, refUtt)
                     durTotal += fbc.timeFeedback.getScore()
                     f0Total += fbc.pitchFeedback.getPitchScore()
                     intTotal += fbc.energyFeedback.getEnergyScore()
@@ -60,7 +60,7 @@ class DiagnosisUtil {
                                  intensityScore:intScore,
                                  overallScore:allScore,
                                  )
-                                 
+
         if (refUtts.size() == 1) {
             // save feedbackSignal to file
             def waveName = diag.toString() + ".wav"

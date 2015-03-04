@@ -7,7 +7,7 @@ import fr.loria.parole.jsnoori.util.file.segmentation.TextGridSegmentationFileUt
 import fr.loria.parole.jsnoori.model.segmentation.*
 
 
-class JsnooriBridge{
+class JsnooriUtil{
 
     public static GERMAN = Language.getLanguage("de")
 
