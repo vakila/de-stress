@@ -10,39 +10,57 @@ class DiagnosisUtil {
         def durScore
         def f0Score
         def intScore
-        if (scorer.useJsnooriScores) {
-            if (refUtts.size()==1) {
-                def refUtt = refUtts.get(0)
 
-                // get scores from FeedbackComputer
-                fbc = JsnooriUtil.getFeedbackComputer(ex, studUtt, refUtt)
-                durScore = fbc.timeFeedback.getScore()
-                f0Score = fbc.pitchFeedback.getPitchScore()
-                intScore = fbc.energyFeedback.getEnergyScore()
+        def scorerType = scorer.type
+        println ("scorerType: " + scorerType)
+        //switch (scorerType) {
 
+            if (scorerType == ScorerType.JSNOORI) {
+            //case "JSNOORI":
+                if (refUtts.size()==1) {
+                    def refUtt = refUtts.get(0)
 
-            }
-            else { // not exactly 1 reference
-                def durTotal = 0f
-                def f0Total = 0f
-                def intTotal = 0f
-                for (refUtt in refUtts) {
-
+                    // get scores from FeedbackComputer
                     fbc = JsnooriUtil.getFeedbackComputer(ex, studUtt, refUtt)
-                    durTotal += fbc.timeFeedback.getScore()
-                    f0Total += fbc.pitchFeedback.getPitchScore()
-                    intTotal += fbc.energyFeedback.getEnergyScore()
-
+                    durScore = fbc.timeFeedback.getScore()
+                    f0Score = fbc.pitchFeedback.getPitchScore()
+                    intScore = fbc.energyFeedback.getEnergyScore()
                 }
-                def n = new Float(refUtts.size())
-                durScore = durTotal/n
-                f0Score = f0Total/n
-                intScore = intTotal/n
+                else { // not exactly 1 reference
+                    def durTotal = 0f
+                    def f0Total = 0f
+                    def intTotal = 0f
+                    for (refUtt in refUtts) {
+
+                        fbc = JsnooriUtil.getFeedbackComputer(ex, studUtt, refUtt)
+                        durTotal += fbc.timeFeedback.getScore()
+                        f0Total += fbc.pitchFeedback.getPitchScore()
+                        intTotal += fbc.energyFeedback.getEnergyScore()
+
+                    }
+                    def n = new Float(refUtts.size())
+                    durScore = durTotal/n
+                    f0Score = f0Total/n
+                    intScore = intTotal/n
+                }
+             //end case JSNOORI
             }
-        }
-        else { //not using Jsnoori scores
-            throw new Exception("I can only handle Jsnoori scores at the moment, and the scorer " + scorer.toString() + " doesn't use them")
-        }
+
+            //case ScorerType.WEKA:
+            else if (scorerType == ScorerType.WEKA) {
+                //convert studUtt to Weka instance
+                //TEMP
+                WekaUtil.getInstance(studUtt)
+            //end case WEKA
+            }
+
+            //default:
+            else { //not using Jsnoori scores
+                println "Unhandled scorer type: " + scorerType
+                //throw new Exception("I can only handle Jsnoori scores at the moment, and the scorer " + scorer.toString() + " doesn't use them")
+            }
+
+        //} //end switch
 
 
         // Get overall score

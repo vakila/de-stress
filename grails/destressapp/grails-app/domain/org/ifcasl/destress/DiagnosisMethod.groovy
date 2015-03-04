@@ -36,14 +36,22 @@ public class DiagnosisMethod {
         name()
         description(blank:true,nullable:true)
         // if number of references is 0, scorer cannot use Jsnoori scores
-        scorer(validator:{ scorer,obj ->
-            if (obj.numberOfReferences==0) {
-                if (scorer.useJsnooriScores) {
-                    return ['cannotUseJsnooriScores']
-                }
+        scorer(//validator:{ val,obj ->
+            // if (obj.numberOfReferences==0) {
+            //     if (val.type!=ScorerType.WEKA) {
+            //         return ['cannotUseJsnooriScores']
+            //     }
+            // }
+            // }
+        )
+        numberOfReferences(min:0, validator: {val,obj ->
+            if (val==0 && obj.scorer.type!=ScorerType.WEKA) {
+                return ['mustUseRefs', obj.scorer.type]
+            }
+            else if (val!=0 && obj.scorer.type==ScorerType.WEKA) {
+                return ['cannotUseRefs', obj.scorer.type]
             }
             })
-        numberOfReferences(min:0)
         selectionType(blank:true,nullable:true,validator:{ val,obj ->
             if (val==null && obj.numberOfReferences > 0) {
                 return ['needSelectionType', obj.numberOfReferences]
