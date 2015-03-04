@@ -23,8 +23,22 @@ class DiagnosisUtil {
 
             }
             else { // not exactly 1 reference
-                throw new Exception("I can only handle 1 reference utterance at the moment, and you've given me " +  refUtts.size().toString())
+                def durTotal = 0f
+                def f0Total = 0f
+                def intTotal = 0f
+                for (refUtt in refUtts) {
+
+                    fbc = JsnooriBridge.getFeedbackComputer(ex, studUtt, refUtt)
+                    durTotal += fbc.timeFeedback.getScore()
+                    f0Total += fbc.pitchFeedback.getPitchScore()
+                    intTotal += fbc.energyFeedback.getEnergyScore()
+
                 }
+                def n = new Float(refUtts.size())
+                durScore = durTotal/n
+                f0Score = f0Total/n
+                intScore = intTotal/n
+            }
         }
         else { //not using Jsnoori scores
             throw new Exception("I can only handle Jsnoori scores at the moment, and the scorer " + scorer.toString() + " doesn't use them")
@@ -46,14 +60,16 @@ class DiagnosisUtil {
                                  intensityScore:intScore,
                                  overallScore:allScore,
                                  )
-
-        // save feedbackSignal to file
-        def waveName = diag.toString() + ".wav"
-        println ("waveName: " + waveName)
-        def grailsApplication = new Diagnosis().domainClass.grailsApplication
-        def feedbackPath = grailsApplication.mainContext.servletContext.getRealPath("/") + "audio/feedback/" + waveName
-        diag.feedbackWaveFile = waveName
-        fbc.feedbackSignal.saveWave(new File(feedbackPath))
+                                 
+        if (refUtts.size() == 1) {
+            // save feedbackSignal to file
+            def waveName = diag.toString() + ".wav"
+            println ("waveName: " + waveName)
+            def grailsApplication = new Diagnosis().domainClass.grailsApplication
+            def feedbackPath = grailsApplication.mainContext.servletContext.getRealPath("/") + "audio/feedback/" + waveName
+            diag.feedbackWaveFile = waveName
+            fbc.feedbackSignal.saveWave(new File(feedbackPath))
+        }
 
         // save & return
         diag.save()

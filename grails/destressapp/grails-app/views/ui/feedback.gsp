@@ -47,12 +47,14 @@
 							<p><g:link action="download" id="${refUtt.id}">Download</g:link></p>
 						</div>
 					</g:each>
-					<div style="padding:10px;">
-						<h3>Feedback utterance:</h3>
-						<p>${diag}</p>
-						<audio src="<g:resource dir="audio/feedback" file="${fbWav}" />" controls></audio>
-						<p><g:link action="downloadFeedback" id="${diag.id}">Download</g:link></p>
-					</div>
+					<g:if test="${fbWav != null}">
+						<div style="padding:10px;">
+							<h3>Feedback utterance:</h3>
+							<p>${diag}</p>
+							<audio src="<g:resource dir="audio/feedback" file="${fbWav}" />" controls></audio>
+							<p><g:link action="downloadFeedback" id="${diag.id}">Download</g:link></p>
+						</div>
+					</g:if>
 				</div>
 
 
