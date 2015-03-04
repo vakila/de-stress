@@ -11,6 +11,8 @@ class Exercise {
 	DiagnosisMethod diagnosisMethod
 	//static hasOne = [diagnosisMethod:DiagnosisMethod]
 
+	FeedbackMethod feedbackMethod
+
 	static belongsTo = Lesson
 	static hasMany = [lessons:Lesson]//, widgets:MyWidget]
 
@@ -20,6 +22,7 @@ class Exercise {
 		description (widget:'textarea')
 		word()
 		diagnosisMethod()//blank:true,nullable:true)
+		feedbackMethod(blank:true,nullable:true)
 		lessons()
     }
 

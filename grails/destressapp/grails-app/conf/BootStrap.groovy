@@ -202,16 +202,28 @@ class BootStrap {
 		assert WordUtterance.count() == 60
 		//println "Done."
 
-		////// CREATE SCORER & DIAGNOSIS METHOD
+		////// CREATE SCORERS
 		def scorer = new Scorer(
 			name:"SimpleScorer",
 			description:"Uses FeedbackComputer scores, equal weights",
-			useJsnooriScores:true,
+			//useJsnooriScores:true,
+			type:"JSNOORI",
 			durationWeight:0.34d,
 			f0Weight:0.33d,
 			intensityWeight:0.33d)
 		scorer.save()
-		assert Scorer.count() == 1
+
+		def scorerW = new Scorer(
+			name:"WekaScorer",
+			description:"Uses weka classification",
+			type:"WEKA",
+			)
+		scorerW.save()
+
+		assert Scorer.count() == 2
+
+
+		//// CREATE DIAGNOSIS METHODS
 
 		def dm1 = new DiagnosisMethod(
 			name:"SimpleDM",
@@ -234,7 +246,36 @@ class BootStrap {
 			)
 		dm2.save()
 		//println(dm2)
-		assert DiagnosisMethod.count() == 2
+
+		def dm3 = new DiagnosisMethod(
+			name:"WekaDM",
+			description:"No references, Weka scorer",
+			scorer:scorerW,
+			numberOfReferences:0,
+			)
+		dm3.save()
+
+		assert DiagnosisMethod.count() == 3
+
+
+		//// CREATE FEEDBACK METHODS
+		def fm1 = new FeedbackMethod(
+			name:"JsnooriFM",
+			description:"Simple, requires Jsnoori scorer",
+			requiresScorerType:"JSNOORI",
+			showSkillBars:true,
+			playFeedbackSignal:true,
+			)
+		fm1.save()
+
+		def fm2 = new FeedbackMethod(
+			name:"JsnooriFM2",
+			description:"Simple, requires Jsnoori scorer, no skill bars",
+			requiresScorerType:"JSNOORI",
+			showSkillBars:false,
+			playFeedbackSignal:true,
+			)
+		fm2.save()
 
 
 		//// CREATE EXERCISES
@@ -242,18 +283,29 @@ class BootStrap {
 			name:"SimpleExercise",
 			description:"Simplest config possible",
 			word:Word.get(1),
-			diagnosisMethod:dm1)
+			diagnosisMethod:dm1,
+			feedbackMethod:fm2)
 		ex1.save()
 
 		def ex2 = new Exercise(
 			name:"MultiExercise",
 			description:"Simple multiref",
 			word:Word.get(2),
-			diagnosisMethod:dm2)
+			diagnosisMethod:dm2,
+			feedbackMethod:fm1)
 		ex2.save()
 
+		def ex3 = new Exercise(
+			name:"WekaExercise",
+			description:"Weka noref",
+			word:Word.get(3),
+			diagnosisMethod:dm3,
+			feedbackMethod:fm1
+			)
+		ex3.save()
 
-		assert Exercise.count() == 2
+
+		assert Exercise.count() == 3
 
 
 

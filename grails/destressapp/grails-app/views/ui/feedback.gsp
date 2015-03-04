@@ -47,26 +47,29 @@
 							<p><g:link action="download" id="${refUtt.id}">Download</g:link></p>
 						</div>
 					</g:each>
-					<g:if test="${fbWav != null}">
-						<div style="padding:10px;">
-							<h3>Feedback utterance:</h3>
-							<p>${diag}</p>
-							<audio src="<g:resource dir="audio/feedback" file="${fbWav}" />" controls></audio>
-							<p><g:link action="downloadFeedback" id="${diag.id}">Download</g:link></p>
-						</div>
+					<g:if test="${ex.feedbackMethod.playFeedbackSignal == true}">
+						<g:if test="${fbWav != null}">
+							<div style="padding:10px;">
+								<h3>Feedback utterance:</h3>
+								<p>${diag}</p>
+								<audio src="<g:resource dir="audio/feedback" file="${fbWav}" />" controls></audio>
+								<p><g:link action="downloadFeedback" id="${diag.id}">Download</g:link></p>
+							</div>
+						</g:if>
 					</g:if>
 				</div>
 
-
-				<div style="margin-top:40px;">
-					<h2>Your scores</h2>
-					<table>
-						<tr><td style="width:10%">Duration</td><td style="width:80%"><div style="width:100%; margin:5px; border:1px solid black"><div style="height:40px; background:${durCol}; width:${durPct}%"></div></div></td><td style="width:10%">${durPct}%</td>
-						<tr><td style="width:10%">Pitch</td><td style="width:80%"><div style="width:100%; margin:5px; border:1px solid black"><div style="height:40px; background:${f0Col}; width:${f0Pct}%"></div></div></td><td style="width:10%">${f0Pct}%</td>
-						<tr><td style="width:10%">Intensity</td><td style="width:80%"><div style="width:100%; margin:5px; border:1px solid black"><div style="height:40px; background:${intCol}; width:${intPct}%"></div></div></td><td style="width:10%">${intPct}%</td>
-						<tr><td style="width:10%">Overall</td><td style="width:80%"><div style="width:100%; margin:5px; border:1px solid black"><div style="height:50px; background:${allCol}; width:${allPct}%"></div></div></td><td style="width:10%">${allPct}%</td>
-					</table>
-				</div>
+				<g:if test="${ex.feedbackMethod.showSkillBars == true}">
+					<div style="margin-top:40px;">
+						<h2>Your scores</h2>
+						<table>
+							<tr><td style="width:10%">Duration</td><td style="width:80%"><div style="width:100%; margin:5px; border:1px solid black"><div style="height:40px; background:${durCol}; width:${durPct}%"></div></div></td><td style="width:10%">${durPct}%</td>
+							<tr><td style="width:10%">Pitch</td><td style="width:80%"><div style="width:100%; margin:5px; border:1px solid black"><div style="height:40px; background:${f0Col}; width:${f0Pct}%"></div></div></td><td style="width:10%">${f0Pct}%</td>
+							<tr><td style="width:10%">Intensity</td><td style="width:80%"><div style="width:100%; margin:5px; border:1px solid black"><div style="height:40px; background:${intCol}; width:${intPct}%"></div></div></td><td style="width:10%">${intPct}%</td>
+							<tr><td style="width:10%">Overall</td><td style="width:80%"><div style="width:100%; margin:5px; border:1px solid black"><div style="height:50px; background:${allCol}; width:${allPct}%"></div></div></td><td style="width:10%">${allPct}%</td>
+						</table>
+					</div>
+				</g:if>
 			</div>
 		</div>
 	</body>
