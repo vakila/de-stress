@@ -280,8 +280,8 @@ class BootStrap {
 
 		//// CREATE EXERCISES
 		def ex1 = new Exercise(
-			name:"SimpleExercise",
-			description:"Simplest config possible",
+			name:"Exercise1",
+			description:"Simple Jsnoori single-reference with feedback signal, no bars",
 			word:Word.get(1),
 			diagnosisMethod:dm1,
 			feedbackMethod:fm2)
@@ -304,8 +304,16 @@ class BootStrap {
 			)
 		ex3.save()
 
+		def ex4 = new Exercise(
+			name:"SimpleExercise",
+			description:"Simplest config possible",
+			word:Word.get(1),
+			diagnosisMethod:dm1,
+			feedbackMethod:fm1)
+		ex4.save()
 
-		assert Exercise.count() == 3
+
+		assert Exercise.count() == 4
 
 
 
