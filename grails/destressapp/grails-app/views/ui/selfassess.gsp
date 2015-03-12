@@ -138,13 +138,14 @@
 
 						<br><br>
 
-						<g:hiddenField name="studWav" value="${studWav}" />
-						<g:hiddenField name="studUtt" value="${studUtt}" />
-						<g:hiddenField name="refUtts" value="${refUtts}" />
+						<g:hiddenField name="fgUtts.id" value="${studUtt.id}" />
+						<g:each var="i" in="${refUtts.size()}">
+							<g:hiddenField name="ggUtts.${i}" value="${refUtts[i-1].id}" />
+						</g:each>
 
 
 			            <div style="text-align:center;margin:10px;">
-							<g:actionSubmit value="Continue"/>
+							<g:submitButton name="Submit" value="Continue"/>
 						</div>
 			        </g:form>
 				</div>
