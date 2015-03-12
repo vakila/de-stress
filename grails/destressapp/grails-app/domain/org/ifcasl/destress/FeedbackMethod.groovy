@@ -10,6 +10,7 @@ class FeedbackMethod {
     Boolean showSkillBars
     Boolean playFeedbackSignal
 
+    Boolean displayShapes
     Boolean styleText
 
     static constraints = {
@@ -18,6 +19,7 @@ class FeedbackMethod {
         requiresScorerType(blank:true,nullable:true)
         showSkillBars(blank:true,nullable:true)
         playFeedbackSignal(blank:true,nullable:true)
+        displayShapes(blank:true,nullable:true)
         styleText(blank:true,nullable:true)
     }
 
