@@ -16,6 +16,7 @@
   		<asset:stylesheet src="application.css"/>
 		<asset:javascript src="application.js"/>
 		<g:layoutHead/>
+		<!--<g:javascript library="jquery" />-->
 	</head>
 	<body>
 		<!-- <div id="grailsLogo" role="banner">
