@@ -9,6 +9,8 @@ import fr.loria.parole.jsnoori.model.segmentation.*;
 import fr.loria.parole.jsnoori.util.file.segmentation.TextGridSegmentationFileUtils;
 import fr.loria.parole.jsnoori.util.lang.Language;
 import fr.loria.parole.jsnoori.view.phoneticKeyboard.*;
+import fr.loria.parole.jsnoori.util.TimeConversion;
+
 
 
 
@@ -57,6 +59,8 @@ class FeatureExtractor {
 
 		this.pitchAnalysis = new PitchAnalysis(this.audioSignal)
 		this.energyAnalysis = new EnergyAnalysis(this.audioSignal, 20d)
+		//println("ENERGY depEner IN MILLISECONDS: " + TimeConversion.enMillif((double) this.energyAnalysis.energyComputer.depEner, this.audioSignal))
+		
 //		// Create a new FeedbackComputer
 //		// (includes Feedback, TimeFeedback, and PitchFeedback)
 //		// where the trial and example audio are the same
