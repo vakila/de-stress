@@ -52,20 +52,25 @@
 			                    <!--<g:link controller="Word" action="show" id="${ex.word.id}">-->
 									<g:each var="s" in="${ (0..1) }">
 										<div style="display:table-cell;padding:2px;text-align:left">
-											<div style="height:100px;display:table-cell;vertical-align:bottom;">
-											<div style="height:${studSyllF0s[s]*50}px;
-														width:${studSyllDurs[s]*300}px;
-														background:blue;border:1px solid blue;border-radius:10px;margin-bottom:3px;"
-												 title="Duration (width): ${(studSyllDurs[s]*100).round(2)}% of word  &#013Pitch (height): ${(studSyllF0s[s]*100).round(2)}% of mean">
-											</div>
-											</div>
+											<g:if test="${ex.feedbackMethod.displayShapes == true}">
+												<div style="height:100px;display:table-cell;vertical-align:bottom;">
+												<div style="height:${studSyllF0s[s]*50}px;
+															width:${studSyllDurs[s]*300}px;
+															background:blue;border:1px solid blue;border-radius:10px;margin-bottom:3px;"
+													 title="Duration (width): ${(studSyllDurs[s]*100).round(2)}% of word  &#013Pitch (height): ${(studSyllF0s[s]*100).round(2)}% of mean">
+												</div>
+												</div>
+											</g:if>
 										<a>
 											<g:if test="${ex.feedbackMethod.styleText == true}">
+												<div style="height:80px;display:table-cell;vertical-align:bottom;">
 												<span style="font-size:${studSyllDurs[s]*3}em" title="Syllable duration: ${studSyllDurs[s]}% of word">
 											</g:if>
-												${ex.word.syllables[s]}
-											</span>
-
+													${ex.word.syllables[s]}
+											<g:if test="${ex.feedbackMethod.styleText == true}">
+												</span>
+												</div>
+											</g:if>
 										</a>
 										</div>
 									</g:each>
@@ -96,19 +101,25 @@
 					                        <g:each var="s" in="${ (0..1) }">
 
 												<div style="display:table-cell;padding:2px;text-align:left">
-													<div style="height:100px;display:table-cell;vertical-align:bottom;">
-													<div style="height:${refSyllF0s[refUtts.indexOf(refUtt)][s]*50}px;
-																width:${refSyllDurs[refUtts.indexOf(refUtt)][s]*300}px;
-																background:green;border:1px solid green;border-radius:10px;margin-bottom:3px;"
-														title="Duration: ${(refSyllDurs[refUtts.indexOf(refUtt)][s]*100).round(2)}% of word &#013Pitch: ${refSyllF0s[refUtts.indexOf(refUtt)][s]*100}% of mean">
-													</div>
-													</div>
+													<g:if test="${ex.feedbackMethod.displayShapes == true}">
+														<div style="height:100px;display:table-cell;vertical-align:bottom;">
+														<div style="height:${refSyllF0s[refUtts.indexOf(refUtt)][s]*50}px;
+																	width:${refSyllDurs[refUtts.indexOf(refUtt)][s]*300}px;
+																	background:green;border:1px solid green;border-radius:10px;margin-bottom:3px;"
+															title="Duration: ${(refSyllDurs[refUtts.indexOf(refUtt)][s]*100).round(2)}% of word &#013Pitch: ${refSyllF0s[refUtts.indexOf(refUtt)][s]*100}% of mean">
+														</div>
+														</div>
+													</g:if>
 						                            <a>
 														<g:if test="${ex.feedbackMethod.styleText == true}">
+															<div style="height:80px;display:table-cell;vertical-align:bottom;">
 															<span style="font-size:${refSyllSizes[refUtts.indexOf(refUtt)][s]}em">
 														</g:if>
-														<!--<span style="letter-spacing:${refSyllSizes[refUtts.indexOf(refUtt)][s]}px">-->
-														${ex.word.syllables[s]}
+																${ex.word.syllables[s]}
+														<g:if test="${ex.feedbackMethod.styleText == true}">
+															</span>
+															</div>
+														</g:if>
 													</a>
 												</div>
 					                        </g:each>
@@ -149,10 +160,42 @@
 					<div style="margin-top:40px;text-align:center;">
 						<h2>Your scores</h2>
 						<table>
-							<tr><td style="width:10%">Duration</td><td style="width:80%"><div style="width:100%; margin:5px; border:1px solid black"><div style="height:40px; background:${durCol}; width:${durPct}%"></div></div></td><td style="width:10%">${durPct}%</td>
-							<tr><td style="width:10%">Pitch</td><td style="width:80%"><div style="width:100%; margin:5px; border:1px solid black"><div style="height:40px; background:${f0Col}; width:${f0Pct}%"></div></div></td><td style="width:10%">${f0Pct}%</td>
-							<tr><td style="width:10%">Intensity</td><td style="width:80%"><div style="width:100%; margin:5px; border:1px solid black"><div style="height:40px; background:${intCol}; width:${intPct}%"></div></div></td><td style="width:10%">${intPct}%</td>
-							<tr><td style="width:10%">Overall</td><td style="width:80%"><div style="width:100%; margin:5px; border:1px solid black"><div style="height:50px; background:${allCol}; width:${allPct}%"></div></div></td><td style="width:10%">${allPct}%</td>
+							<tr>
+								<td style="width:10%;vertical-align:middle;">Duration</td>
+								<td style="width:80%">
+									<div style="width:100%; margin:5px; border:1px solid black">
+										<div style="height:40px; background:${durCol}; width:${durPct}%"></div>
+									</div>
+								</td>
+								<td style="width:10%;vertical-align:middle;">${durPct.round()}%</td>
+							</tr>
+							<tr>
+								<td style="width:10%;vertical-align:middle;">Pitch</td>
+								<td style="width:80%">
+									<div style="width:100%; margin:5px; border:1px solid black">
+										<div style="height:40px; background:${f0Col}; width:${f0Pct}%"></div>
+									</div>
+								</td>
+								<td style="width:10%;vertical-align:middle;">${f0Pct.round()}%</td>
+							</tr>
+							<tr>
+								<td style="width:10%;vertical-align:middle;">Intensity</td>
+								<td style="width:80%">
+									<div style="width:100%; margin:5px; border:1px solid black">
+										<div style="height:40px; background:${intCol}; width:${intPct}%"></div>
+									</div>
+								</td>
+								<td style="width:10%;vertical-align:middle;">${intPct.round()}%</td>
+							</tr>
+							<tr>
+								<td style="width:10%;vertical-align:middle;">Overall</td>
+								<td style="width:80%">
+									<div style="width:100%; margin:5px; border:1px solid black">
+										<div style="height:50px; background:${allCol}; width:${allPct}%"></div>
+									</div>
+								</td>
+								<td style="width:10%;vertical-align:middle;">${allPct.round()}%</td>
+							</tr>
 						</table>
 					</div>
 				</g:if>
