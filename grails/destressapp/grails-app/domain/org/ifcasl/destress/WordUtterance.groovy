@@ -12,12 +12,25 @@ class WordUtterance {
         return sentenceUtterance.toString() + "_" + word.text
     }
 
+    static constraints = {
+        sentenceUtterance()
+        word()
+        WORD_DUR(blank:true,nullable:true)
+        SYLL0_DUR(blank:true,nullable:true)
+        SYLL1_DUR(blank:true,nullable:true)
+        SYLL0_F0_MEAN(blank:true,nullable:true)
+        SYLL1_F0_MEAN(blank:true,nullable:true)
+        SYLL0_F0_RANGE(blank:true,nullable:true)
+        SYLL1_F0_RANGE(blank:true,nullable:true)
+
+    }
+
 
     //
     // //// Duration
-    // Float WORD_DUR
-    // Float SYLL0_DUR
-    // Float SYLL1_DUR
+    Float WORD_DUR
+    Float SYLL0_DUR
+    Float SYLL1_DUR
     // Float V0_DUR
     // Float V1_DUR
     // Float REL_SYLL_DUR
@@ -30,14 +43,14 @@ class WordUtterance {
     // Float WORD_F0_MIN
     // Float WORD_F0_RANGE
     // //Syllables
-    // Float SYLL0_F0_MEAN
+    Float SYLL0_F0_MEAN
     // Float SYLL0_F0_MAX
     // Float SYLL0_F0_MIN
-    // Float SYLL0_F0_RANGE
-    // Float SYLL1_F0_MEAN
+    Float SYLL0_F0_RANGE
+    Float SYLL1_F0_MEAN
     // Float SYLL1_F0_MAX
     // Float SYLL1_F0_MIN
-    // Float SYLL1_F0_RANGE
+    Float SYLL1_F0_RANGE
     // //Vowels
     // Float V0_F0_MEAN
     // Float V0_F0_MAX

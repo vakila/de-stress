@@ -193,6 +193,9 @@ class BootStrap {
 						)
 					wordUtt.save()
 					print "Done."
+
+					// Extract wordUtterance Features
+					FeatureUtil.extractWordUtteranceFeatures(wordUtt)
 				}
 
 			}

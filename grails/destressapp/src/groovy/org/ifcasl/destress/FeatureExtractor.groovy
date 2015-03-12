@@ -60,7 +60,7 @@ class FeatureExtractor {
 		this.pitchAnalysis = new PitchAnalysis(this.audioSignal)
 		this.energyAnalysis = new EnergyAnalysis(this.audioSignal, 20d)
 		//println("ENERGY depEner IN MILLISECONDS: " + TimeConversion.enMillif((double) this.energyAnalysis.energyComputer.depEner, this.audioSignal))
-		
+
 //		// Create a new FeedbackComputer
 //		// (includes Feedback, TimeFeedback, and PitchFeedback)
 //		// where the trial and example audio are the same
@@ -68,133 +68,55 @@ class FeatureExtractor {
 
 	}
 
-	////////// REPORTING (PRINT) METHODS //////////
 
-	public String toString() {
-		String description = "FeatureExtractor object:\n"
-		description += "\twavFile:\t" + this.wavFile + "\n"
-		description += "\tgridFile:\t" + this.gridFile + "\n"
-		return description
+	//TODO NEW CONSTRUCTOR FOR WHOLE SENTENCE UTTERANCE
+	public FeatureExtractor(String wavFile, String gridFile) {
+		this.wavFile = wavFile
+		this.gridFile = gridFile
+		this.audioSignal = new AudioSignal(wavFile, wavFile) //passing wavFile as both "name" and "wavefile" params
+		String nameSegFile = gridFile
+		this.audioSignal.openSegmentationFile(new TextGridSegmentationFileUtils(), nameSegFile)
+		this.audioSignal.segmentationList.setPhoneSegmentation(this.audioSignal.segmentationList.getSegmentation("RealTier"))
+		this.audioSignal.segmentationList.setSyllablesSegmentation(this.audioSignal.segmentationList.getSegmentation("SyllableTier"))
+		this.wordsSegmentation = this.audioSignal.segmentationList.getSegmentation("WordTier")
+		this.pitchAnalysis = new PitchAnalysis(this.audioSignal)
+		this.energyAnalysis = new EnergyAnalysis(this.audioSignal, 20d)
 	}
 
-	public String printWordDurations() {
-		return printSegDurations(this.wordsSegmentation)
-	}
 
-	public String printSyllableDurations() {
-		//return printSegLengths(this.audioSignal.segmentationList.seg_syllables)
-		//def syllables = getSyllableSegments()
-		double wordBegin = this.wordSegment.getBegin()
-		double wordEnd = this.wordSegment.getEnd()
-		def syllables = this.audioSignal.segmentationList.seg_syllables.getExtractedSegments(wordBegin, wordEnd)
-		return printSegDurations(syllables)
+
+
+	////////// DURATION METHODS //////////
+
+	/**
+	 * Returns the duration (length) of the entire signal (includes silence)
+	 * @return
+	 */
+	public double getTotalDuration() {
+		return audioSignal.segmentationList.getLength()
 	}
 
 	/**
-	 * Returns HTML code displaying the name and duration
-	 *  of each segment in the given collection of Segments.
-	 *  Collection can be a Segmentation object or a
-	 *  List or Array of Segment objects.
-	 * @param segmentCollection		Segmentation, List<Segment>, or Segment[]
-	 * @return						String of HTML code
-	 */
-	public String printSegDurations(Object segmentCollection) {
-		def segs
-		if (segmentCollection == null) {
-			return "Null segmentation"
-		}
-		else if (segmentCollection.getClass().equals(Segmentation)) {
-			segs = segmentCollection.segments
-		}
-		else //if (segmentCollection.getClass().equals(List))
-		{
-			segs = segmentCollection
-		}
-		def output = []
-		for (Segment seg : segs) {
-			output.add(seg.name + " : " + seg.getLength().toString())
-		}
-		return "<p>" + output.join("</p><p>") + "</p>"
+	* Returns the duration (length) of the segmentation once starting and ending
+	* silences have been removed (based on syllable_real_start_position and
+	* syllable_real_number)
+	* @return
+	*/
+	public double getSpeakingDuration() {
+		int firstSyllableIndex = pitchAnalysis.getSyllable_real_start_position()
+		Segment firstSyllable = audioSignal.segmentationList.getSyllablesSegmentation().getSegment(firstSyllableIndex)
+		println("firstSyllable: " + firstSyllableIndex + " - " + firstSyllable.getName())
 
+		int lastSyllableIndex = firstSyllableIndex + pitchAnalysis.getSyllable_real_number() - 1
+		Segment lastSyllable = audioSignal.segmentationList.getSyllablesSegmentation().getSegment(lastSyllableIndex)
+		println("lastSyllable: " + lastSyllableIndex + " - " + lastSyllable.getName())
+
+		double startTime = firstSyllable.getBegin() //seconds
+		double endTime = lastSyllable.getEnd() //seconds
+
+		return endTime - startTime
 	}
 
-	public String printWordInfo() {
-		int wordSegId = getWordId(word)
-		//Segment wordSeg = getWordSeg()
-
-		// Word text & ID
-		String output = "<p>WORD: " + word + "</p>"
-		output += "<p>ID: " + wordSegId.toString() + "</p>"
-
-		// Duration
-		output += "<p>START: " + wordSegment.getBegin().toString() + "</p>"
-		output += "<p>END: " + wordSegment.getEnd().toString() + "</p>"
-		output += "<p>DURATION: " + wordSegment.getLengthMs().toString() + " ms</p>"
-
-		//TODO F0
-
-		//TODO Energy
-
-		return output
-
-	}
-
-// 	public String printVowelDurations() {
-// 		String output = "<h3>Vowel durations</h3>"
-// 		double wordDur = this.wordSegment.getLength()
-// 		output += "<p>Word: " + this.word + "</p>"
-// 		output += "<p>wordDur: " + wordDur.toString() + "</p>"
-// 		//output += "<p>" + this.word + " " + wordDur.toString() + "</p>"
-//
-// //		double totalVowelDur = this.fb.timeFeedback.computeTotalVowelDuration(this.extractedPhons)
-// //		double totalVowelDurWithSylls = this.fb.timeFeedback.computeTotalVowelDurationWithSyllables(this.extractedPhons, this.extractedSylls)
-// //		output += "<p>totalVowelDur: " + totalVowelDur.toString() + "</p>"
-// //		output += "<p>totalVowelDurWithSylls: " + totalVowelDurWithSylls.toString() + "</p>"
-//
-// 		//output += "<br><br>"
-//
-// //		double totalvowelduration_in_syllables = 0
-// //		for (int p = 0; p < this.extractedPhons.getSegmentCount(); p++) {
-// //			String phSampa = this.extractedPhons.getSegment(p).getName();
-// //			if (! phSampa.contains("_")) {
-// //				String phIpa = this.fb.feedback.getPhoneticSymbolMapper().SAMPAtoIPA(phSampa)
-// //						output += "<p>" + p.toString() + " " + phSampa + " " + phIpa + " " + this.fb.feedback.getPhoneticFeatures().isVowel(phIpa).toString() + "</p>"
-// //						if (this.fb.feedback.getPhoneticFeatures().isVowel(phIpa)) {
-// //							totalvowelduration_in_syllables += this.extractedPhons.getSegment(p).getLength();
-// //						}
-// //			}
-// //		}
-//
-// 		double wordVowelDur = getVowelDuration(this.extractedPhons)
-// 		output += "<p>wordVowelDur: " + wordVowelDur.toString() + "</p><br>"
-//
-// 		output += """<table>
-// 						<tr>
-// 							<td>Syllable</td>
-// 							<td>Dur</td>
-// 							<td>VowelDur</td>
-// 							<td>V%WordDur</td>
-// 							<td>V%SyllDur</td>
-// 							<td>V%WordVowelDur</td>
-// 						</tr>"""
-//
-// 		for (Segment syll : this.extractedSylls) {
-// 			Segmentation syllPhonSeg = extractPartialSegmentation(this.extractedPhons, syll)
-// 			double syllVowelDur = getVowelDuration(syllPhonSeg)
-// 			output += "<tr><td>" + syll.name + "</td>"
-// 			output += "<td>" + syll.getLength().toString() + "</td>"
-// 			output += "<td>" + syllVowelDur.toString() + "</td>"
-// 			output += "<td>" + (syllVowelDur/wordDur*100).toString() + "%</td>"
-// 			output += "<td>" + (syllVowelDur/syll.getLength()*100).toString() + "%</td>"
-// 			output += "<td>" + (syllVowelDur/wordVowelDur*100).toString() + "%</td>"
-// 			output += "</tr>"
-// 		}
-//
-// 		output += "</table>"
-// 		return output
-// 	}
-
-	////////// DURATION METHODS //////////
 
 	/**
 	 * Returns the duration (length) of this.wordSegment
@@ -723,6 +645,133 @@ class FeatureExtractor {
 	}
 
 
-	
+
+	////////// REPORTING (PRINT) METHODS //////////
+
+	public String toString() {
+		String description = "FeatureExtractor object:\n"
+		description += "\twavFile:\t" + this.wavFile + "\n"
+		description += "\tgridFile:\t" + this.gridFile + "\n"
+		return description
+	}
+
+	public String printWordDurations() {
+		return printSegDurations(this.wordsSegmentation)
+	}
+
+	public String printSyllableDurations() {
+		//return printSegLengths(this.audioSignal.segmentationList.seg_syllables)
+		//def syllables = getSyllableSegments()
+		double wordBegin = this.wordSegment.getBegin()
+		double wordEnd = this.wordSegment.getEnd()
+		def syllables = this.audioSignal.segmentationList.seg_syllables.getExtractedSegments(wordBegin, wordEnd)
+		return printSegDurations(syllables)
+	}
+
+	/**
+	 * Returns HTML code displaying the name and duration
+	 *  of each segment in the given collection of Segments.
+	 *  Collection can be a Segmentation object or a
+	 *  List or Array of Segment objects.
+	 * @param segmentCollection		Segmentation, List<Segment>, or Segment[]
+	 * @return						String of HTML code
+	 */
+	public String printSegDurations(Object segmentCollection) {
+		def segs
+		if (segmentCollection == null) {
+			return "Null segmentation"
+		}
+		else if (segmentCollection.getClass().equals(Segmentation)) {
+			segs = segmentCollection.segments
+		}
+		else //if (segmentCollection.getClass().equals(List))
+		{
+			segs = segmentCollection
+		}
+		def output = []
+		for (Segment seg : segs) {
+			output.add(seg.name + " : " + seg.getLength().toString())
+		}
+		return "<p>" + output.join("</p><p>") + "</p>"
+
+	}
+
+	public String printWordInfo() {
+		int wordSegId = getWordId(word)
+		//Segment wordSeg = getWordSeg()
+
+		// Word text & ID
+		String output = "<p>WORD: " + word + "</p>"
+		output += "<p>ID: " + wordSegId.toString() + "</p>"
+
+		// Duration
+		output += "<p>START: " + wordSegment.getBegin().toString() + "</p>"
+		output += "<p>END: " + wordSegment.getEnd().toString() + "</p>"
+		output += "<p>DURATION: " + wordSegment.getLengthMs().toString() + " ms</p>"
+
+		//TODO F0
+
+		//TODO Energy
+
+		return output
+
+	}
+
+// 	public String printVowelDurations() {
+// 		String output = "<h3>Vowel durations</h3>"
+// 		double wordDur = this.wordSegment.getLength()
+// 		output += "<p>Word: " + this.word + "</p>"
+// 		output += "<p>wordDur: " + wordDur.toString() + "</p>"
+// 		//output += "<p>" + this.word + " " + wordDur.toString() + "</p>"
+//
+// //		double totalVowelDur = this.fb.timeFeedback.computeTotalVowelDuration(this.extractedPhons)
+// //		double totalVowelDurWithSylls = this.fb.timeFeedback.computeTotalVowelDurationWithSyllables(this.extractedPhons, this.extractedSylls)
+// //		output += "<p>totalVowelDur: " + totalVowelDur.toString() + "</p>"
+// //		output += "<p>totalVowelDurWithSylls: " + totalVowelDurWithSylls.toString() + "</p>"
+//
+// 		//output += "<br><br>"
+//
+// //		double totalvowelduration_in_syllables = 0
+// //		for (int p = 0; p < this.extractedPhons.getSegmentCount(); p++) {
+// //			String phSampa = this.extractedPhons.getSegment(p).getName();
+// //			if (! phSampa.contains("_")) {
+// //				String phIpa = this.fb.feedback.getPhoneticSymbolMapper().SAMPAtoIPA(phSampa)
+// //						output += "<p>" + p.toString() + " " + phSampa + " " + phIpa + " " + this.fb.feedback.getPhoneticFeatures().isVowel(phIpa).toString() + "</p>"
+// //						if (this.fb.feedback.getPhoneticFeatures().isVowel(phIpa)) {
+// //							totalvowelduration_in_syllables += this.extractedPhons.getSegment(p).getLength();
+// //						}
+// //			}
+// //		}
+//
+// 		double wordVowelDur = getVowelDuration(this.extractedPhons)
+// 		output += "<p>wordVowelDur: " + wordVowelDur.toString() + "</p><br>"
+//
+// 		output += """<table>
+// 						<tr>
+// 							<td>Syllable</td>
+// 							<td>Dur</td>
+// 							<td>VowelDur</td>
+// 							<td>V%WordDur</td>
+// 							<td>V%SyllDur</td>
+// 							<td>V%WordVowelDur</td>
+// 						</tr>"""
+//
+// 		for (Segment syll : this.extractedSylls) {
+// 			Segmentation syllPhonSeg = extractPartialSegmentation(this.extractedPhons, syll)
+// 			double syllVowelDur = getVowelDuration(syllPhonSeg)
+// 			output += "<tr><td>" + syll.name + "</td>"
+// 			output += "<td>" + syll.getLength().toString() + "</td>"
+// 			output += "<td>" + syllVowelDur.toString() + "</td>"
+// 			output += "<td>" + (syllVowelDur/wordDur*100).toString() + "%</td>"
+// 			output += "<td>" + (syllVowelDur/syll.getLength()*100).toString() + "%</td>"
+// 			output += "<td>" + (syllVowelDur/wordVowelDur*100).toString() + "%</td>"
+// 			output += "</tr>"
+// 		}
+//
+// 		output += "</table>"
+// 		return output
+// 	}
+
+
 
 }
