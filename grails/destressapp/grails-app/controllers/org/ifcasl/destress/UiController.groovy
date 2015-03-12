@@ -4,8 +4,6 @@ class UiController {
 
 
     def index() {
-        println("Made it to index()")
-
         def id = params['id']
         def ex = Exercise.get(id)
         def cFG = WordUtterance.createCriteria()
@@ -75,32 +73,7 @@ class UiController {
         return false
     }
 
-
-    // def selfassess() {
-    //     println("Made it to selfassess()")
-    //     if (request.method == 'POST') {
-    //         // save self-assessment somewhere
-    //         redirect(action: feedback, id:params['id'], params:params)
-    //     } else {
-    //         def ex = Exercise.get(params['id'])
-    //         def studUtt = WordUtterance.get(params['fgUtts.id'])
-    //         def studWav = studUtt.sentenceUtterance.sampleName + ".wav"
-    //
-    //         def refUtts = []
-    //         def nRefs = ex.diagnosisMethod.numberOfReferences
-    //         for (i in 1..nRefs) {
-    //             def refUtt = WordUtterance.get(params['ggUtts.' + i])
-    //             refUtts.add(refUtt)
-    //         }
-    //
-    //         [ex:ex,studUtt:studUtt,refUtts:refUtts,studWav:studWav]
-    //     }
-    // }
-
-
     def feedback() {
-        println("Made it to feedback()")
-
         def ex = Exercise.get(params['id'])
 
         //def basePath = grailsApplication.mainContext.servletContext.getRealPath("/web-app/")
