@@ -53,12 +53,18 @@ body {
 
 #destressLogo {
 	background-color: #1E90FF;
+	#padding:5px;
 }
 
 #destressLogo h1 {
 	color: #ffffff;
 	font-size: 4em;
 	font-weight: bold;
+	padding:10px;
+}
+
+#destressLogo a {
+	text-decoration: none;
 }
 
 /* replace with .no-boxshadow body if you have modernizr available */
