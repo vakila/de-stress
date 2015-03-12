@@ -84,12 +84,20 @@ class UiController {
         def refUtts = []
         //def refWavs = []
         def nRefs = ex.diagnosisMethod.numberOfReferences
+        // def refSyllSizes = [:]
+        // def r0Pct
+        // def r1Pct
+        // def r0Size
+        // def r1Size
         for (i in 1..nRefs) {
             def refUtt = WordUtterance.get(params['ggUtts.' + i])
             //def refWav = grailsApplication.parentContext.getResource("/audio/" + refUtt.sentenceUtterance.sampleName + ".wav")
             //def refWav = refUtt.sentenceUtterance.sampleName + ".wav"
             refUtts.add(refUtt)
             //refWavs.add(refWav)
+
+
+
         }
         //TODO validate that input from multiple refUtts selects are not the same utterance
 
@@ -107,8 +115,38 @@ class UiController {
         def allCol = DiagnosisUtil.getColor(diag.overallScore)
 
         // get feedback audio
-        def fbWav = diag.feedbackWaveFile
-        println fbWav
+        def fbWav
+        fbWav = diag.feedbackWaveFile // might be null
+        println("fbWav: " + fbWav)
+
+        /// get syllable sizes for studUtt
+        def s0Pct = studUtt.SYLL0_DUR / studUtt.WORD_DUR
+        def s1Pct = studUtt.SYLL1_DUR / studUtt.WORD_DUR
+        println("studUtt: " + studUtt + "\ts0Pct: " + s0Pct + "\ts1Pct: " + s1Pct)
+        def studSyllDurs = [s0Pct, s1Pct]
+        def s0Size = s0Pct * 3
+        def s1Size = s1Pct * 3
+        def studSyllSizes = [s0Size, s1Size]
+
+        /// get syllable sizes for refUtts
+        def refSyllDurs = []
+        def refSyllSizes = []
+        for (WordUtterance refUtt in refUtts) {
+            /// get syllable sizes
+            // def r0Pct = refUtt.SYLL0_DUR / refUtt.WORD_DUR
+            // def r1Pct = refUtt.SYLL1_DUR / refUtt.WORD_DUR
+            // //println("refUtt: " + refUtt.toString() + "\ts0Pct: " + s0Pct + "\ts1Pct: " + s1Pct)
+            // def r0Size = s0Pct * 3
+            // def r1Size = s1Pct * 3
+
+            refSyllDurs.add [(refUtt.SYLL0_DUR/refUtt.WORD_DUR), (refUtt.SYLL1_DUR / refUtt.WORD_DUR)]
+
+            //refSyllSizes.add([r0Size,r1Size])
+            refSyllSizes.add([((refUtt.SYLL0_DUR/refUtt.WORD_DUR)*3),((refUtt.SYLL1_DUR / refUtt.WORD_DUR)*3)])
+            println("refUtt: " + refUtt + "\trefSyllSizes: " + refSyllSizes[refUtts.indexOf(refUtt)])
+        }
+
+
 
 
         //render(view:"exercise", model:[ex:ex,fgUtts:[],ggUtts:[]])
@@ -118,7 +156,11 @@ class UiController {
                durPct:durPct,durCol:durCol,
                f0Pct:f0Pct,f0Col:f0Col,
                intPct:intPct,intCol:intCol,
-               allPct:allPct,allCol:allCol]//,refWavs:refWavs]
+               allPct:allPct,allCol:allCol,
+               studSyllSizes:studSyllSizes,
+               refSyllSizes:refSyllSizes,
+               studSyllDurs:studSyllDurs,
+               refSyllDurs:refSyllDurs]//,refWavs:refWavs]
     }
 
 

@@ -85,8 +85,14 @@ class DiagnosisUtil {
             println ("waveName: " + waveName)
             def grailsApplication = new Diagnosis().domainClass.grailsApplication
             def feedbackPath = grailsApplication.mainContext.servletContext.getRealPath("/") + "audio/feedback/" + waveName
-            diag.feedbackWaveFile = waveName
-            fbc.feedbackSignal.saveWave(new File(feedbackPath))
+
+            if (fbc.feedbackSignal != null) {
+                diag.feedbackWaveFile = waveName
+                fbc.feedbackSignal.saveWave(new File(feedbackPath))
+            }
+            else {
+                println("ERROR feedbackSignal is null!")
+            }
         }
 
         // save & return
