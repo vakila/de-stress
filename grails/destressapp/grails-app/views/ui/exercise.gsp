@@ -36,9 +36,7 @@
 			<div style="padding:20px; margin:auto; width:60%;">
 				<h3>Choose utterance to evaluate</h3>
 
-				<g:form controller="ui"
-						action="feedback"
-						id="${ex.id}">
+				<g:form controller="ui" action="feedback" id="${ex.id}">
 					<table style="margin:auto">
 					<tr>
 			            <td><label><h4>Student utterance:</h4> </label></td>
@@ -61,7 +59,14 @@
 					</g:if>
 					</table>
 
-		            <g:submitButton name="Submit" value="Submit"/>
+				<!--	<div style="display:block;text-align:center;"
+						<g:if test=>
+							<g:actionSubmit value="Continue" action="selfassess" />
+						</g:if>
+						<g:else>-->
+			            	<g:submitButton name="Continue" value="Submit"/>
+							<!--		</g:else>
+					</div> -->
 		        </g:form>
 
 			</div>
