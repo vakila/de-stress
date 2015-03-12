@@ -264,10 +264,11 @@ class BootStrap {
 		//// CREATE FEEDBACK METHODS
 		def fm1 = new FeedbackMethod(
 			name:"JsnooriFM",
-			description:"Simple, requires Jsnoori scorer",
+			description:"All possible feedback from Jsnoori scorer",
 			requiresScorerType:"JSNOORI",
 			showSkillBars:true,
 			playFeedbackSignal:true,
+			styleText:true,
 			)
 		fm1.save()
 
@@ -309,7 +310,7 @@ class BootStrap {
 
 		def ex4 = new Exercise(
 			name:"SimpleExercise",
-			description:"Simplest config possible",
+			description:"Simple Jsnoori comparison, all FB types",
 			word:Word.get(1),
 			diagnosisMethod:dm1,
 			feedbackMethod:fm1)

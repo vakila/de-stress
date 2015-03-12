@@ -123,7 +123,7 @@ class UiController {
         def s0Pct = studUtt.SYLL0_DUR / studUtt.WORD_DUR
         def s1Pct = studUtt.SYLL1_DUR / studUtt.WORD_DUR
         println("studUtt: " + studUtt + "\ts0Pct: " + s0Pct + "\ts1Pct: " + s1Pct)
-        def studSyllDurs = [s0Pct, s1Pct]
+        def studSyllDurs = [s0Pct.round(2), s1Pct.round(2)]
         def s0Size = s0Pct * 3
         def s1Size = s1Pct * 3
         def studSyllSizes = [s0Size, s1Size]
@@ -139,7 +139,7 @@ class UiController {
             // def r0Size = s0Pct * 3
             // def r1Size = s1Pct * 3
 
-            refSyllDurs.add [(refUtt.SYLL0_DUR/refUtt.WORD_DUR), (refUtt.SYLL1_DUR / refUtt.WORD_DUR)]
+            refSyllDurs.add([(refUtt.SYLL0_DUR/refUtt.WORD_DUR).round(2), (refUtt.SYLL1_DUR / refUtt.WORD_DUR).round(2)])
 
             //refSyllSizes.add([r0Size,r1Size])
             refSyllSizes.add([((refUtt.SYLL0_DUR/refUtt.WORD_DUR)*3),((refUtt.SYLL1_DUR / refUtt.WORD_DUR)*3)])

@@ -24,7 +24,7 @@
 
 						<!--
 						<g:each var="syll" in="${ex.word.syllables}">
-                            <a><span style="font-size:2em;">${syll}</a>
+                            <a><span style="font-size:2em;">${syll}</span></a>
                         </g:each>
 						-->
 
@@ -50,7 +50,19 @@
 								<div style="width:90%; text-align:left; font-size:2em; margin-left:auto; margin-right:auto;">
 			                    <!--<g:link controller="Word" action="show" id="${ex.word.id}">-->
 									<g:each var="s" in="${ (0..1) }">
-										<a title="Syllable duration: ${studSyllDurs[s]}% of word"><span style="font-size:${studSyllDurs[s]*3}em">${ex.word.syllables[s]}</b></a>
+										<div style="display:table-cell;padding:2px;text-align:left">
+											<div style="height:40px;width:${studSyllDurs[s]*300}px;background:blue;border:1px solid blue;border-radius:10px;margin-bottom:3px;"
+												 title="Duration: ${(studSyllDurs[s]*100).round(2)}% of word">
+											</div>
+										<a>
+											<g:if test="${ex.feedbackMethod.styleText == true}">
+												<span style="font-size:${studSyllDurs[s]*3}em" title="Syllable duration: ${studSyllDurs[s]}% of word">
+											</g:if>
+												${ex.word.syllables[s]}
+											</span>
+
+										</a>
+										</div>
 									</g:each>
 			                    <!--</g:link>-->
 								</div>
@@ -77,10 +89,18 @@
 								<td style="width:50%;vertical-align:middle">
 									<div style="width:90%; text-align:left; font-size:2em; margin-left:auto; margin-right:auto;">
 					                        <g:each var="s" in="${ (0..1) }">
-					                            <a>
-													<span style="font-size:${refSyllSizes[refUtts.indexOf(refUtt)][s]}em">
-													<!--<span style="letter-spacing:${refSyllSizes[refUtts.indexOf(refUtt)][s]}px">-->
-													${ex.word.syllables[s]}</a>
+												<div style="display:table-cell;padding:2px;text-align:left">
+													<div style="height:40px;width:${refSyllDurs[refUtts.indexOf(refUtt)][s]*300}px;background:blue;border:1px solid blue;border-radius:10px;margin-bottom:3px;"
+														title="Duration: ${(refSyllDurs[refUtts.indexOf(refUtt)][s]*100).round(2)}% of word">
+													</div>
+						                            <a>
+														<g:if test="${ex.feedbackMethod.styleText == true}">
+															<span style="font-size:${refSyllSizes[refUtts.indexOf(refUtt)][s]}em">
+														</g:if>
+														<!--<span style="letter-spacing:${refSyllSizes[refUtts.indexOf(refUtt)][s]}px">-->
+														${ex.word.syllables[s]}
+													</a>
+												</div>
 					                        </g:each>
 									</div>
 								</td>
@@ -96,11 +116,20 @@
 					</g:each>
 					<g:if test="${ex.feedbackMethod.playFeedbackSignal == true}">
 						<g:if test="${fbWav != null}">
-							<div style="padding:10px;">
-								<h3>Feedback utterance:</h3>
-								<p>${diag}</p>
-								<audio src="<g:resource dir="audio/feedback" file="${fbWav}" />" controls></audio>
-								<p><g:link action="downloadFeedback" id="${diag.id}">Download</g:link></p>
+							<div style="padding:10px">
+								<table style="border-bottom:1px solid #DFDFDF;">
+									<tr>
+
+									<td style="width:70%;vertical-align:middle">
+										<h3>Feedback utterance:</h3>
+									</td>
+									<td style="width:30%;vertical-align:middle">
+										<p>${diag}</p>
+										<audio src="<g:resource dir="audio/feedback" file="${fbWav}" />" controls></audio>
+										<p><g:link action="downloadFeedback" id="${diag.id}">Download</g:link></p>
+									</td>
+									</tr>
+								</table>
 							</div>
 						</g:if>
 					</g:if>
