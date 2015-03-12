@@ -23,6 +23,9 @@ class WordUtterance {
         SYLL1_F0_MEAN(blank:true,nullable:true)
         SYLL0_F0_RANGE(blank:true,nullable:true)
         SYLL1_F0_RANGE(blank:true,nullable:true)
+        WORD_ENERGY_MEAN(blank:true,nullable:true)
+        SYLL0_ENERGY_MEAN(blank:true,nullable:true)
+        SYLL1_ENERGY_MEAN(blank:true,nullable:true)
 
     }
 
@@ -76,12 +79,12 @@ class WordUtterance {
     //
     // //// Energy
     // //Word
-    // Float WORD_ENERGY_MEAN
+    Float WORD_ENERGY_MEAN
     // Float WORD_ENERGY_MAX
     // //Syllables
-    // Float SYLL0_ENERGY_MEAN
+    Float SYLL0_ENERGY_MEAN
     // Float SYLL0_ENERGY_MAX
-    // Float SYLL1_ENERGY_MEAN
+    Float SYLL1_ENERGY_MEAN
     // Float SYLL1_ENERGY_MAX
     // //Vowels
     // Float V0_ENERGY_MEAN

@@ -56,8 +56,9 @@
 												<div style="height:100px;display:table-cell;vertical-align:bottom;">
 												<div style="height:${studSyllF0s[s]*50}px;
 															width:${studSyllDurs[s]*300}px;
+															opacity:${studSyllInts[s]};
 															background:blue;border:1px solid blue;border-radius:10px;margin-bottom:3px;"
-													 title="Duration (width): ${(studSyllDurs[s]*100).round(2)}% of word  &#013Pitch (height): ${(studSyllF0s[s]*100).round(2)}% of mean">
+													 title="Duration (width): ${(studSyllDurs[s]*100).round(2)}% of word  &#013Pitch (height): ${(studSyllF0s[s]*100).round(2)}% of mean &#013Intensity (darkness): ${studSyllInts[s]}% of mean">
 												</div>
 												</div>
 											</g:if>
@@ -105,6 +106,7 @@
 														<div style="height:100px;display:table-cell;vertical-align:bottom;">
 														<div style="height:${refSyllF0s[refUtts.indexOf(refUtt)][s]*50}px;
 																	width:${refSyllDurs[refUtts.indexOf(refUtt)][s]*300}px;
+																	opacity:${refSyllInts[refUtts.indexOf(refUtt)][s]};
 																	background:green;border:1px solid green;border-radius:10px;margin-bottom:3px;"
 															title="Duration: ${(refSyllDurs[refUtts.indexOf(refUtt)][s]*100).round(2)}% of word &#013Pitch: ${refSyllF0s[refUtts.indexOf(refUtt)][s]*100}% of mean">
 														</div>

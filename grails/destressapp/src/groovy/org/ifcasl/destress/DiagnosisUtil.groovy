@@ -2,6 +2,8 @@ package org.ifcasl.destress
 
 class DiagnosisUtil {
 
+
+
     static Diagnosis getDiagnosis(Exercise ex, WordUtterance studUtt, List refUtts) {
         def scorer = ex.diagnosisMethod.scorer
         def fbc
@@ -110,6 +112,56 @@ class DiagnosisUtil {
             col = "green"
         }
         return col
+    }
+
+    public static String getDurationMessage(Diagnosis diag) {
+        def durScore = diag.durationScore
+        def message = "Sorry, I wasn't able to analyze duration in your utterance."
+        if (durScore == 0.1) {
+            message = "Incorrect number of syllables."
+        }
+        else if (durScore == 0.3) {
+            message = "Incorrect number of phones."
+        }
+        else if (durScore == 0.5) {
+            message = "The wrong syllable has the longest vowel."
+        }
+        else if (durScore == 0.8) {
+            message = "The correct syllable's vowel is longest, good job! But it should be even longer compared to the unstressed syllable."
+        }
+        else if (durScore == 1.0) {
+            message = "No problems with duration, great job!"
+        }
+        return message
+    }
+
+    public static String getF0Message(Diagnosis diag) {
+        def f0Score = diag.f0Score
+        def message = "Sorry, I wasn't able to analyze pitch in your utterance."
+        if (f0Score == 0.1) {
+            message = "The wrong syllable has the highest pitch."
+        }
+        else if (f0Score == 0.8) {
+            message = "The correct syllable has the highest pitch, good job! But it should be even higher compared to the unstressed syllable."
+        }
+        else if (f0Score == 1.0) {
+            message = "Your pitch was pitch-perfect, great job!"
+        }
+        return message
+    }
+
+    public static String getIntensityMessage(Diagnosis diag) {
+        def intScore = diag.intensityScore
+        def message = "Sorry, I wasn't able to analyze the loudness of your utterance."
+        if (intScore == 0.1) {
+            message = "The wrong syllable is loudest."
+        }
+        else if (intScore == 0.8) {
+            message = "The correct syllable is loudest, good job! But it should be even louder compared to the unstressed syllable."
+        }
+        else if (intScore == 1.0) {
+            message = "No problems with loudness, great job!"
+        }
     }
 
 }

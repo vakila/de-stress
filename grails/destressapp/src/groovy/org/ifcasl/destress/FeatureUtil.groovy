@@ -28,6 +28,9 @@ class FeatureUtil {
         wordUtt.SYLL1_F0_MEAN = fx.getSyllableF0Mean(1)
         wordUtt.SYLL0_F0_RANGE = fx.getSyllableF0Range(0)
         wordUtt.SYLL1_F0_RANGE = fx.getSyllableF0Range(1)
+        wordUtt.WORD_ENERGY_MEAN = fx.getWordEnergyMean()
+        wordUtt.SYLL0_ENERGY_MEAN = fx.getSyllableEnergyMean(0)
+        wordUtt.SYLL1_ENERGY_MEAN = fx.getSyllableEnergyMean(1)
         wordUtt.save()
         println("Done.\n")
 
@@ -38,14 +41,17 @@ class FeatureUtil {
     }
 
     public static printWordUtteranceFeatures(WordUtterance wordUtt) {
-        println("WORD_DUR:       " + wordUtt.WORD_DUR)
-        println("SYLL0_DUR:      " + wordUtt.SYLL0_DUR)
-        println("SYLL1_DUR:      " + wordUtt.SYLL1_DUR)
-        println("WORD_F0_MEAN:   " + wordUtt.WORD_F0_MEAN)
-        println("SYLL0_F0_MEAN:  " + wordUtt.SYLL0_F0_MEAN)
-        println("SYLL1_F0_MEAN:  " + wordUtt.SYLL1_F0_MEAN)
-        println("SYLL0_F0_RANGE: " + wordUtt.SYLL0_F0_RANGE)
-        println("SYLL1_F0_RANGE: " + wordUtt.SYLL1_F0_RANGE)
+        println("WORD_DUR:          " + wordUtt.WORD_DUR)
+        println("SYLL0_DUR:         " + wordUtt.SYLL0_DUR)
+        println("SYLL1_DUR:         " + wordUtt.SYLL1_DUR)
+        println("WORD_F0_MEAN:      " + wordUtt.WORD_F0_MEAN)
+        println("SYLL0_F0_MEAN:     " + wordUtt.SYLL0_F0_MEAN)
+        println("SYLL1_F0_MEAN:     " + wordUtt.SYLL1_F0_MEAN)
+        println("SYLL0_F0_RANGE:    " + wordUtt.SYLL0_F0_RANGE)
+        println("SYLL1_F0_RANGE:    " + wordUtt.SYLL1_F0_RANGE)
+        println("WORD_ENERGY_MEAN:  " + wordUtt.WORD_ENERGY_MEAN)
+        println("SYLL0_ENERGY_MEAN: " + wordUtt.SYLL0_ENERGY_MEAN)
+        println("SYLL1_ENERGY_MEAN: " + wordUtt.SYLL1_ENERGY_MEAN)
     }
 
 }

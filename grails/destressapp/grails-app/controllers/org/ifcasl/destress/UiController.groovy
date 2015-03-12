@@ -152,11 +152,21 @@ class UiController {
         def studSyllF0s = [s0F0, s1F0]
         println("studUtt: " + studUtt + "\tstudSyllF0s: " + studSyllF0s)
 
+        //// get mean-normalized intensity
+        // println("studUtt.SYLL0_ENERGY_MEAN: " + studUtt.SYLL0_ENERGY_MEAN)
+        // println("studUtt.WORD_ENERGY_MEAN: " + studUtt.WORD_ENERGY_MEAN)
+        // println("studUtt.SYLL0_ENERGY_MEAN / studUtt.WORD_ENERGY_MEAN:" + studUtt.SYLL0_ENERGY_MEAN / studUtt.WORD_ENERGY_MEAN)
+        def s0Int = (studUtt.SYLL0_ENERGY_MEAN / studUtt.WORD_ENERGY_MEAN ).round(2)
+        def s1Int = (studUtt.SYLL1_ENERGY_MEAN / studUtt.WORD_ENERGY_MEAN).round(2)
+        def studSyllInts = [s0Int, s1Int]
+        println("studUtt: " + studUtt + "\tstudSyllInts: " + studSyllInts)
+
 
         /// get syllable sizes for refUtts
         def refSyllDurs = []
         def refSyllSizes = []
         def refSyllF0s = []
+        def refSyllInts = []
         for (WordUtterance refUtt in refUtts) {
             /// get syllable font sizes
             // def r0Pct = refUtt.SYLL0_DUR / refUtt.WORD_DUR
@@ -178,6 +188,12 @@ class UiController {
             /// get syllable F0s
             refSyllF0s.add([(refUtt.SYLL0_F0_MEAN/refUtt.WORD_F0_MEAN).round(2), (refUtt.SYLL1_F0_MEAN/refUtt.WORD_F0_MEAN).round(2)])
             println("refUtt: " + refUtt + "\trefSyllF0s: " + refSyllF0s[refUtts.indexOf(refUtt)])
+
+            /// get syllable Intensities
+
+            refSyllInts.add([(refUtt.SYLL0_ENERGY_MEAN / refUtt.WORD_ENERGY_MEAN ).round(2),
+                             (refUtt.SYLL1_ENERGY_MEAN / refUtt.WORD_ENERGY_MEAN).round(2)])
+            println("refUtt: " + refUtt + "\trefSyllInts: " + refSyllF0s[refUtts.indexOf(refUtt)])
         }
 
 
@@ -199,6 +215,8 @@ class UiController {
                refSyllDurs:refSyllDurs,
                studSyllF0s:studSyllF0s,
                refSyllF0s:refSyllF0s,
+               studSyllInts:studSyllInts,
+               refSyllInts:refSyllInts,
                //,refWavs:refWavs
         ]
     }
