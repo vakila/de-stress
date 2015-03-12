@@ -108,7 +108,7 @@
 																	width:${refSyllDurs[refUtts.indexOf(refUtt)][s]*300}px;
 																	opacity:${refSyllInts[refUtts.indexOf(refUtt)][s]};
 																	background:green;border:1px solid green;border-radius:10px;margin-bottom:3px;"
-															title="Duration: ${(refSyllDurs[refUtts.indexOf(refUtt)][s]*100).round(2)}% of word &#013Pitch: ${refSyllF0s[refUtts.indexOf(refUtt)][s]*100}% of mean">
+															title="Duration: ${(refSyllDurs[refUtts.indexOf(refUtt)][s]*100).round(2)}% of word &#013Pitch: ${refSyllF0s[refUtts.indexOf(refUtt)][s].round(2)*100}% of mean &#013Intensity (darkness): ${refSyllInts[refUtts.indexOf(refUtt)][s]}% of mean">
 														</div>
 														</div>
 													</g:if>
