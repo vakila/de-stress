@@ -73,6 +73,22 @@ class UiController {
         return false
     }
 
+    def selfassess() {
+        def ex = Exercise.get(params['id'])
+        def studUtt = WordUtterance.get(params['fgUtts.id'])
+        def studWav = studUtt.sentenceUtterance.sampleName + ".wav"
+
+        def refUtts = []
+        def nRefs = ex.diagnosisMethod.numberOfReferences
+        for (i in 1..nRefs) {
+         def refUtt = WordUtterance.get(params['ggUtts.' + i])
+         refUtts.add(refUtt)
+        }
+
+        [ex:ex,studUtt:studUtt,refUtts:refUtts,studWav:studWav]
+
+    }
+
     def feedback() {
         def ex = Exercise.get(params['id'])
 

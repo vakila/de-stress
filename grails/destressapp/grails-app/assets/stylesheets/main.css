@@ -67,6 +67,11 @@ body {
 	text-decoration: none;
 }
 
+p {
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
 /* replace with .no-boxshadow body if you have modernizr available */
 .ie6 body,
 .ie7 body,
