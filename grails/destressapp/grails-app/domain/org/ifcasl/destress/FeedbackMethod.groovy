@@ -13,6 +13,8 @@ class FeedbackMethod {
     Boolean displayShapes
     Boolean styleText
 
+    Boolean selfAssessment
+
     static constraints = {
         name()
         description()
@@ -21,6 +23,7 @@ class FeedbackMethod {
         playFeedbackSignal(blank:true,nullable:true)
         displayShapes(blank:true,nullable:true)
         styleText(blank:true,nullable:true)
+        selfAssessment(blank:true,nullable:true)
     }
 
     String toString() {

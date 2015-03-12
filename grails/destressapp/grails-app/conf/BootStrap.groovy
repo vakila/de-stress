@@ -270,6 +270,7 @@ class BootStrap {
 			playFeedbackSignal:true,
 			displayShapes:true,
 			styleText:true,
+			selfAssessment:true,
 			)
 		fm1.save()
 

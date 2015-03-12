@@ -36,7 +36,7 @@
 			<div style="padding:20px; margin:auto; width:60%;">
 				<h3>Choose utterance to evaluate</h3>
 
-				<g:if test="${ex.id == 1}">
+				<g:if test="${ex.feedbackMethod.selfAssessment == true}">
 					<g:set var="nextAction" value="selfassess"/>
 				</g:if>
 				<g:else>
