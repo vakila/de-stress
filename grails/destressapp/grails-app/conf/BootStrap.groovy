@@ -268,13 +268,14 @@ class BootStrap {
 			requiresScorerType:"JSNOORI",
 			showSkillBars:true,
 			playFeedbackSignal:true,
+			displayShapes:true,
 			styleText:true,
 			)
 		fm1.save()
 
 		def fm2 = new FeedbackMethod(
 			name:"JsnooriFM2",
-			description:"Simple, requires Jsnoori scorer, no skill bars",
+			description:"Simple, requires Jsnoori scorer, no visual fb",
 			requiresScorerType:"JSNOORI",
 			showSkillBars:false,
 			playFeedbackSignal:true,
@@ -316,8 +317,16 @@ class BootStrap {
 			feedbackMethod:fm1)
 		ex4.save()
 
+		def ex5 = new Exercise(
+			name:"SimpleExercise",
+			description:"Simple Jsnoori comparison, no visual FB",
+			word:Word.get(4),
+			diagnosisMethod:dm1,
+			feedbackMethod:fm2)
+		ex5.save()
 
-		assert Exercise.count() == 4
+
+		assert Exercise.count() == 5
 
 
 
