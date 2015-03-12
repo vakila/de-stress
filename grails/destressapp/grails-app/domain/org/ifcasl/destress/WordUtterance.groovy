@@ -18,6 +18,7 @@ class WordUtterance {
         WORD_DUR(blank:true,nullable:true)
         SYLL0_DUR(blank:true,nullable:true)
         SYLL1_DUR(blank:true,nullable:true)
+        WORD_F0_MEAN(blank:true,nullable:true)
         SYLL0_F0_MEAN(blank:true,nullable:true)
         SYLL1_F0_MEAN(blank:true,nullable:true)
         SYLL0_F0_RANGE(blank:true,nullable:true)
@@ -38,7 +39,7 @@ class WordUtterance {
     //
     // //// F0
     // //Word
-    // Float WORD_F0_MEAN
+    Float WORD_F0_MEAN
     // Float WORD_F0_MAX
     // Float WORD_F0_MIN
     // Float WORD_F0_RANGE

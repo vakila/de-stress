@@ -119,7 +119,7 @@ class UiController {
         fbWav = diag.feedbackWaveFile // might be null
         println("fbWav: " + fbWav)
 
-        /// get syllable sizes for studUtt
+        /// get syllable font sizes for studUtt
         def s0Pct = studUtt.SYLL0_DUR / studUtt.WORD_DUR
         def s1Pct = studUtt.SYLL1_DUR / studUtt.WORD_DUR
         println("studUtt: " + studUtt + "\ts0Pct: " + s0Pct + "\ts1Pct: " + s1Pct)
@@ -128,22 +128,40 @@ class UiController {
         def s1Size = s1Pct * 3
         def studSyllSizes = [s0Size, s1Size]
 
+        /// get mean-normalized F0
+        println("studUtt: " + studUtt + "\tFeatures:")
+        FeatureUtil.printWordUtteranceFeatures(studUtt)
+        def s0F0 = (studUtt.SYLL0_F0_MEAN / studUtt.WORD_F0_MEAN).round(2)
+        def s1F0 = (studUtt.SYLL1_F0_MEAN / studUtt.WORD_F0_MEAN).round(2)
+        def studSyllF0s = [s0F0, s1F0]
+        println("studUtt: " + studUtt + "\tstudSyllF0s: " + studSyllF0s)
+
+
         /// get syllable sizes for refUtts
         def refSyllDurs = []
         def refSyllSizes = []
+        def refSyllF0s = []
         for (WordUtterance refUtt in refUtts) {
-            /// get syllable sizes
+            /// get syllable font sizes
             // def r0Pct = refUtt.SYLL0_DUR / refUtt.WORD_DUR
             // def r1Pct = refUtt.SYLL1_DUR / refUtt.WORD_DUR
             // //println("refUtt: " + refUtt.toString() + "\ts0Pct: " + s0Pct + "\ts1Pct: " + s1Pct)
             // def r0Size = s0Pct * 3
             // def r1Size = s1Pct * 3
 
+            println("refUtt: " + refUtt + "\tFeatures:")
+            FeatureUtil.printWordUtteranceFeatures(refUtt)
+
+
             refSyllDurs.add([(refUtt.SYLL0_DUR/refUtt.WORD_DUR).round(2), (refUtt.SYLL1_DUR / refUtt.WORD_DUR).round(2)])
 
             //refSyllSizes.add([r0Size,r1Size])
             refSyllSizes.add([((refUtt.SYLL0_DUR/refUtt.WORD_DUR)*3),((refUtt.SYLL1_DUR / refUtt.WORD_DUR)*3)])
             println("refUtt: " + refUtt + "\trefSyllSizes: " + refSyllSizes[refUtts.indexOf(refUtt)])
+
+            /// get syllable F0s
+            refSyllF0s.add([(refUtt.SYLL0_F0_MEAN/refUtt.WORD_F0_MEAN).round(2), (refUtt.SYLL1_F0_MEAN/refUtt.WORD_F0_MEAN).round(2)])
+            println("refUtt: " + refUtt + "\trefSyllF0s: " + refSyllF0s[refUtts.indexOf(refUtt)])
         }
 
 
@@ -151,8 +169,10 @@ class UiController {
 
         //render(view:"exercise", model:[ex:ex,fgUtts:[],ggUtts:[]])
         [ex:ex,diag:diag,
-               studUtt:studUtt,refUtts:refUtts,
-               studWav:studWav,fbWav:fbWav,
+               studUtt:studUtt,
+               refUtts:refUtts,
+               studWav:studWav,
+               fbWav:fbWav,
                durPct:durPct,durCol:durCol,
                f0Pct:f0Pct,f0Col:f0Col,
                intPct:intPct,intCol:intCol,
@@ -160,7 +180,11 @@ class UiController {
                studSyllSizes:studSyllSizes,
                refSyllSizes:refSyllSizes,
                studSyllDurs:studSyllDurs,
-               refSyllDurs:refSyllDurs]//,refWavs:refWavs]
+               refSyllDurs:refSyllDurs,
+               studSyllF0s:studSyllF0s,
+               refSyllF0s:refSyllF0s,
+               //,refWavs:refWavs
+        ]
     }
 
 

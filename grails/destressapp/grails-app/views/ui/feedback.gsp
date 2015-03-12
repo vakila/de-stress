@@ -29,8 +29,9 @@
 						-->
 
                     <!--</g:link>-->
-					<a><b>${ex.word.text}</b></a>
-                    ${ex.word.wordsAfter}</div>
+					<a><b><g:each var="syll" in="${ex.word.syllables}">${syll}</g:each></b></a>
+                    ${ex.word.wordsAfter}
+					</div>
 
 			</div>
 
@@ -51,8 +52,12 @@
 			                    <!--<g:link controller="Word" action="show" id="${ex.word.id}">-->
 									<g:each var="s" in="${ (0..1) }">
 										<div style="display:table-cell;padding:2px;text-align:left">
-											<div style="height:40px;width:${studSyllDurs[s]*300}px;background:blue;border:1px solid blue;border-radius:10px;margin-bottom:3px;"
-												 title="Duration: ${(studSyllDurs[s]*100).round(2)}% of word">
+											<div style="height:100px;display:table-cell;vertical-align:bottom;">
+											<div style="height:${studSyllF0s[s]*50}px;
+														width:${studSyllDurs[s]*300}px;
+														background:blue;border:1px solid blue;border-radius:10px;margin-bottom:3px;"
+												 title="Duration (width): ${(studSyllDurs[s]*100).round(2)}% of word  &#013Pitch (height): ${(studSyllF0s[s]*100).round(2)}% of mean">
+											</div>
 											</div>
 										<a>
 											<g:if test="${ex.feedbackMethod.styleText == true}">
@@ -89,9 +94,14 @@
 								<td style="width:50%;vertical-align:middle">
 									<div style="width:90%; text-align:left; font-size:2em; margin-left:auto; margin-right:auto;">
 					                        <g:each var="s" in="${ (0..1) }">
+
 												<div style="display:table-cell;padding:2px;text-align:left">
-													<div style="height:40px;width:${refSyllDurs[refUtts.indexOf(refUtt)][s]*300}px;background:blue;border:1px solid blue;border-radius:10px;margin-bottom:3px;"
-														title="Duration: ${(refSyllDurs[refUtts.indexOf(refUtt)][s]*100).round(2)}% of word">
+													<div style="height:100px;display:table-cell;vertical-align:bottom;">
+													<div style="height:${refSyllF0s[refUtts.indexOf(refUtt)][s]*50}px;
+																width:${refSyllDurs[refUtts.indexOf(refUtt)][s]*300}px;
+																background:green;border:1px solid green;border-radius:10px;margin-bottom:3px;"
+														title="Duration: ${(refSyllDurs[refUtts.indexOf(refUtt)][s]*100).round(2)}% of word &#013Pitch: ${refSyllF0s[refUtts.indexOf(refUtt)][s]*100}% of mean">
+													</div>
 													</div>
 						                            <a>
 														<g:if test="${ex.feedbackMethod.styleText == true}">
