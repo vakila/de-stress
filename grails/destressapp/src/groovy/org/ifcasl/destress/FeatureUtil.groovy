@@ -8,7 +8,7 @@ class FeatureUtil {
 
     public static extractWordUtteranceFeatures(WordUtterance wordUtt) {
         println("Current features for WordUtterance: " + wordUtt.toString())
-        printWordFeatures(wordUtt)
+        printWordUtteranceFeatures(wordUtt)
 
 
 
@@ -33,7 +33,7 @@ class FeatureUtil {
 
 
         println("New features for WordUtterance: " + wordUtt.toString())
-        printWordFeatures(wordUtt)
+        printWordUtteranceFeatures(wordUtt)
 
     }
 
