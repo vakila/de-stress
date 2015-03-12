@@ -36,9 +36,15 @@
 			<div style="padding:20px; margin:auto; width:60%;">
 				<h3>Choose utterance to evaluate</h3>
 
-				<g:form controller="ui"
-						action="feedback"
-						id="${ex.id}">
+				<g:if test="${ex.id == 1}">
+					<g:set var="nextAction" value="selfassess"/>
+				</g:if>
+				<g:else>
+					<g:set var="nextAction" value="feedback"/>
+				</g:else>
+
+					<g:form controller="ui" action="${nextAction}" id="${ex.id}">
+
 					<table style="margin:auto">
 					<tr>
 			            <td><label><h4>Student utterance:</h4> </label></td>
@@ -61,6 +67,8 @@
 					</g:if>
 					</table>
 
+					<!--<button type="submit" formaction="ui/exercise/${ex.id}/selfassess" value="Continue" />
+					<g:submitToRemote url="[action: 'selfassess']" value="Continue"/>-->
 		            <g:submitButton name="Submit" value="Submit"/>
 		        </g:form>
 
