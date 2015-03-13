@@ -169,7 +169,7 @@
 										<div style="height:40px; background:${durCol}; width:${durPct}%"></div>
 									</div>
 								</td>
-								<td style="width:10%;vertical-align:middle;">${durPct.round()}%</td>
+								<td style="width:10%;vertical-align:middle;text-align:right">${(durPct/10).round()}/10</td>
 							</tr>
 							<tr>
 								<td style="width:10%;vertical-align:middle;">Pitch</td>
@@ -178,7 +178,7 @@
 										<div style="height:40px; background:${f0Col}; width:${f0Pct}%"></div>
 									</div>
 								</td>
-								<td style="width:10%;vertical-align:middle;">${f0Pct.round()}%</td>
+								<td style="width:10%;vertical-align:middle;text-align:right">${(f0Pct/10).round()}/10</td>
 							</tr>
 							<tr>
 								<td style="width:10%;vertical-align:middle;">Intensity</td>
@@ -187,16 +187,17 @@
 										<div style="height:40px; background:${intCol}; width:${intPct}%"></div>
 									</div>
 								</td>
-								<td style="width:10%;vertical-align:middle;">${intPct.round()}%</td>
+								<td style="width:10%;vertical-align:middle;text-align:right">${(intPct/10).round()}/10</td>
 							</tr>
+							<br>
 							<tr>
 								<td style="width:10%;vertical-align:middle;">Overall</td>
 								<td style="width:80%">
 									<div style="width:100%; margin:5px; border:1px solid black">
-										<div style="height:50px; background:${allCol}; width:${allPct}%"></div>
+										<div style="height:60px; background:${allCol}; width:${allPct}%"></div>
 									</div>
 								</td>
-								<td style="width:10%;vertical-align:middle;">${allPct.round()}%</td>
+								<td style="width:10%;vertical-align:middle;text-align:right">${(allPct/10).round()}/10</td>
 							</tr>
 						</table>
 					</div>
