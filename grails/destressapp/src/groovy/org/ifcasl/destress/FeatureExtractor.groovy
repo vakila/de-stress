@@ -197,6 +197,22 @@ class FeatureExtractor {
 
 	////////// F0 METHODS //////////
 
+	public float getOverallF0Mean() {
+		return pitchAnalysis.computeOverallMeanF0()
+	}
+
+	public float getOverallF0Range() {
+		return pitchAnalysis.computeOverallRangeF0()
+	}
+
+	public float getOverallF0Max() {
+		return pitchAnalysis.computeOverallMaxF0()
+	}
+
+	public float getOverallF0Min() {
+		return pitchAnalysis.computeOverallMinF0()
+	}
+
 	public float getWordF0Mean() {
 		return pitchAnalysis.computePitchMeanInSegment(wordSegment)
 	}
@@ -409,6 +425,14 @@ class FeatureExtractor {
 	}
 
 	////////// ENERGY METHODS //////////
+
+	public double getOverallEnergyMean() {
+		return energyAnalysis.computeOverallMeanEnergy()
+	}
+
+	public double getOverallEnergyMax() {
+		return energyAnalysis.computeOverallMaxEnergy()
+	}
 
 	public double getWordEnergyMean() {
 		return energyAnalysis.computeEnergyMeanInSegment(wordSegment)

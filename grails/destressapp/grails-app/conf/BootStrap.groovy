@@ -167,6 +167,10 @@ class BootStrap {
 						)
 					sentUtt.save()
 					println "Done."
+
+					// Extract sentence features
+					FeatureUtil.extractSentenceUtteranceFeatures(sentUtt)
+					
 				}
 				else if (sentResults.size() == 1){
 					sentUtt = sentResults[0]

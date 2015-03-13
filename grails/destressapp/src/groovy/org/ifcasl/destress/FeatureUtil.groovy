@@ -3,7 +3,35 @@ package org.ifcasl.destress
 class FeatureUtil {
 
     public static extractSentenceUtteranceFeatures(SentenceUtterance sentUtt) {
+        println("Current features for SentenceUtterance: " + sentUtt.toString())
+        printSentenceUtteranceFeatures(sentUtt)
 
+        println("\nPerforming sentence feature extraction...")
+        String wav = sentUtt.waveFile
+        String grid = sentUtt.gridFile
+
+        FeatureExtractor fx = new FeatureExtractor(wav, grid)
+
+
+        // duration
+        sentUtt.totalDuration = fx.getTotalDuration()
+        sentUtt.speakingDuration = fx.getSpeakingDuration()
+        def syllCount = fx.pitchAnalysis.getSyllable_real_number()
+        sentUtt.speakingRate = syllCount / sentUtt.speakingDuration
+
+        // f0
+        sentUtt.f0Mean = fx.getOverallF0Mean()
+        sentUtt.f0Range = fx.getOverallF0Range()
+
+        // intensity
+        sentUtt.intensityMean = fx.getOverallEnergyMean()
+        sentUtt.intensityMax = fx.getOverallEnergyMax()
+
+        sentUtt.save()
+        println("Done.\n")
+
+        println("New features for SentenceUtterance: " + sentUtt.toString())
+        printSentenceUtteranceFeatures(sentUtt)
     }
 
     public static extractWordUtteranceFeatures(WordUtterance wordUtt) {
@@ -52,6 +80,21 @@ class FeatureUtil {
         println("WORD_ENERGY_MEAN:  " + wordUtt.WORD_ENERGY_MEAN)
         println("SYLL0_ENERGY_MEAN: " + wordUtt.SYLL0_ENERGY_MEAN)
         println("SYLL1_ENERGY_MEAN: " + wordUtt.SYLL1_ENERGY_MEAN)
+    }
+
+    public static printSentenceUtteranceFeatures(SentenceUtterance sentUtt) {
+        // duration
+        println("totalDuration    " + sentUtt.totalDuration)
+        println("speakingDuration " + sentUtt.speakingDuration)
+        println("speakingRate     " + sentUtt.speakingRate)
+
+        // f0
+        println("f0Mean           " + sentUtt.f0Mean)
+        println("f0Range          " + sentUtt.f0Range)
+
+        // intensity
+        println("intensityMean    " + sentUtt.intensityMean)
+        println("intensityMax     " + sentUtt.intensityMax)
     }
 
 }

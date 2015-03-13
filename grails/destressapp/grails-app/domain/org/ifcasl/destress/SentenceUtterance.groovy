@@ -5,7 +5,7 @@ import org.apache.commons.io.FileUtils
 
 class SentenceUtterance {
 
-    Speaker speaker
+    static belongsTo = [speaker:Speaker]
 
     String sentence
 
@@ -24,8 +24,9 @@ class SentenceUtterance {
 
     // f0
     Float f0Mean
-    Float f0Max
-    Float f0Min
+    Float f0Range
+    //Float f0Max
+    //Float f0Min
 
     // intensity
     Float intensityMean
@@ -42,8 +43,9 @@ class SentenceUtterance {
         speakingDuration(blank:true,nullable:true)
         speakingRate(blank:true,nullable:true)
         f0Mean(blank:true,nullable:true)
-        f0Max(blank:true,nullable:true)
-        f0Min(blank:true,nullable:true)
+        f0Range(blank:true,nullable:true)
+        //f0Max(blank:true,nullable:true)
+        //f0Min(blank:true,nullable:true)
         intensityMean(blank:true,nullable:true)
         intensityMax(blank:true,nullable:true)
 
