@@ -13,6 +13,10 @@ public class DiagnosisMethod {
     // for >0 references (SINGLE or MULTI reference types)
     SelectionType selectionType //MANUAL, AUTO, or FIXED
 
+    //Boolean matchGender
+    //Boolean matchAge
+    //Boolean matchAgeGender
+
         // for AUTO selection type
         //TODO
 
@@ -58,18 +62,9 @@ public class DiagnosisMethod {
             }
             })
 
-        // old constraints
-        //referenceType()
-        // selectionType(blank:true,nullable:true,validator:{ val, obj ->
-        //     if (val==null && obj.referenceType!=ReferenceType.ABSTRACT) {
-        //         return ['needSelectionType', obj.referenceType]
-        //     }
-        // })
-        // numberOfReferences(min:2,blank:true,nullable:true,validator:{ val, obj ->
-        //     if (val==null && obj.referenceType==ReferenceType.MULTI) {
-        //         return ['needNumberOfReferences']
-        //     }
-        // })
+        //matchGender(blank:true,nullable:true)
+        //matchAge(blank:true,nullable:true)
+        //matchAgeGender(blank:true,nullable:true)
 
     }
 
