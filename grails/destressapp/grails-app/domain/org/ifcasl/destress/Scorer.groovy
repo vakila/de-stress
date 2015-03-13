@@ -53,21 +53,21 @@ class Scorer {
 
         //weights must be between 0 and 1 (inclusive)
         //if not using Weka, weights must sum to 1 (constrain on intensityWeight?)
-        durationWeight(range:0..1,blank:true,nullable:true, validator: { val, obj ->
+        durationWeight(min:0d,max:1d,blank:true,nullable:true, validator: { val, obj ->
                 if (obj.type==ScorerType.WEKA) {
                     if (val!=null) return ['mustBeNull', obj.type]
                 }
                 else {
                     if (val==null) return ['cannotBeNull', obj.type]
                 }})
-        f0Weight(range:0..1,blank:true,nullable:true, validator: { val, obj ->
+        f0Weight(min:0d,max:1d,blank:true,nullable:true, validator: { val, obj ->
                 if (obj.type==ScorerType.WEKA) {
                     if (val!=null) return ['mustBeNull', obj.type]
                 }
                 else {
                     if (val==null) return ['cannotBeNull', obj.type]
                 }})
-        intensityWeight(range:0..1,blank:true,nullable:true, validator: { val, obj ->
+        intensityWeight(min:0d,max:1d,blank:true,nullable:true, validator: { val, obj ->
                 if (obj.type==ScorerType.WEKA) {
                     if (val!=null) return ['mustBeNull', obj.type]
                 }
