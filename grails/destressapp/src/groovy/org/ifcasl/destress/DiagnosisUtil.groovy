@@ -2,6 +2,11 @@ package org.ifcasl.destress
 
 class DiagnosisUtil {
 
+
+    static Diagnosis getClassificationDiagnosis(Exercise ex, WordUtterance studUtt) {
+        //TODO
+    }
+
     static List findNBestRefUtts(WordUtterance learnerUtt, int n) {
         def bestSpeakers = findNBestRefSpeakers(learnerUtt.sentenceUtterance.speaker, n)
         def bestUtts = []
