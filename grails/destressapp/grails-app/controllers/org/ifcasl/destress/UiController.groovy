@@ -20,22 +20,29 @@ class UiController {
         }
 
         def ggUtts
-        // def refType = ex.diagnosisMethod.referenceType
-        // if (refType!=ReferenceType.ABSTRACT) {
         def nRefs = ex.diagnosisMethod.numberOfReferences
         if (nRefs > 0) {
-            def cGG = WordUtterance.createCriteria()
-            ggUtts = cGG {
-                and {
-                    eq("word",ex.word)
-                    sentenceUtterance {
-                        speaker {
-                            eq("nativeLanguage", Language.G)
+            if (ex.diagnosisMethod.selectionType == SelectionType.MANUAL) {
+
+                // def refType = ex.diagnosisMethod.referenceType
+                // if (refType!=ReferenceType.ABSTRACT)
+
+                if (nRefs > 0) {
+                    def cGG = WordUtterance.createCriteria()
+                    ggUtts = cGG {
+                        and {
+                            eq("word",ex.word)
+                            sentenceUtterance {
+                                speaker {
+                                    eq("nativeLanguage", Language.G)
+                                }
+                            }
                         }
                     }
                 }
             }
         }
+
 
         render(view:"exercise", model:[ex:ex,
                                        fgUtts:fgUtts,
@@ -78,15 +85,29 @@ class UiController {
         def studUtt = WordUtterance.get(params['fgUtts.id'])
         def studWav = studUtt.sentenceUtterance.sampleName + ".wav"
 
-        def refUtts = []
-        def nRefs = ex.diagnosisMethod.numberOfReferences
-        for (i in 1..nRefs) {
-         def refUtt = WordUtterance.get(params['ggUtts.' + i])
-         refUtts.add(refUtt)
-        }
+        def refUtts = getRefUtts(ex, studUtt)
 
         [ex:ex,studUtt:studUtt,refUtts:refUtts,studWav:studWav]
 
+    }
+
+    def List getRefUtts(Exercise ex, WordUtterance studUtt) {
+        def refUtts = []
+        def nRefs = ex.diagnosisMethod.numberOfReferences
+
+        if (ex.diagnosisMethod.selectionType == SelectionType.AUTO) {
+            refUtts = DiagnosisUtil.findNBestRefUtts(studUtt, nRefs)
+        }
+        else if (ex.diagnosisMethod.selectionType == SelectionType.MANUAL) {
+            for (i in 1..nRefs) {
+                def refUtt = WordUtterance.get(params['ggUtts.' + i])
+                refUtts.add(refUtt)
+            }
+        }
+        else { // selectionType == FIXED
+            render("FIXED selectionType not yet implemented!")
+        }
+        return refUtts
     }
 
     def feedback() {
@@ -100,24 +121,42 @@ class UiController {
         def refUtts = []
         //def refWavs = []
         def nRefs = ex.diagnosisMethod.numberOfReferences
-        // def refSyllSizes = [:]
-        // def r0Pct
-        // def r1Pct
-        // def r0Size
-        // def r1Size
-        for (i in 1..nRefs) {
-            def refUtt = WordUtterance.get(params['ggUtts.' + i])
-            //def refWav = grailsApplication.parentContext.getResource("/audio/" + refUtt.sentenceUtterance.sampleName + ".wav")
-            //def refWav = refUtt.sentenceUtterance.sampleName + ".wav"
-            refUtts.add(refUtt)
-            //refWavs.add(refWav)
 
+        def diag
 
+        if (nRefs > 0) {
+            refUtts = getRefUtts(ex, studUtt)
+
+            ///// Moved to getRefUtts()
+            // if (ex.diagnosisMethod.selectionType == SelectionType.AUTO) {
+            //     refUtts = DiagnosisUtil.findNBestRefs(studUtt.sentenceUtterance.speaker, nRefs)
+            // }
+            // else if (ex.diagnosisMethod.selectionType == SelectionType.MANUAL) {
+            //
+            //
+            //     for (i in 1..nRefs) {
+            //         def refUtt = WordUtterance.get(params['ggUtts.' + i])
+            //         //def refWav = grailsApplication.parentContext.getResource("/audio/" + refUtt.sentenceUtterance.sampleName + ".wav")
+            //         //def refWav = refUtt.sentenceUtterance.sampleName + ".wav"
+            //
+            //         //TODO validate that input from multiple refUtts selects are not the same utterance
+            //
+            //         refUtts.add(refUtt)
+            //         //refWavs.add(refWav)
+            //     }
+            // }
+            // else { // selectionType == FIXED
+            //     render("FIXED selectionType not yet implemented!")
+            // }
+
+            diag = DiagnosisUtil.getComparisonDiagnosis(ex, studUtt, refUtts)
+        }
+        else { //nRefs <= 0
+            render("Non-comparison diagnosis not yet supported!")
 
         }
-        //TODO validate that input from multiple refUtts selects are not the same utterance
 
-        def diag = DiagnosisUtil.getDiagnosis(ex, studUtt, refUtts)
+
 
         // get scores & colors
         def durPct = new Float(diag.durationScore * 100f)

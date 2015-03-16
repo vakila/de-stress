@@ -276,7 +276,25 @@ class BootStrap {
 			)
 		dm3.save()
 
-		assert DiagnosisMethod.count() == 3
+		def dm4 = new DiagnosisMethod(
+			name:"SingleAuto",
+			description:"Single ref, auto choice, SimpleScorer",
+			scorer:scorer,
+			selectionType:"AUTO",
+			numberOfReferences:1,
+			)
+		dm4.save()
+
+		def dm5 = new DiagnosisMethod(
+			name:"MultiAuto",
+			description:"Multi ref, auto choice, SimpleScorer",
+			scorer:scorer,
+			selectionType:"AUTO",
+			numberOfReferences:3
+			)
+		dm5.save()
+
+		assert DiagnosisMethod.count() == 5
 
 
 		//// CREATE FEEDBACK METHODS

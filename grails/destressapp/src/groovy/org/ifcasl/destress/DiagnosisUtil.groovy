@@ -2,9 +2,64 @@ package org.ifcasl.destress
 
 class DiagnosisUtil {
 
+    static List findNBestRefUtts(WordUtterance learnerUtt, int n) {
+        def bestSpeakers = findNBestRefSpeakers(learnerUtt.sentenceUtterance.speaker, n)
+        def bestUtts = []
+        for (Speaker refSpkr in bestSpeakers) {
 
+            def crit = WordUtterance.createCriteria()
+            //def fgUtts = WordUtterance.findAllByWord(ex.word)
+            def refUtt = crit {
+                and {
+                    eq("word",learnerUtt.word)
+                    sentenceUtterance {
+                        eq("speaker",refSpkr)
+                    }
+                }
+            }
 
-    static Diagnosis getDiagnosis(Exercise ex, WordUtterance studUtt, List refUtts) {
+            if (refUtt.size() != 1) {
+                println("DiagnosisUtil Line 22: FOUND STRANGE NUMBER OF REFS: " + refUtt.size() + "refUtt: " + refUtt)
+            }
+
+            bestUtts.add(refUtt[0])
+        }
+
+        println("Found bestUtts: " + bestUtts)
+        return bestUtts
+    }
+
+    static List findNBestRefSpeakers(Speaker learner, int n) {
+        def crit = Speaker.createCriteria()
+        def ggSpeakers = crit {
+            eq("nativeLanguage", Language.G)
+        }
+
+        //def bestDiff = learner.f0Mean + learner.f0Range //initialize as worst possible diff
+        //def bestSpeaker
+
+        def speakerDiffs = [:]
+
+        for (Speaker thisGG in ggSpeakers) {
+            def thisMeanDiff = thisGG.f0Mean - learner.f0Mean
+            def thisRangeDiff = thisGG.f0Range - learner.f0Range
+            def thisDiff = thisMeanDiff.abs() + thisRangeDiff.abs()//TODO take absolute values and add
+            // if (thisDiff < bestDiff) {
+            //     bestDiff = thisDiff
+            //     bestSpeaker = thisGG
+            // }
+            speakerDiffs[thisGG] = thisDiff
+        }
+
+        def rankedRefs = speakerDiffs.sort { it.value }
+
+        def nBestRefs = rankedRefs.keySet().toList()[0..n-1]
+
+        return nBestRefs
+
+    }
+
+    static Diagnosis getComparisonDiagnosis(Exercise ex, WordUtterance studUtt, List refUtts) {
         def scorer = ex.diagnosisMethod.scorer
         def fbc
 
@@ -48,13 +103,14 @@ class DiagnosisUtil {
              //end case JSNOORI
             }
 
-            //case ScorerType.WEKA:
-            else if (scorerType == ScorerType.WEKA) {
-                //convert studUtt to Weka instance
-                //TEMP
-                WekaUtil.getInstance(studUtt)
-            //end case WEKA
-            }
+            //// This shouldn't get reached, because this method isn't called if ScorerType == WEKA
+            // //case ScorerType.WEKA:
+            // else if (scorerType == ScorerType.WEKA) {
+            //     //convert studUtt to Weka instance
+            //     //TEMP
+            //     WekaUtil.getInstance(studUtt)
+            // //end case WEKA
+            // }
 
             //default:
             else { //not using Jsnoori scores

@@ -2,28 +2,7 @@ package org.ifcasl.destress
 
 class FeatureUtil {
 
-    public static Speaker findBestReference(Speaker learner) {
-        def crit = Speaker.createCriteria()
-        def ggSpeakers = crit {
-            eq("nativeLanguage", Language.G)
-        }
 
-        def bestDiff = learner.f0Mean + learner.f0Range //initialize as worst possible diff
-        def bestSpeaker
-
-        // for (Speaker thisGG in ggSpeakers) {
-        //     thisMeanDiff = thisGG.f0Mean - learner.f0Mean
-        //     thisRangeDiff = thisGG.f0Range - learner.f0Range
-        //     thisDiff = 0//TODO take absolute values and add
-        //     if (thisDiff < bestDiff) {
-        //         bestDiff = thisDiff
-        //         bestSpeaker = thisGG
-        //     }
-        // }
-
-        return bestSpeaker
-
-    }
 
     public static computeSpeakerFeatures(Speaker speaker) {
         println("Current features for Speaker: " + speaker.toString())
