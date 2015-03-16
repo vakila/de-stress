@@ -2,6 +2,64 @@ package org.ifcasl.destress
 
 class FeatureUtil {
 
+    public static Speaker findBestReference(Speaker learner) {
+        def crit = Speaker.createCriteria()
+        def ggSpeakers = crit {
+            eq("nativeLanguage", Language.G)
+        }
+
+        def bestDiff = learner.f0Mean + learner.f0Range //initialize as worst possible diff
+        def bestSpeaker
+
+        // for (Speaker thisGG in ggSpeakers) {
+        //     thisMeanDiff = thisGG.f0Mean - learner.f0Mean
+        //     thisRangeDiff = thisGG.f0Range - learner.f0Range
+        //     thisDiff = 0//TODO take absolute values and add
+        //     if (thisDiff < bestDiff) {
+        //         bestDiff = thisDiff
+        //         bestSpeaker = thisGG
+        //     }
+        // }
+
+        return bestSpeaker
+
+    }
+
+    public static computeSpeakerFeatures(Speaker speaker) {
+        println("Current features for Speaker: " + speaker.toString())
+        printSpeakerFeatures(speaker)
+
+        println("\nComputing features for speaker: " + speaker.toString())
+
+
+        /// Sum up features from all sentence utterances for that speaker
+        def sumSpeakingRate = 0f
+        def sumF0Mean = 0f
+        def sumF0Range = 0f
+        def sumIntensityMean = 0f
+
+        for (SentenceUtterance sentUtt in speaker.sentenceUtterances) {
+            sumSpeakingRate += sentUtt.speakingRate
+            sumF0Mean += sentUtt.f0Mean
+            sumF0Range += sentUtt.f0Range
+            sumIntensityMean += sentUtt.intensityMean
+        }
+
+        /// Set speaker features as averages of sentence utterance features
+        def nSents = (Float) speaker.sentenceUtterances.size()
+        speaker.speakingRate = sumSpeakingRate/nSents
+        speaker.f0Mean = sumF0Mean/nSents
+        speaker.f0Range = sumF0Range/nSents
+        speaker.intensityMean = sumIntensityMean/nSents
+        speaker.save()
+
+
+        println("Done.")
+
+        println("New features for Speaker: " + speaker.toString())
+        printSpeakerFeatures(speaker)
+    }
+
     public static extractSentenceUtteranceFeatures(SentenceUtterance sentUtt) {
         println("Current features for SentenceUtterance: " + sentUtt.toString())
         printSentenceUtteranceFeatures(sentUtt)
@@ -95,6 +153,13 @@ class FeatureUtil {
         // intensity
         println("intensityMean    " + sentUtt.intensityMean)
         println("intensityMax     " + sentUtt.intensityMax)
+    }
+
+    public static printSpeakerFeatures(Speaker speaker) {
+        println("speakingRate   " + speaker.speakingRate)
+        println("f0Mean         " + speaker.f0Mean)
+        println("f0Range        " + speaker.f0Range)
+        println("intensityMean  " + speaker.intensityMean)
     }
 
 }

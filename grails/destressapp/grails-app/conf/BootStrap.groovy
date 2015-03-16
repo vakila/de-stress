@@ -160,17 +160,22 @@ class BootStrap {
 					// Save SentenceUtterance
 					sentUtt = new SentenceUtterance(
 						sentence:sentNum,
-						speaker:spkr,
+						//speaker:spkr,
 						sampleName:sampName,
 						waveFile:waveNewPath,
 						gridFile:gridNewPath,
 						)
-					sentUtt.save()
+					spkr.addToSentenceUtterances(sentUtt)
+					spkr.save()
+					//sentUtt.save()
 					println "Done."
+
+					assert spkr.sentenceUtterances != null
+					println("SPEAKER " + spkr.toString() + " HAS " + spkr.sentenceUtterances.size() + " SENTENCES")
 
 					// Extract sentence features
 					FeatureUtil.extractSentenceUtteranceFeatures(sentUtt)
-					
+
 				}
 				else if (sentResults.size() == 1){
 					sentUtt = sentResults[0]
@@ -208,6 +213,15 @@ class BootStrap {
 		assert SentenceUtterance.count() == 24
 		assert WordUtterance.count() == 60
 		//println "Done."
+
+
+
+		////// COMPUTE SPEAKER FEATURES
+		for (Speaker speaker in Speaker.list()) {
+			FeatureUtil.computeSpeakerFeatures(speaker)
+		}
+
+
 
 		////// CREATE SCORERS
 		def scorer = new Scorer(
