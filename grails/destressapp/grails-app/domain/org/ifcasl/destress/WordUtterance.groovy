@@ -4,7 +4,7 @@ class WordUtterance {
 
     SentenceUtterance sentenceUtterance
 
-    Word word
+    static belongsTo = [word:Word]
 
     // Weka instance?
 

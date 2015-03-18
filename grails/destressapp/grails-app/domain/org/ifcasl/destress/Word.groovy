@@ -15,11 +15,28 @@ class Word {
 
 	//static hasOne = [syllable1:Syllable, syllable2:Syllable] //the two syllables of this word - see Syllable
 	List syllables
-	static hasMany = [syllables:String]
+	static hasMany = [syllables:String,utterances:WordUtterance]
 
 	Integer stressIndex
 
 	Date dateCreated
+
+	//// Average features (from utterances)
+	// Duration
+    Float AVG_WORD_DUR
+    Float AVG_SYLL0_DUR
+    Float AVG_SYLL1_DUR
+	// F0
+	Float AVG_WORD_F0_MEAN
+	Float AVG_SYLL0_F0_MEAN
+	Float AVG_SYLL0_F0_RANGE
+	Float AVG_SYLL1_F0_MEAN
+	Float AVG_SYLL1_F0_RANGE
+	// Energy
+	Float AVG_WORD_ENERGY_MEAN
+	Float AVG_SYLL0_ENERGY_MEAN
+	Float AVG_SYLL1_ENERGY_MEAN
+
 
     static constraints = {
 
@@ -30,6 +47,18 @@ class Word {
 		wordsAfter()
 		stressIndex(min:0)
 		//stressIndex max: syllables.size()-1
+
+		AVG_WORD_DUR(blank:true,nullable:true)
+		AVG_SYLL0_DUR(blank:true,nullable:true)
+		AVG_SYLL1_DUR(blank:true,nullable:true)
+		AVG_WORD_F0_MEAN(blank:true,nullable:true)
+		AVG_SYLL0_F0_MEAN(blank:true,nullable:true)
+		AVG_SYLL1_F0_MEAN(blank:true,nullable:true)
+		AVG_SYLL0_F0_RANGE(blank:true,nullable:true)
+		AVG_SYLL1_F0_RANGE(blank:true,nullable:true)
+		AVG_WORD_ENERGY_MEAN(blank:true,nullable:true)
+		AVG_SYLL0_ENERGY_MEAN(blank:true,nullable:true)
+		AVG_SYLL1_ENERGY_MEAN(blank:true,nullable:true)
     }
 
 	String toString(){

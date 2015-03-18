@@ -200,7 +200,9 @@ class BootStrap {
 						sentenceUtterance:sentUtt,
 						word:w
 						)
-					wordUtt.save()
+					//wordUtt.save()
+					w.addToUtterances(wordUtt)
+					w.save()
 					print "Done."
 
 					// Extract wordUtterance Features
@@ -208,6 +210,8 @@ class BootStrap {
 				}
 
 			}
+
+			FeatureUtil.computeWordFeatures(w)
 		}
 		assert Word.count() == 5
 		assert SentenceUtterance.count() == 24
