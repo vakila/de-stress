@@ -193,7 +193,7 @@
 									<td style="width:10%;vertical-align:middle;text-align:right">${(skillPct/10).round()}/10</td>
 								</tr>
 								<g:if test="${ex.feedbackMethod.displayMessage == true}">
-									<tr><td></td><td>${skillMsg}</td><td></td></tr>
+									<tr><td></td><td style="text-align:center;">${skillMsg}</td><td></td></tr>
 									<tr><td><br></td></tr>
 								</g:if>
 							</g:each>
@@ -209,11 +209,35 @@
 									</div>
 								</td>
 								<td style="width:10%;vertical-align:middle;text-align:right">${(allPct/10).round()}/10</td>
-								<tr><td></td><td>Explanation of overall score composition</td><td></td></tr>
+								<tr><td></td>
+									<td style="text-align:center;">
+										Your overall score is the weighted average of your <br>
+										${durStuff[0]} (${(ex.diagnosisMethod.scorer.durationWeight*100).round()}%),
+										${f0Stuff[0]} (${(ex.diagnosisMethod.scorer.f0Weight*100).round()}%), and
+										${intStuff[0]} (${(ex.diagnosisMethod.scorer.intensityWeight*100).round()}%)
+										scores.
+									</td>
+								<td></td></tr>
 							</tr>
 						</table>
 					</div>
 				</g:if>
+				<g:elseif test="${ex.feedbackMethod.displayMessage == true}">
+					<div style="margin-top:40px;text-align:center;">
+						<h2>Assessment</h2>
+						<table>
+							<!-- EACH SKILL -->
+							<g:each var="skillStuff" in="${[durStuff, f0Stuff, intStuff]}">
+								<g:set var="skillName" value="${skillStuff[0]}" />
+								<g:set var="skillMsg" value="${skillStuff[3]}" />
+								<tr>
+									<td style="width:10%;vertical-align:middle;"><h3>${skillName}</h3></td>
+									<td style="width:90%">${skillMsg}</td>
+								</tr>
+							</g:each>
+						</table>
+					</div>
+				</g:elseif>
 			</div>
 		</div>
 	</body>

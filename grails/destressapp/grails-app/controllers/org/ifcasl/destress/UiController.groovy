@@ -207,16 +207,17 @@ class UiController {
             f0Col = DiagnosisUtil.getColor(diag.f0Score)
             intCol = DiagnosisUtil.getColor(diag.intensityScore)
             allCol = DiagnosisUtil.getColor(diag.overallScore)
-            if (ex.feedbackMethod.displayMessage) {
-                durMsg = DiagnosisUtil.getDurationMessage(diag)
-                f0Msg = DiagnosisUtil.getF0Message(diag)
-                intMsg = DiagnosisUtil.getIntensityMessage(diag)
-                println("MESSAGES: ")
-                println("durMsg: " + durMsg)
-                println("f0Msg: " + f0Msg)
-                println("intMsg: " + intMsg)
-            }
 
+        }
+
+        if (ex.feedbackMethod.displayMessage) {
+            durMsg = DiagnosisUtil.getDurationMessage(diag)
+            f0Msg = DiagnosisUtil.getF0Message(diag)
+            intMsg = DiagnosisUtil.getIntensityMessage(diag)
+            println("MESSAGES: ")
+            println("durMsg: " + durMsg)
+            println("f0Msg: " + f0Msg)
+            println("intMsg: " + intMsg)
         }
 
         // get feedback audio
