@@ -160,6 +160,12 @@ class UiController {
 
         }
 
+        // get label color
+        def labelCol
+        if (diag.label) {
+            labelCol = DiagnosisUtil.getColor(diag.label)
+        }
+
 
 
         // get scores & colors
@@ -275,7 +281,7 @@ class UiController {
                refSyllF0s:refSyllF0s,
                studSyllInts:studSyllInts,
                refSyllInts:refSyllInts,
-               //,refWavs:refWavs
+               labelCol:labelCol,
         ]
     }
 

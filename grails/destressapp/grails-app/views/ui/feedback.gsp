@@ -158,6 +158,12 @@
 					</g:if>
 				</div>
 
+				<g:if test="${diag.label}">
+					<div style="margin-top:40px;text-align:center;">
+						<h2>Diagnosis: </h2>
+						<h2 style="color:${labelCol}">${diag.label}</h2>
+				</g:if>
+
 				<g:if test="${ex.feedbackMethod.showSkillBars == true}">
 					<div style="margin-top:40px;text-align:center;">
 						<h2>Your scores</h2>

@@ -184,6 +184,18 @@ class DiagnosisUtil {
         return col
     }
 
+    static String getColor(String label) {
+        def col
+        if (label == "correct") {
+            col = "green"
+        } else if (label == "none") {
+            col = "yellow"
+        } else {
+            col = "red"
+        }
+        return col
+    }
+
     public static String getDurationMessage(Diagnosis diag) {
         def durScore = diag.durationScore
         def message = "Sorry, I wasn't able to analyze duration in your utterance."
