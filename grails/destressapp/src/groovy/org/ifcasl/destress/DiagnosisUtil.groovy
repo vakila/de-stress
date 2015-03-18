@@ -4,7 +4,15 @@ class DiagnosisUtil {
 
 
     static Diagnosis getClassificationDiagnosis(Exercise ex, WordUtterance studUtt) {
-        //TODO
+        String label = WekaUtil.classify(studUtt)
+
+        // Create diagnosis object
+        def diag = new Diagnosis(exercise:ex,
+                                 studentUtterance:studUtt,
+                                 label:label,
+                                 )
+        diag.save()
+        return diag
     }
 
     static List findNBestRefUtts(WordUtterance learnerUtt, int n) {
@@ -150,6 +158,7 @@ class DiagnosisUtil {
             def feedbackPath = grailsApplication.mainContext.servletContext.getRealPath("/") + "audio/feedback/" + waveName
 
             if (fbc.feedbackSignal != null) {
+                //TODO append to diag.feedbackWaves
                 diag.feedbackWaveFile = waveName
                 fbc.feedbackSignal.saveWave(new File(feedbackPath))
             }

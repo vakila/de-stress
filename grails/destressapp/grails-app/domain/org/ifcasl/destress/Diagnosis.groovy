@@ -8,10 +8,13 @@ class Diagnosis {
 
     WordUtterance studentUtterance
     List referenceUtterances
-    static hasMany = [referenceUtterances:WordUtterance]
 
-    // temporary
-    String feedbackWaveFile
+    //TODO transition from single feedbackWaveFile to list feedbackWaves
+    String feedbackWaveFile     // temporary
+    List feedbackWaves
+
+    static hasMany = [referenceUtterances:WordUtterance, feedbackWaves:String]
+
 
 
     Float durationScore
@@ -19,7 +22,9 @@ class Diagnosis {
     Float intensityScore
     Float overallScore
 
-    //self-assessment score?
+    String label
+
+    //self-assessment data?
 
     Date dateCreated
 
@@ -27,11 +32,13 @@ class Diagnosis {
         exercise()
         studentUtterance()
         referenceUtterances(blank:true,nullable:true)
-        durationScore()
-        f0Score()
-        intensityScore()
-        overallScore()
+        label(blank:true,nullable:true)
+        durationScore(blank:true,nullable:true)
+        f0Score(blank:true,nullable:true)
+        intensityScore(blank:true,nullable:true)
+        overallScore(blank:true,nullable:true)
         feedbackWaveFile(blank:true,nullable:true)
+        feedbackWaves(blank:true,nullable:true)
         dateCreated()
 
     }

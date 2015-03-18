@@ -154,8 +154,9 @@ class UiController {
         }
         else { //nRefs <= 0
             //WekaUtil.getInstance(studUtt)
+            //render("Weka diag not implemented yet")
 
-            render(WekaUtil.classify(studUtt))
+            diag = DiagnosisUtil.getClassificationDiagnosis(ex, studUtt)
 
         }
 
@@ -188,7 +189,7 @@ class UiController {
             fbWav = diag.feedbackWaveFile // might be null
         }
         println("fbWav: " + fbWav)
-        
+
 
         /// get syllable font sizes for studUtt
         def s0Pct = studUtt.SYLL0_DUR / studUtt.WORD_DUR
@@ -250,6 +251,8 @@ class UiController {
                              (refUtt.SYLL1_ENERGY_MEAN / refUtt.WORD_ENERGY_MEAN).round(2)])
             println("refUtt: " + refUtt + "\trefSyllInts: " + refSyllF0s[refUtts.indexOf(refUtt)])
         }
+
+        //// TODO get avg values for case where nRefs == 0
 
 
 
