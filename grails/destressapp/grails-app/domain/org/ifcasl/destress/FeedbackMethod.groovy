@@ -13,6 +13,8 @@ class FeedbackMethod {
     Boolean displayShapes
     Boolean styleText
 
+    Boolean displayMessage
+
     Boolean selfAssessment
 
     static constraints = {
@@ -23,6 +25,7 @@ class FeedbackMethod {
         playFeedbackSignal(blank:true,nullable:true)
         displayShapes(blank:true,nullable:true)
         styleText(blank:true,nullable:true)
+        displayMessage(blank:true,nullable:true)
         selfAssessment(blank:true,nullable:true)
     }
 
