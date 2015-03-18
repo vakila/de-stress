@@ -178,7 +178,7 @@ class UiController {
         def labelMsg
         if (diag.label) {
             labelCol = DiagnosisUtil.getColor(diag.label)
-            if (ex.feedbackMethod.displayMessage) {
+            if (ex.feedbackMethod.displayMessages) {
                 labelMsg = DiagnosisUtil.getClassificationMessage(diag)
             }
         }
@@ -210,7 +210,7 @@ class UiController {
 
         }
 
-        if (ex.feedbackMethod.displayMessage) {
+        if (ex.feedbackMethod.displayMessages) {
             durMsg = DiagnosisUtil.getDurationMessage(diag)
             f0Msg = DiagnosisUtil.getF0Message(diag)
             intMsg = DiagnosisUtil.getIntensityMessage(diag)

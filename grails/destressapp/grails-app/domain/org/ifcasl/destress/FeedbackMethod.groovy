@@ -13,7 +13,7 @@ class FeedbackMethod {
     Boolean displayShapes
     Boolean styleText
 
-    Boolean displayMessage
+    Boolean displayMessages
 
     Boolean selfAssessment
 
@@ -25,7 +25,7 @@ class FeedbackMethod {
         playFeedbackSignal(blank:true,nullable:true)
         displayShapes(blank:true,nullable:true)
         styleText(blank:true,nullable:true)
-        displayMessage(blank:true,nullable:true)
+        displayMessages(blank:true,nullable:true)
         selfAssessment(blank:true,nullable:true)
     }
 

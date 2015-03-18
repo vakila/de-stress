@@ -166,7 +166,7 @@
 					</div>
 				</g:if>-->
 
-				<g:if test="${ex.feedbackMethod.displayMessage == true && diag.label}">
+				<g:if test="${ex.feedbackMethod.displayMessages == true && diag.label}">
 					<div style="margin-top:40px;text-align:center;">
 						<h2 style="color:${labelCol}">${labelMsg}</h2>
 					</div>
@@ -192,7 +192,7 @@
 									</td>
 									<td style="width:10%;vertical-align:middle;text-align:right">${(skillPct/10).round()}/10</td>
 								</tr>
-								<g:if test="${ex.feedbackMethod.displayMessage == true}">
+								<g:if test="${ex.feedbackMethod.displayMessages == true}">
 									<tr><td></td><td style="text-align:center;">${skillMsg}</td><td></td></tr>
 									<tr><td><br></td></tr>
 								</g:if>
@@ -222,7 +222,7 @@
 						</table>
 					</div>
 				</g:if>
-				<g:elseif test="${ex.feedbackMethod.displayMessage == true}">
+				<g:elseif test="${ex.feedbackMethod.displayMessages == true}">
 					<div style="margin-top:40px;text-align:center;">
 						<h2>Assessment</h2>
 						<table>
