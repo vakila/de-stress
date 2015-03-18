@@ -167,7 +167,7 @@ class UiController {
         diag.selfAssessedStressLabel = params['stressLabel']
         diag.selfAssessedStressClarity = params['clearEnough']
         diag.selfAssessedAdvice = params['advice']
-        diag.save()
+        diag.save(flush:true)
         println("selfAssessedStressLabel: " + diag.selfAssessedStressLabel)
         println("selfAssessedStressClarity: " + diag.selfAssessedStressClarity)
         println("selfAssessedAdvice: " + diag.selfAssessedAdvice)
