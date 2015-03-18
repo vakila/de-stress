@@ -220,19 +220,19 @@ class DiagnosisUtil {
         def durScore = diag.durationScore
         //println("durScore: " + durScore)
         def message = "Sorry, I wasn't able to analyze duration in your utterance."
-        if (durScore == 0.1f) {
+        if (durScore <= 0.1f) {
             message = "I think you pronounced an incorrect number of syllables for this word."
         }
-        else if (durScore == 0.3f) {
+        else if (durScore <= 0.3f) {
             message = "I think you pronounced an incorrect number of phones in at least one of the word's syllables."
         }
-        else if (durScore == 0.5f) {
+        else if (durScore <= 0.5f) {
             message = "The wrong syllable has the longest vowel."
         }
-        else if (durScore == 0.8f) {
+        else if (durScore <= 0.8f) {
             message = "The correct syllable's vowel is longest, good job! But it should be even longer compared to the unstressed syllable."
         }
-        else if (durScore == 1.0f) {
+        else if (durScore <= 1.0f) {
             message = "No problems with duration, great job!"
         }
         return message
@@ -241,13 +241,13 @@ class DiagnosisUtil {
     public static String getF0Message(Diagnosis diag) {
         def f0Score = diag.f0Score
         def message = "Sorry, I wasn't able to analyze pitch in your utterance."
-        if (f0Score == 0.1) {
+        if (f0Score <= 0.1) {
             message = "The wrong syllable has the highest pitch."
         }
-        else if (f0Score == 0.8) {
+        else if (f0Score <= 0.8) {
             message = "The correct syllable has the highest pitch, good job! But it should be even higher compared to the unstressed syllable."
         }
-        else if (f0Score == 1.0) {
+        else if (f0Score <= 1.0) {
             message = "Your pitch was pitch-perfect, great job!"
         }
         return message
@@ -257,13 +257,13 @@ class DiagnosisUtil {
         def intScore = diag.intensityScore
         println("intScore: " + intScore)
         def message = "Sorry, I wasn't able to analyze the loudness of your utterance."
-        if (intScore == 0.1) {
+        if (intScore <= 0.1) {
             message = "The wrong syllable is loudest."
         }
-        else if (intScore == 0.8) {
+        else if (intScore <= 0.8) {
             message = "The correct syllable is loudest, good job! But it should be even louder compared to the unstressed syllable."
         }
-        else if (intScore == 1.0) {
+        else if (intScore <= 1.0) {
             message = "No problems with loudness, great job!"
         }
         return message
