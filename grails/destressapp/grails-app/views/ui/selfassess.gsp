@@ -103,7 +103,7 @@
 
 			            <label><h4>Which syllable did you stress?</h4></label>
 						<table>
-						<g:radioGroup name="stressedSyll"
+						<g:radioGroup name="stressLabel"
 						              labels="['The first syllable (correct)',
 											   'The second syllable (incorrect)',
 											   'Neither syllable (incorrect)']"
@@ -140,7 +140,7 @@
 
 						<g:hiddenField name="fgUtts.id" value="${studUtt.id}" />
 						<g:if test="${refUtts.size() > 0}">
-							<g:each var="i" in="${refUtts.size()}">
+							<g:each var="i" in="${1..refUtts.size()}">
 								<g:hiddenField name="ggUtts.${i}" value="${refUtts[i-1].id}" />
 							</g:each>
 						</g:if>

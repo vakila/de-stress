@@ -158,52 +158,58 @@
 					</g:if>
 				</div>
 
-				<g:if test="${diag.label}">
+
+				<!--<g:if test="${diag.label}">
 					<div style="margin-top:40px;text-align:center;">
 						<h2>Diagnosis: </h2>
 						<h2 style="color:${labelCol}">${diag.label}</h2>
+					</div>
+				</g:if>-->
+
+				<g:if test="${ex.feedbackMethod.displayMessage == true && diag.label}">
+					<div style="margin-top:40px;text-align:center;">
+						<h2 style="color:${labelCol}">${labelMsg}</h2>
+					</div>
 				</g:if>
 
 				<g:if test="${ex.feedbackMethod.showSkillBars == true}">
 					<div style="margin-top:40px;text-align:center;">
 						<h2>Your scores</h2>
 						<table>
+
+							<!-- EACH SKILL -->
+							<g:each var="skillStuff" in="${[durStuff, f0Stuff, intStuff]}">
+								<g:set var="skillName" value="${skillStuff[0]}" />
+								<g:set var="skillPct" value="${skillStuff[1]}" />
+								<g:set var="skillCol" value="${skillStuff[2]}" />
+								<g:set var="skillMsg" value="${skillStuff[3]}" />
+								<tr>
+									<td style="width:10%;vertical-align:middle;"><h3>${skillName}</h3></td>
+									<td style="width:80%">
+										<div style="width:100%; margin:5px; border:1px solid black">
+											<div style="height:40px; background:${skillCol}; width:${skillPct}%"></div>
+										</div>
+									</td>
+									<td style="width:10%;vertical-align:middle;text-align:right">${(skillPct/10).round()}/10</td>
+								</tr>
+								<g:if test="${ex.feedbackMethod.displayMessage == true}">
+									<tr><td></td><td>${skillMsg}</td><td></td></tr>
+									<tr><td><br></td></tr>
+								</g:if>
+							</g:each>
+
+							<!--<tr><td><br></td></tr>-->
+
+							<!-- OVERALL -->
 							<tr>
-								<td style="width:10%;vertical-align:middle;">Duration</td>
-								<td style="width:80%">
-									<div style="width:100%; margin:5px; border:1px solid black">
-										<div style="height:40px; background:${durCol}; width:${durPct}%"></div>
-									</div>
-								</td>
-								<td style="width:10%;vertical-align:middle;text-align:right">${(durPct/10).round()}/10</td>
-							</tr>
-							<tr>
-								<td style="width:10%;vertical-align:middle;">Pitch</td>
-								<td style="width:80%">
-									<div style="width:100%; margin:5px; border:1px solid black">
-										<div style="height:40px; background:${f0Col}; width:${f0Pct}%"></div>
-									</div>
-								</td>
-								<td style="width:10%;vertical-align:middle;text-align:right">${(f0Pct/10).round()}/10</td>
-							</tr>
-							<tr>
-								<td style="width:10%;vertical-align:middle;">Intensity</td>
-								<td style="width:80%">
-									<div style="width:100%; margin:5px; border:1px solid black">
-										<div style="height:40px; background:${intCol}; width:${intPct}%"></div>
-									</div>
-								</td>
-								<td style="width:10%;vertical-align:middle;text-align:right">${(intPct/10).round()}/10</td>
-							</tr>
-							<br>
-							<tr>
-								<td style="width:10%;vertical-align:middle;">Overall</td>
+								<td style="width:10%;vertical-align:middle;"><h3>Overall</h3></td>
 								<td style="width:80%">
 									<div style="width:100%; margin:5px; border:1px solid black">
 										<div style="height:60px; background:${allCol}; width:${allPct}%"></div>
 									</div>
 								</td>
 								<td style="width:10%;vertical-align:middle;text-align:right">${(allPct/10).round()}/10</td>
+								<tr><td></td><td>Explanation of overall score composition</td><td></td></tr>
 							</tr>
 						</table>
 					</div>

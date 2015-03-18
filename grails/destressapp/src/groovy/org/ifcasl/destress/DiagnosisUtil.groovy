@@ -87,7 +87,11 @@ class DiagnosisUtil {
 
             if (scorerType == ScorerType.JSNOORI) {
             //case "JSNOORI":
-                if (refUtts.size()==1) {
+                if (refUtts.size()==0) {
+                    println("ERROR: EMPTY refUtts!!!")
+                    return
+                }
+                else if (refUtts.size()==1) {
                     def refUtt = refUtts.get(0)
 
                     // get scores from FeedbackComputer
@@ -101,7 +105,7 @@ class DiagnosisUtil {
                     def f0Total = 0f
                     def intTotal = 0f
                     for (refUtt in refUtts) {
-
+                        println("Getting diag for refUtt: " + refUtt.toString())
                         fbc = JsnooriUtil.getFeedbackComputer(ex, studUtt, refUtt)
                         durTotal += fbc.timeFeedback.getScore()
                         f0Total += fbc.pitchFeedback.getPitchScore()
@@ -189,7 +193,7 @@ class DiagnosisUtil {
         if (label == "correct") {
             col = "green"
         } else if (label == "none") {
-            col = "yellow"
+            col = "red"//"yellow"
         } else {
             col = "red"
         }
@@ -214,20 +218,21 @@ class DiagnosisUtil {
 
     public static String getDurationMessage(Diagnosis diag) {
         def durScore = diag.durationScore
+        //println("durScore: " + durScore)
         def message = "Sorry, I wasn't able to analyze duration in your utterance."
-        if (durScore == 0.1) {
+        if (durScore == 0.1f) {
             message = "I think you pronounced an incorrect number of syllables for this word."
         }
-        else if (durScore == 0.3) {
+        else if (durScore == 0.3f) {
             message = "I think you pronounced an incorrect number of phones in at least one of the word's syllables."
         }
-        else if (durScore == 0.5) {
+        else if (durScore == 0.5f) {
             message = "The wrong syllable has the longest vowel."
         }
-        else if (durScore == 0.8) {
+        else if (durScore == 0.8f) {
             message = "The correct syllable's vowel is longest, good job! But it should be even longer compared to the unstressed syllable."
         }
-        else if (durScore == 1.0) {
+        else if (durScore == 1.0f) {
             message = "No problems with duration, great job!"
         }
         return message
@@ -250,6 +255,7 @@ class DiagnosisUtil {
 
     public static String getIntensityMessage(Diagnosis diag) {
         def intScore = diag.intensityScore
+        println("intScore: " + intScore)
         def message = "Sorry, I wasn't able to analyze the loudness of your utterance."
         if (intScore == 0.1) {
             message = "The wrong syllable is loudest."
@@ -260,6 +266,7 @@ class DiagnosisUtil {
         else if (intScore == 1.0) {
             message = "No problems with loudness, great job!"
         }
+        return message
     }
 
 }

@@ -94,6 +94,7 @@ class UiController {
     def List getRefUtts(Exercise ex, WordUtterance studUtt) {
         def refUtts = []
         def nRefs = ex.diagnosisMethod.numberOfReferences
+        println("PARAMS: " + params)
         if (nRefs > 0) {
             if (ex.diagnosisMethod.selectionType == SelectionType.AUTO) {
                 refUtts = DiagnosisUtil.findNBestRefUtts(studUtt, nRefs)
@@ -127,6 +128,7 @@ class UiController {
 
         if (nRefs > 0) {
             refUtts = getRefUtts(ex, studUtt)
+            println("REFUTTS: " + refUtts)
 
             ///// Moved to getRefUtts()
             // if (ex.diagnosisMethod.selectionType == SelectionType.AUTO) {
@@ -160,15 +162,29 @@ class UiController {
 
         }
 
-        // get label color
+
+        //TODO set self-assessment info
+        diag.selfAssessedStressLabel = params['stressLabel']
+        diag.selfAssessedStressClarity = params['clearEnough']
+        diag.selfAssessedAdvice = params['advice']
+        diag.save()
+        println("selfAssessedStressLabel: " + diag.selfAssessedStressLabel)
+        println("selfAssessedStressClarity: " + diag.selfAssessedStressClarity)
+        println("selfAssessedAdvice: " + diag.selfAssessedAdvice)
+
+
+        // get label color & message
         def labelCol
+        def labelMsg
         if (diag.label) {
             labelCol = DiagnosisUtil.getColor(diag.label)
+            if (ex.feedbackMethod.displayMessage) {
+                labelMsg = DiagnosisUtil.getClassificationMessage(diag)
+            }
         }
 
 
-
-        // get scores & colors
+        // get skill scores, colors, & messages
         def durPct
         def f0Pct
         def intPct
@@ -177,6 +193,10 @@ class UiController {
         def f0Col
         def intCol
         def allCol
+        def durMsg
+        def f0Msg
+        def intMsg
+
 
         if (ex.feedbackMethod.showSkillBars) {
             durPct = new Float(diag.durationScore * 100f)
@@ -187,6 +207,16 @@ class UiController {
             f0Col = DiagnosisUtil.getColor(diag.f0Score)
             intCol = DiagnosisUtil.getColor(diag.intensityScore)
             allCol = DiagnosisUtil.getColor(diag.overallScore)
+            if (ex.feedbackMethod.displayMessage) {
+                durMsg = DiagnosisUtil.getDurationMessage(diag)
+                f0Msg = DiagnosisUtil.getF0Message(diag)
+                intMsg = DiagnosisUtil.getIntensityMessage(diag)
+                println("MESSAGES: ")
+                println("durMsg: " + durMsg)
+                println("f0Msg: " + f0Msg)
+                println("intMsg: " + intMsg)
+            }
+
         }
 
         // get feedback audio
@@ -262,6 +292,10 @@ class UiController {
 
 
 
+        //// TODO skill stuff
+        def durStuff = ["Duration",durPct,durCol,durMsg]
+        def f0Stuff = ["Pitch",f0Pct, f0Col, f0Msg]
+        def intStuff = ["Loudness",intPct, intCol, intMsg]
 
         //render(view:"exercise", model:[ex:ex,fgUtts:[],ggUtts:[]])
         [ex:ex,diag:diag,
@@ -269,10 +303,16 @@ class UiController {
                refUtts:refUtts,
                studWav:studWav,
                fbWav:fbWav,
-               durPct:durPct,durCol:durCol,
-               f0Pct:f0Pct,f0Col:f0Col,
-               intPct:intPct,intCol:intCol,
+               //
+               //durPct:durPct,durCol:durCol,durMsg:durMsg,
+               //f0Pct:f0Pct,f0Col:f0Col,f0Msg:f0Msg,
+               //intPct:intPct,intCol:intCol,intMsg:intMsg,
+               durStuff:durStuff,
+               f0Stuff:f0Stuff,
+               intStuff:intStuff,
+               //
                allPct:allPct,allCol:allCol,
+               //
                studSyllSizes:studSyllSizes,
                refSyllSizes:refSyllSizes,
                studSyllDurs:studSyllDurs,
@@ -282,6 +322,7 @@ class UiController {
                studSyllInts:studSyllInts,
                refSyllInts:refSyllInts,
                labelCol:labelCol,
+               labelMsg:labelMsg,
         ]
     }
 
