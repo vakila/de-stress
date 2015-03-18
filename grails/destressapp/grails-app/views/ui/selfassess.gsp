@@ -118,8 +118,8 @@
 						<label><h4>Is the stress as clear in your utterance as it is in the reference utterance?</h4></label>
 						<table>
 						<g:radioGroup name="clearEnough"
-						              labels="['Yes','No','I don\'t know']"
-						              values="['yes','no','unsure']">
+						              labels="['Just as clear as in reference','Not as clear as in reference','I don\'t know']"
+						              values="['clear','unclear','unsure']">
 						<tr>
 							<td style="width:10%;text-align:right;">${it.radio}</td>
 							<td style="width:90%;text-align:left;">${it.label}</td>

@@ -2,6 +2,8 @@ package org.ifcasl.destress
 
 class Diagnosis {
 
+    Date dateCreated
+
     Exercise exercise
 
     //DiagnosisMethod diagnosisMethod // or make this property of exercise?
@@ -16,17 +18,22 @@ class Diagnosis {
     static hasMany = [referenceUtterances:WordUtterance, feedbackWaves:String]
 
 
-
+    //comparison diagnosis
     Float durationScore
     Float f0Score
     Float intensityScore
     Float overallScore
 
+    //classification diagnosis
     String label
 
-    //self-assessment data?
+    //self-assessment
+    String selfAssessedStressLabel
+    String selfAssessedStressClarity
+    String selfAssessedAdvice
 
-    Date dateCreated
+
+
 
     static constraints = {
         exercise()
@@ -39,6 +46,9 @@ class Diagnosis {
         overallScore(blank:true,nullable:true)
         feedbackWaveFile(blank:true,nullable:true)
         feedbackWaves(blank:true,nullable:true)
+        selfAssessedStressLabel(blank:true,nullable:true)
+        selfAssessedStressClarity(blank:true,nullable:true)
+        selfAssessedAdvice(blank:true,nullable:true)
         dateCreated()
 
     }
