@@ -94,18 +94,19 @@ class UiController {
     def List getRefUtts(Exercise ex, WordUtterance studUtt) {
         def refUtts = []
         def nRefs = ex.diagnosisMethod.numberOfReferences
-
-        if (ex.diagnosisMethod.selectionType == SelectionType.AUTO) {
-            refUtts = DiagnosisUtil.findNBestRefUtts(studUtt, nRefs)
-        }
-        else if (ex.diagnosisMethod.selectionType == SelectionType.MANUAL) {
-            for (i in 1..nRefs) {
-                def refUtt = WordUtterance.get(params['ggUtts.' + i])
-                refUtts.add(refUtt)
+        if (nRefs > 0) {
+            if (ex.diagnosisMethod.selectionType == SelectionType.AUTO) {
+                refUtts = DiagnosisUtil.findNBestRefUtts(studUtt, nRefs)
             }
-        }
-        else { // selectionType == FIXED
-            render("FIXED selectionType not yet implemented!")
+            else if (ex.diagnosisMethod.selectionType == SelectionType.MANUAL) {
+                for (i in 1..nRefs) {
+                    def refUtt = WordUtterance.get(params['ggUtts.' + i])
+                    refUtts.add(refUtt)
+                }
+            }
+            else { // selectionType == FIXED
+                render("FIXED selectionType not yet implemented!")
+            }
         }
         return refUtts
     }
@@ -152,6 +153,8 @@ class UiController {
             diag = DiagnosisUtil.getComparisonDiagnosis(ex, studUtt, refUtts)
         }
         else { //nRefs <= 0
+            WekaUtil.getInstance(studUtt)
+
             render("Non-comparison diagnosis not yet supported!")
 
         }

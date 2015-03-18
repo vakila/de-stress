@@ -319,6 +319,15 @@ class BootStrap {
 			)
 		fm2.save()
 
+		def fmW = new FeedbackMethod(
+			name:"WekaFM",
+			requiresScorerType:"WEKA",
+			//showSkillBars:false,
+			//playFeedbackSignal:false,
+			selfAssessment:true,
+			)
+		fmW.save()
+
 
 		//// CREATE EXERCISES
 		def ex1 = new Exercise(
@@ -342,7 +351,7 @@ class BootStrap {
 			description:"Weka noref",
 			word:Word.get(3),
 			diagnosisMethod:dm3,
-			feedbackMethod:fm1
+			feedbackMethod:fmW,
 			)
 		ex3.save()
 

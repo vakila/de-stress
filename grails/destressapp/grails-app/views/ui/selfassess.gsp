@@ -139,9 +139,11 @@
 						<br><br>
 
 						<g:hiddenField name="fgUtts.id" value="${studUtt.id}" />
-						<g:each var="i" in="${refUtts.size()}">
-							<g:hiddenField name="ggUtts.${i}" value="${refUtts[i-1].id}" />
-						</g:each>
+						<g:if test="${refUtts.size() > 0}">
+							<g:each var="i" in="${refUtts.size()}">
+								<g:hiddenField name="ggUtts.${i}" value="${refUtts[i-1].id}" />
+							</g:each>
+						</g:if>
 
 
 			            <div style="text-align:center;margin:10px;">

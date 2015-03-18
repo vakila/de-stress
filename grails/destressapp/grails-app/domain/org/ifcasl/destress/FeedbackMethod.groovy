@@ -17,7 +17,7 @@ class FeedbackMethod {
 
     static constraints = {
         name()
-        description()
+        description(blank:true,nullable:true)
         requiresScorerType(blank:true,nullable:true)
         showSkillBars(blank:true,nullable:true)
         playFeedbackSignal(blank:true,nullable:true)
