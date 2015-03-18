@@ -153,29 +153,42 @@ class UiController {
             diag = DiagnosisUtil.getComparisonDiagnosis(ex, studUtt, refUtts)
         }
         else { //nRefs <= 0
-            WekaUtil.getInstance(studUtt)
+            //WekaUtil.getInstance(studUtt)
 
-            render("Non-comparison diagnosis not yet supported!")
+            render(WekaUtil.classify(studUtt))
 
         }
 
 
 
         // get scores & colors
-        def durPct = new Float(diag.durationScore * 100f)
-        def f0Pct = new Float(diag.f0Score * 100f)
-        def intPct = new Float(diag.intensityScore * 100f)
-        def allPct = new Float(diag.overallScore * 100f)
+        def durPct
+        def f0Pct
+        def intPct
+        def allPct
+        def durCol
+        def f0Col
+        def intCol
+        def allCol
 
-        def durCol = DiagnosisUtil.getColor(diag.durationScore)
-        def f0Col = DiagnosisUtil.getColor(diag.f0Score)
-        def intCol = DiagnosisUtil.getColor(diag.intensityScore)
-        def allCol = DiagnosisUtil.getColor(diag.overallScore)
+        if (ex.feedbackMethod.showSkillBars) {
+            durPct = new Float(diag.durationScore * 100f)
+            f0Pct = new Float(diag.f0Score * 100f)
+            intPct = new Float(diag.intensityScore * 100f)
+            allPct = new Float(diag.overallScore * 100f)
+            durCol = DiagnosisUtil.getColor(diag.durationScore)
+            f0Col = DiagnosisUtil.getColor(diag.f0Score)
+            intCol = DiagnosisUtil.getColor(diag.intensityScore)
+            allCol = DiagnosisUtil.getColor(diag.overallScore)
+        }
 
         // get feedback audio
         def fbWav
-        fbWav = diag.feedbackWaveFile // might be null
+        if (ex.feedbackMethod.playFeedbackSignal) {
+            fbWav = diag.feedbackWaveFile // might be null
+        }
         println("fbWav: " + fbWav)
+        
 
         /// get syllable font sizes for studUtt
         def s0Pct = studUtt.SYLL0_DUR / studUtt.WORD_DUR
