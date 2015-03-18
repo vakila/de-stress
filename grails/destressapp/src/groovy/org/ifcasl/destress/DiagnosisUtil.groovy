@@ -196,14 +196,30 @@ class DiagnosisUtil {
         return col
     }
 
+    public static String getClassificationMessage(Diagnosis diag) {
+        def message = "Sorry, I wasn't able to classify your utterance."
+        if (diag.label == "correct") {
+            message = "You stressed the correct syllable. Great job!"
+        }
+        else if (diag.label == "incorrect") {
+            message = "It sounds like you stressed the incorrect syllable. Remember that the stress in "
+            message += diag.studentUtterance.word.text + " should be on the first syllable."
+        }
+        else if (diag.label == "none") {
+            message = "It sounds like you pronounced both syllables with equal stress. Next time, try to use duration, pitch, and loudness to make the first syllable sound more important than the second syllable."
+        }
+        //TODO include bad_* label cases?
+        return message
+    }
+
     public static String getDurationMessage(Diagnosis diag) {
         def durScore = diag.durationScore
         def message = "Sorry, I wasn't able to analyze duration in your utterance."
         if (durScore == 0.1) {
-            message = "Incorrect number of syllables."
+            message = "I think you pronounced an incorrect number of syllables for this word."
         }
         else if (durScore == 0.3) {
-            message = "Incorrect number of phones."
+            message = "I think you pronounced an incorrect number of phones in at least one of the word's syllables."
         }
         else if (durScore == 0.5) {
             message = "The wrong syllable has the longest vowel."
