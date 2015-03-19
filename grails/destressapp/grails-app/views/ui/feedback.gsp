@@ -82,7 +82,7 @@
 							<td style="width:30%;vertical-align:middle">
 								<p>${studUtt}</p>
 								<!--<audio src="${studWav}" controls></audio>-->
-								<audio src="<g:resource dir="audio" file="${studWav}" />" controls style="width:100%;"></audio>
+								<audio src="<g:resource dir="audio" file="${studWav}" />" controls></audio>
 								<p><g:link action="download" id="${studUtt.id}">Download</g:link></p>
 							</td>
 							</tr>
@@ -190,16 +190,17 @@
 						</div>
 					</g:each>
 					<g:if test="${ex.feedbackMethod.playFeedbackSignal == true}">
+						<g:each var="fbWav" in="${fbWaves}">
 						<g:if test="${fbWav != null}">
 							<div style="padding:10px">
 								<table style="border-bottom:1px solid #DFDFDF;">
 									<tr>
 
-									<td style="width:70%;vertical-align:middle">
-										<h3>Feedback utterance:</h3>
+									<td style="width:40%;vertical-align:middle">
+										<h3>Your utterance modified to match Reference utterance ${fbWaves.indexOf(fbWav)+1}:</h3>
 									</td>
-									<td style="width:30%;vertical-align:middle">
-										<p>${diag}</p>
+									<td style="width:60%;vertical-align:middle">
+										<p>${fbWav}</p>
 										<audio src="<g:resource dir="audio/feedback" file="${fbWav}" />" controls></audio>
 										<p><g:link action="downloadFeedback" id="${diag.id}">Download</g:link></p>
 									</td>
@@ -207,6 +208,7 @@
 								</table>
 							</div>
 						</g:if>
+						</g:each>
 					</g:if>
 					</g:else>
 				</div>

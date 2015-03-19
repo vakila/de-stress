@@ -221,11 +221,13 @@ class UiController {
         }
 
         // get feedback audio
-        def fbWav
+        //def fbWav
+        def fbWaves
         if (ex.feedbackMethod.playFeedbackSignal) {
-            fbWav = diag.feedbackWaveFile // might be null
+            //fbWav = diag.feedbackWaveFile // might be null
+            fbWaves = diag.feedbackWaves
         }
-        println("fbWav: " + fbWav)
+        println("fbWaves: " + fbWaves)
 
 
         /// get syllable font sizes for studUtt
@@ -315,7 +317,8 @@ class UiController {
                studUtt:studUtt,
                refUtts:refUtts,
                studWav:studWav,
-               fbWav:fbWav,
+               //fbWav:fbWav,
+               fbWaves:fbWaves,
                //
                //durPct:durPct,durCol:durCol,durMsg:durMsg,
                //f0Pct:f0Pct,f0Col:f0Col,f0Msg:f0Msg,

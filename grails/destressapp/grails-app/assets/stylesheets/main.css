@@ -154,6 +154,10 @@ img {
 	text-indent: -9999px;
 }
 
+audio {
+	width:100%;
+}
+
 /* NAVIGATION MENU */
 
 .nav {

@@ -81,6 +81,8 @@ class DiagnosisUtil {
         def f0Score
         def intScore
 
+        def fbWaves = []
+
         def scorerType = scorer.type
         println ("scorerType: " + scorerType)
         //switch (scorerType) {
@@ -105,11 +107,29 @@ class DiagnosisUtil {
                     def f0Total = 0f
                     def intTotal = 0f
                     for (refUtt in refUtts) {
+                        // Get FeedbackComputer
                         println("Getting diag for refUtt: " + refUtt.toString())
                         fbc = JsnooriUtil.getFeedbackComputer(ex, studUtt, refUtt)
+
+                        // Tally scores
                         durTotal += fbc.timeFeedback.getScore()
                         f0Total += fbc.pitchFeedback.getPitchScore()
                         intTotal += fbc.energyFeedback.getEnergyScore()
+
+                        // Get resynthesized audio
+                        def waveName = "FB-" + studUtt.word.toString() + "-" + studUtt.sentenceUtterance.toString() + "-" + refUtt.sentenceUtterance.toString() + ".wav"
+                        println ("waveName: " + waveName)
+                        def grailsApplication = new Diagnosis().domainClass.grailsApplication
+                        def feedbackPath = grailsApplication.mainContext.servletContext.getRealPath("/") + "audio/feedback/" + waveName
+
+                        if (fbc.feedbackSignal != null) {
+                            //diag.feedbackWaveFile = waveName
+                            fbc.feedbackSignal.saveWave(new File(feedbackPath))
+                            fbWaves.add(waveName)
+                        }
+                        else {
+                            println("ERROR feedbackSignal is null!")
+                        }
 
                     }
                     def n = new Float(refUtts.size())
@@ -152,27 +172,29 @@ class DiagnosisUtil {
                                  f0Score:f0Score,
                                  intensityScore:intScore,
                                  overallScore:allScore,
+                                 feedbackWaves:fbWaves,
                                  )
 
-        if (refUtts.size() == 1) {
-            // save feedbackSignal to file
-            def waveName = diag.toString() + ".wav"
-            println ("waveName: " + waveName)
-            def grailsApplication = new Diagnosis().domainClass.grailsApplication
-            def feedbackPath = grailsApplication.mainContext.servletContext.getRealPath("/") + "audio/feedback/" + waveName
-
-            if (fbc.feedbackSignal != null) {
-                //TODO append to diag.feedbackWaves
-                diag.feedbackWaveFile = waveName
-                fbc.feedbackSignal.saveWave(new File(feedbackPath))
-            }
-            else {
-                println("ERROR feedbackSignal is null!")
-            }
-        }
+        ///// MOVED TO LINE 119ff.
+        // if (refUtts.size() == 1) {
+        //     // save feedbackSignal to file
+        //     def waveName = diag.toString() + ".wav"
+        //     println ("waveName: " + waveName)
+        //     def grailsApplication = new Diagnosis().domainClass.grailsApplication
+        //     def feedbackPath = grailsApplication.mainContext.servletContext.getRealPath("/") + "audio/feedback/" + waveName
+        //
+        //     if (fbc.feedbackSignal != null) {
+        //         //TODO append to diag.feedbackWaves
+        //         diag.feedbackWaveFile = waveName
+        //         fbc.feedbackSignal.saveWave(new File(feedbackPath))
+        //     }
+        //     else {
+        //         println("ERROR feedbackSignal is null!")
+        //     }
+        // }
 
         // save & return
-        diag.save()
+        diag.save(flush:true)
         return diag
     }
 
