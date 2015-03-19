@@ -36,7 +36,7 @@
 			</div>
 
 
-			<div style="margin-top:40px; margin-left:auto; margin-right:auto; width:90%;">
+			<div style="margin-top:40px; margin-bottom:40px; margin-left:auto; margin-right:auto; width:90%;">
 				<!--<div style="text-align:center;">-->
 				<div>
 					<div style="padding:10px;">
@@ -82,13 +82,65 @@
 							<td style="width:30%;vertical-align:middle">
 								<p>${studUtt}</p>
 								<!--<audio src="${studWav}" controls></audio>-->
-								<audio src="<g:resource dir="audio" file="${studWav}" />" controls></audio>
+								<audio src="<g:resource dir="audio" file="${studWav}" />" controls style="width:100%;"></audio>
 								<p><g:link action="download" id="${studUtt.id}">Download</g:link></p>
 							</td>
 							</tr>
 						</table>
 					</div>
 
+					<g:if test="${ex.diagnosisMethod.numberOfReferences == 0}"> <!-- Classification diagnosis -->
+						<div style="padding:10px;">
+							<table style="border-bottom:1px solid #DFDFDF;">
+							<tr>
+
+								<td style="width:20%;vertical-align:middle;padding:none;margin:none;">
+									<h3>Native speakers:</h3>
+								</td>
+
+								<td style="width:50%;vertical-align:middle">
+									<div style="width:90%; text-align:left; font-size:2em; margin-left:auto; margin-right:auto;">
+					                        <g:each var="s" in="${ (0..1) }">
+
+												<div style="display:table-cell;padding:2px;text-align:left">
+													<g:if test="${ex.feedbackMethod.displayShapes == true}">
+														<div style="height:100px;display:table-cell;vertical-align:bottom;">
+														<div style="height:${wordSyllF0s[s]*50}px;
+																	width:${wordSyllDurs[s]*300}px;
+																	opacity:${wordSyllInts[s]};
+																	background:green;border:1px solid green;border-radius:10px;margin-bottom:3px;"
+															title="Duration: ${(wordSyllDurs[s]*100).round(2)}% of word &#013Pitch: ${wordSyllF0s[s].round(2)*100}% of mean &#013Intensity (darkness): ${wordSyllInts[s]}% of mean">
+														</div>
+														</div>
+													</g:if>
+						                            <a>
+														<g:if test="${ex.feedbackMethod.styleText == true}">
+															<div style="height:80px;display:table-cell;vertical-align:bottom;">
+															<span style="font-size:${wordSyllSizes[s]}em">
+														</g:if>
+																${ex.word.syllables[s]}
+														<g:if test="${ex.feedbackMethod.styleText == true}">
+															</span>
+															</div>
+														</g:if>
+													</a>
+												</div>
+					                        </g:each>
+									</div>
+								</td>
+								<td style="width:30%;vertical-align:middle;visibility:hidden;">
+									<!--<p>${studUtt}</p>
+									<audio src="<g:resource dir="audio" file="${studWav}" />" controls></audio>
+									<p><g:link action="download" id="${studUtt.id}">Download</g:link></p>
+								-->
+								</td>
+
+							</tr>
+							</table>
+						</div>
+					</g:if>
+
+					<g:else> <!-- Comparison diagnosis -->
 					<g:each var="refUtt" in="${refUtts}">
 						<div style="padding:10px;">
 							<table style="border-bottom:1px solid #DFDFDF;">
@@ -156,6 +208,7 @@
 							</div>
 						</g:if>
 					</g:if>
+					</g:else>
 				</div>
 
 
@@ -222,7 +275,7 @@
 						</table>
 					</div>
 				</g:if>
-				<g:elseif test="${ex.feedbackMethod.displayMessages == true}">
+				<g:elseif test="${ex.feedbackMethod.displayMessages == true && ex.diagnosisMethod.numberOfReferences > 0}">
 					<div style="margin-top:40px;text-align:center;">
 						<h2>Assessment</h2>
 						<table>

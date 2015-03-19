@@ -229,12 +229,12 @@ class UiController {
 
 
         /// get syllable font sizes for studUtt
-        def s0Pct = studUtt.SYLL0_DUR / studUtt.WORD_DUR
-        def s1Pct = studUtt.SYLL1_DUR / studUtt.WORD_DUR
-        println("studUtt: " + studUtt + "\ts0Pct: " + s0Pct + "\ts1Pct: " + s1Pct)
-        def studSyllDurs = [s0Pct.round(2), s1Pct.round(2)]
-        def s0Size = s0Pct * 3
-        def s1Size = s1Pct * 3
+        def s0Dur = studUtt.SYLL0_DUR / studUtt.WORD_DUR
+        def s1Dur = studUtt.SYLL1_DUR / studUtt.WORD_DUR
+        println("studUtt: " + studUtt + "\ts0Dur: " + s0Dur + "\ts1Dur: " + s1Dur)
+        def studSyllDurs = [s0Dur.round(2), s1Dur.round(2)]
+        def s0Size = s0Dur * 3
+        def s1Size = s1Dur * 3
         def studSyllSizes = [s0Size, s1Size]
 
         /// get mean-normalized F0
@@ -290,7 +290,19 @@ class UiController {
         }
 
         //// TODO get avg values for case where nRefs == 0
-
+        def wordSyllSizes
+        def wordSyllDurs
+        def wordSyllF0s
+        def wordSyllInts
+        if (nRefs == 0 && (ex.feedbackMethod.displayShapes || ex.feedbackMethod.styleText)) {
+            def w = studUtt.word
+            def wordSyll0Dur = w.AVG_SYLL0_DUR/w.AVG_WORD_DUR
+            def wordSyll1Dur = w.AVG_SYLL1_DUR/w.AVG_WORD_DUR
+            wordSyllDurs = [wordSyll0Dur.round(2), wordSyll1Dur.round(2)]
+            wordSyllSizes = [(wordSyll0Dur*3), (wordSyll1Dur*3)]
+            wordSyllF0s = [(w.AVG_SYLL0_F0_MEAN / w.AVG_WORD_F0_MEAN).round(2), (w.AVG_SYLL1_F0_MEAN / w.AVG_WORD_F0_MEAN).round(2)]
+            wordSyllInts = [(w.AVG_SYLL0_ENERGY_MEAN / w.AVG_WORD_ENERGY_MEAN ).round(2), (w.AVG_SYLL1_ENERGY_MEAN / w.AVG_WORD_ENERGY_MEAN).round(2)]
+        }
 
 
         //// TODO skill stuff
@@ -315,15 +327,22 @@ class UiController {
                allPct:allPct,allCol:allCol,
                //
                studSyllSizes:studSyllSizes,
-               refSyllSizes:refSyllSizes,
                studSyllDurs:studSyllDurs,
-               refSyllDurs:refSyllDurs,
                studSyllF0s:studSyllF0s,
-               refSyllF0s:refSyllF0s,
                studSyllInts:studSyllInts,
+               //
+               refSyllSizes:refSyllSizes,
+               refSyllDurs:refSyllDurs,
+               refSyllF0s:refSyllF0s,
                refSyllInts:refSyllInts,
+               //
                labelCol:labelCol,
                labelMsg:labelMsg,
+               //
+               wordSyllSizes:wordSyllSizes,
+               wordSyllDurs:wordSyllDurs,
+               wordSyllF0s:wordSyllF0s,
+               wordSyllInts:wordSyllInts,
         ]
     }
 
