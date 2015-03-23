@@ -128,11 +128,12 @@
 					                        </g:each>
 									</div>
 								</td>
-								<td style="width:30%;vertical-align:middle;visibility:hidden;">
-									<!--<p>${studUtt}</p>
-									<audio src="<g:resource dir="audio" file="${studWav}" />" controls></audio>
-									<p><g:link action="download" id="${studUtt.id}">Download</g:link></p>
-								-->
+								<td style="width:30%;vertical-align:middle;">
+									<span style="visibility:hidden;">
+										<p>${studUtt}</p>
+										<audio src="<g:resource dir="audio" file="${studWav}" />" controls></audio>
+										<p><g:link action="download" id="${studUtt.id}">Download</g:link></p>
+									</span>
 								</td>
 
 							</tr>
