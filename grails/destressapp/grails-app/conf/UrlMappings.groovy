@@ -15,6 +15,7 @@ class UrlMappings {
 		"/"(view:"/grails")
 		//"/"(controller: 'Index', action: 'index')
 		"/admin/"(controller: 'Admin', action: 'index')
+		//"/admin/"(view:"/admin")
 		"/grails/"(view:"/grails")
 
         "500"(view:'/error')

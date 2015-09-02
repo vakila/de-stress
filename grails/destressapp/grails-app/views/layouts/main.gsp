@@ -31,12 +31,12 @@
 			</div>
 
 			<div style="display:block;float:right;padding-top:0.8em;margin-right:10px">
-				<a href="admin/" title="Admin">
-				<span class="fa-stack fa-2x">
+				<g:link controller="admin">
+				<span class="fa-stack fa-2x" title="Admin">
 				  <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
 				  <i style="color:#1E90FF;" class="fa fa-wrench fa-stack-1x"></i>
 				</span>
-				</a>
+				</g:link>
 				<!--i style="color:#FFFFFF;" class="fa fa-caret-down fa-lg"></i-->
 			</div>
 
