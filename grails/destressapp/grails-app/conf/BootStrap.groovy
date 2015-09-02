@@ -7,8 +7,10 @@ import org.apache.commons.io.FileUtils
 
 class BootStrap {
 
-	def WAVEDIR = "/Users/Anjana/Dropbox/School/IFCASL/viwoll/CompleteAudioCorpus/"
-	def GRIDDIR = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Textgrids/"
+	def grailsApplication = new SentenceUtterance().domainClass.grailsApplication
+
+	def WAVEDIR = grailsApplication.mainContext.servletContext.getRealPath("/") + "/audio/" //"/Users/Anjana/Dropbox/School/IFCASL/viwoll/CompleteAudioCorpus/"
+	def GRIDDIR = grailsApplication.mainContext.servletContext.getRealPath("/") + "/grids/" //"/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Textgrids/"
 	def DATADIR = "/Users/Anjana/Dropbox/School/THESIS/CODE/thesis-code/Data/"
 
 	def WORDS = [
@@ -129,11 +131,11 @@ class BootStrap {
 					String gridOrigPath = GRIDDIR + spkr.nativeLanguage + ["G", sentType, sentNum, sampName+".textgrid"].join("/")
 					File waveOrigFile = new File(waveOrigPath)
 					File gridOrigFile = new File(gridOrigPath)
-					assert waveOrigFile.exists() && gridOrigFile.exists()
-					println "Wave and Textgrid files found."
+					//assert waveOrigFile.exists() && gridOrigFile.exists()
+					//println "Wave and Textgrid files found."
 
 					// Copy files to web-app/
-					def grailsApplication = new SentenceUtterance().domainClass.grailsApplication
+					//def grailsApplication = new SentenceUtterance().domainClass.grailsApplication
 
 			        String waveName = sampName + ".wav"
 			        String waveNewPath = grailsApplication.mainContext.servletContext.getRealPath("/") + "/audio/" + waveName
@@ -149,12 +151,20 @@ class BootStrap {
 					println "gridNewPath: " + gridNewPath
 
 			        File waveNewFile = new File(waveNewPath)
-			        if (!waveNewFile.exists()) FileUtils.copyFile(waveOrigFile, waveNewFile)
-			        assert waveOrigFile.exists() && waveNewFile.exists()
+			        if (!waveNewFile.exists()) {
+						assert waveOrigFile.exists()
+						FileUtils.copyFile(waveOrigFile, waveNewFile)
+					}
+			        //assert waveOrigFile.exists() && waveNewFile.exists()
+					assert waveNewFile.exists()
 			        println "WAVE FILE SAVED"
 					File gridNewFile = new File(gridNewPath)
-			        if (!gridNewFile.exists()) FileUtils.copyFile(gridOrigFile, gridNewFile)
-			        assert gridOrigFile.exists() && gridNewFile.exists()
+			        if (!gridNewFile.exists()) {
+						assert gridOrigFile.exists()
+						FileUtils.copyFile(gridOrigFile, gridNewFile)
+					}
+			        //assert gridOrigFile.exists() && gridNewFile.exists()
+					assert gridNewFile.exists()
 			        println "GRID FILE SAVED"
 
 					// Save SentenceUtterance
