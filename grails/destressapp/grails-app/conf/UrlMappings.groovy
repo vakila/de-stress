@@ -7,6 +7,8 @@ class UrlMappings {
             }
         }
 
+		"/ui/"(controller:'ui', action:'list')
+		"/ui/exercise/$id"(controller:'ui', action:'prompt')
 		"/ui/exercise/$id/$action?"(controller:'ui')
 
         //"/"(view:"/index")

@@ -3,8 +3,14 @@ package org.ifcasl.destress
 class UiController {
 
 
-    def index() {
+    def list() {
+        def exercises = Exercise.getAll()
+        render(view:"list", model:[exercises:exercises])
+    }
+
+    def prompt() {
         def id = params['id']
+        //println("id: " + id)
         def ex = Exercise.get(id)
         def cFG = WordUtterance.createCriteria()
         //def fgUtts = WordUtterance.findAllByWord(ex.word)
