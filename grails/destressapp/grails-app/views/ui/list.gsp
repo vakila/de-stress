@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main"/>
-		<title>de-stress Exercise</title>
+		<title>de-stress Exercises</title>
 
 	</head>
 	<body>
