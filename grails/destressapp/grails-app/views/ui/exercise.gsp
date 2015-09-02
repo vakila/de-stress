@@ -8,7 +8,7 @@
 	<body>
 
 		<div id="page-body" role="main">
-			<h1>Exercise ${ex.name}</h1>
+			<!--<h1>Exercise ${ex.name}</h1>-->
 
 			<div><!--Display Exercise info-->
 				<!--
