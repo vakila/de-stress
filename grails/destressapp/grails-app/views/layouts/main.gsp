@@ -23,13 +23,28 @@
 			<a href="http://grails.org"><asset:image src="grails_logo.png" alt="Grails"/></a>  -->
 		<div id="destressLogo" role="banner">
 			<div style="display:block;float:right;padding-top:0.8em;margin-right:10px">
-				<span class="fa-stack fa-2x">
+				<span class="fa-stack fa-2x" title="User profile">
 				  <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
 				  <i style="color:#1E90FF;" class="fa fa-user fa-stack-1x"></i>
 				</span>
 				<!--i style="color:#FFFFFF;" class="fa fa-caret-down fa-lg"></i-->
 			</div>
-			<a href="/"><h1>de-stress</h1></a>
+
+			<div style="display:block;float:right;padding-top:0.8em;margin-right:10px">
+				<a href="admin/" title="Admin">
+				<span class="fa-stack fa-2x">
+				  <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+				  <i style="color:#1E90FF;" class="fa fa-wrench fa-stack-1x"></i>
+				</span>
+				</a>
+				<!--i style="color:#FFFFFF;" class="fa fa-caret-down fa-lg"></i-->
+			</div>
+
+			<!--<a href="/">-->
+			<g:link controller="ui" action="list">
+				<h1>de-stress</h1>
+			</g:link>
+			<!--</a>-->
 
 		</div>
 		<g:layoutBody/>
