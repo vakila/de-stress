@@ -44,10 +44,15 @@
 									<h3>Your utterance:</h3>
 								</td>
 								<td style="width:60%;vertical-align:middle">
-									<p>${studUtt}</p>
+									<p>
+										<g:link action="download" id="${studUtt.id}" style="text-decoration:none;color:#333333;">
+											<i class="fa fa-download"></i>
+										</g:link>
+										${studUtt}
+									</p>
 									<!--<audio src="${studWav}" controls></audio>-->
 									<audio src="<g:resource dir="audio" file="${studWav}" />" controls></audio>
-									<p><g:link action="download" id="${studUtt.id}">Download</g:link></p>
+									<!--<p><g:link action="download" id="${studUtt.id}">Download</g:link></p>-->
 								</td>
 								</tr>
 							</table>
@@ -63,9 +68,14 @@
 										<h3>Reference utterance ${refUtts.indexOf(refUtt)+1}:</h3>
 									</td>
 									<td style="width:60%;vertical-align:middle">
-										<p>${refUtt}</p>
+										<p>
+											<g:link action="download" id="${refUtt.id}" style="text-decoration:none;color:#333333;">
+												<i class="fa fa-download"></i>
+											</g:link>
+											${refUtt}
+										</p>
 										<audio src="<g:resource dir="audio" file="${refUtt.sentenceUtterance.sampleName + ".wav"}" />" controls></audio>
-										<p><g:link action="download" id="${refUtt.id}">Download</g:link></p>
+										<!--<p><g:link action="download" id="${refUtt.id}">Download</g:link></p>-->
 									</td>
 									</tr>
 								</table>
