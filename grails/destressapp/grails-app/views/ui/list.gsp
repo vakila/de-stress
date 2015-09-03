@@ -16,16 +16,19 @@
 
 
 			<g:each var="ex" in="${exercises}">
-				<div style="width:150px; height:150px; padding:10px; margin:10px; border:1px solid gray; float:left;">
+				<div style="width:200px; height:200px; padding:9px; margin:10px; border:1px solid gray; float:left;">
 			    	<g:link controller="ui" action="prompt" id="${ex.id}">
 						<h1>${ex.name}</h1>
 					</g:link>
 
-					<p>${ex.description}</p>
+					<p style="font-weight:bold;">${ex.description}</p>
 
 	                <p>Word:
 						<g:each var="syll" in="${ex.word.syllables}">${syll}</g:each>
 					</p>
+
+					<p>DM: ${ex.diagnosisMethod}</p>
+					<p>FB: ${ex.feedbackMethod}</p>
 				</div>
 			</g:each>
 

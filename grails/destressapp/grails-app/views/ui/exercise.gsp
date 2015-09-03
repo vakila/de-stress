@@ -21,9 +21,12 @@
 				<div style="width:90%; text-align:center; font-size:2em; margin-left:auto; margin-right:auto">
 					${ex.word.wordsBefore}
                     <!--<g:link controller="Word" action="show" id="${ex.word.id}">-->
-                        <g:each var="syll" in="${ex.word.syllables}">
+                    <!--
+					    <g:each var="syll" in="${ex.word.syllables}">
                             <a><span style="font-size:2em">${syll}</b></a>
                         </g:each>
+					-->
+						<a><b><g:each var="syll" in="${ex.word.syllables}">${syll}</g:each></b></a>
                     <!--</g:link>-->
                     ${ex.word.wordsAfter}
 				</div>
