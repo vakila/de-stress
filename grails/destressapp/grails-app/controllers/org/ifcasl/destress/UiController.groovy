@@ -63,16 +63,20 @@ class UiController {
 
     }
 
-    def download(long id) {
-        SentenceUtterance utt = SentenceUtterance.get(id)
-        File file = new File(utt.waveFile)
-        response.setContentType('audio/wav')
-        response.setContentLength (file.bytes.length)
-        response.setHeader("Content-disposition", "attachment;filename=${file.getName()}")
-        response.outputStream << file.newInputStream() // Performing a binary stream copy
-
-        return false
-    }
+    // No longer using this - using <a ... download> instead
+    // def download() {
+    //     println(params)
+    //     def uttId = params['uttId']
+    //     println("uttId: " + uttId)
+    //     SentenceUtterance utt = SentenceUtterance.get(uttId)
+    //     File file = new File(utt.waveFile)
+    //     response.setContentType('audio/wav')
+    //     response.setContentLength (file.bytes.length)
+    //     response.setHeader("Content-disposition", "attachment;filename=${file.getName()}")
+    //     response.outputStream << file.newInputStream() // Performing a binary stream copy
+    //
+    //     return false
+    // }
 
     def downloadFeedback(long id) {
         Diagnosis diag = Diagnosis.get(id)

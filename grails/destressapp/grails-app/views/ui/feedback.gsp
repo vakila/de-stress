@@ -81,9 +81,11 @@
 
 							<td style="width:30%;vertical-align:middle">
 								<p>
-									<g:link action="download" id="${studUtt.id}" style="text-decoration:none;color:#333333;">
+									<!--g:link action="download" id="${studUtt.id}" style="text-decoration:none;color:#333333;"-->
+									<a href="<g:resource dir="audio" file="${studWav}" />" download style="text-decoration:none;color:#333333;">
 										<i class="fa fa-download"></i>
-									</g:link>
+									</a>
+									<!--/g:link-->
 									${studUtt}
 								</p>
 								<!--<audio src="${studWav}" controls></audio>-->
@@ -136,9 +138,11 @@
 								<td style="width:30%;vertical-align:middle;">
 									<span style="visibility:hidden;">
 										<p>
-											<g:link action="download" id="${studUtt.id}" style="text-decoration:none;color:#333333;">
+											<!--g:link action="download" id="${studUtt.id}" style="text-decoration:none;color:#333333;"-->
+											<a href="<g:resource dir="audio" file="${studWav}" />" download style="text-decoration:none;color:#333333;">
 												<i class="fa fa-download"></i>
-											</g:link>
+											</a>
+											<!--/g:link-->
 											${studUtt}
 										</p>
 										<audio src="<g:resource dir="audio" file="${studWav}" />" controls></audio>
@@ -193,9 +197,11 @@
 
 								<td style="width:30%;vertical-align:middle">
 									<p>
-										<g:link action="download" id="${refUtt.id}" style="text-decoration:none;color:#333333;">
+										<!--g:link action="download" id="${refUtt.id}" style="text-decoration:none;color:#333333;"-->
+										<a href="<g:resource dir="audio" file="${refUtt.sentenceUtterance.sampleName + ".wav"}" />" download style="text-decoration:none;color:#333333;">
 											<i class="fa fa-download"></i>
-										</g:link>
+										</a>
+										<!--/g:link-->
 										${refUtt}
 									</p>
 									<audio src="<g:resource dir="audio" file="${refUtt.sentenceUtterance.sampleName + ".wav"}" />" controls></audio>

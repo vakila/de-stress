@@ -45,9 +45,11 @@
 								</td>
 								<td style="width:60%;vertical-align:middle">
 									<p>
-										<g:link action="download" id="${studUtt.id}" style="text-decoration:none;color:#333333;">
+										<a href="<g:resource dir="audio" file="${studWav}" />" download style="text-decoration:none;color:#333333;">
+										<!--g:link action="download" id=""${studUtt.id}" style="text-decoration:none;color:#333333;"-->
 											<i class="fa fa-download"></i>
-										</g:link>
+										<!--/g:link-->
+										</a>
 										${studUtt}
 									</p>
 									<!--<audio src="${studWav}" controls></audio>-->
@@ -69,9 +71,11 @@
 									</td>
 									<td style="width:60%;vertical-align:middle">
 										<p>
-											<g:link action="download" id="${refUtt.id}" style="text-decoration:none;color:#333333;">
+											<a href="<g:resource dir="audio" file="${refUtt.sentenceUtterance.sampleName + ".wav"}" />" download style="text-decoration:none;color:#333333;">
+											<!--g:link action="download" params="[uttId='${refUtt.id}']" style="text-decoration:none;color:#333333;"-->
 												<i class="fa fa-download"></i>
-											</g:link>
+											<!--/g:link-->
+											</a>
 											${refUtt}
 										</p>
 										<audio src="<g:resource dir="audio" file="${refUtt.sentenceUtterance.sampleName + ".wav"}" />" controls></audio>
