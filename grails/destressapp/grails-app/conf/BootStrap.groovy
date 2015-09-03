@@ -61,7 +61,7 @@ class BootStrap {
 
 
 		////// CREATE SPEAKERS
-		print "\nCreating speakers... "
+		//DEBUG print "\nCreating speakers... "
 		for (spkrInfo in SPEAKERS) {
 			Speaker spkr = new Speaker(
 				speakerNumber:spkrInfo[3],
@@ -73,13 +73,13 @@ class BootStrap {
 
 		}
 		assert Speaker.count() == 12
-		println "Done."
+		//DEBUG println "Done."
 
 
 		////// CREATE WORDS & UTTERANCES
 		//print "\nCreating words... "
 		for (wordInfo in WORDS) {
-			print "Creating word " + wordInfo[1] + "..."
+			//DEBUG print "Creating word " + wordInfo[1] + "..."
 			Word w = new Word(
 				sentence:wordInfo[0],
 				text:wordInfo[1],
@@ -91,7 +91,7 @@ class BootStrap {
 			w.addToSyllables(wordInfo[2][0])
 			w.addToSyllables(wordInfo[2][1])
 			w.save()
-			println "Done."
+			//DEBUG println "Done."
 			//assert w.toString().contains(wordInfo[0])
 			// assert w.toString().contains(wordInfo[2][0])
 			// assert w.toString().contains(wordInfo[2][1])
@@ -99,7 +99,7 @@ class BootStrap {
 			// Create SentenceUtterances for each speaker/sentence
 			String sentNum = wordInfo[0]
 			for (spkr in Speaker.getAll()) {
-				println "Speaker: " + spkr.speakerNumber
+				//DEBUG println "Speaker: " + spkr.speakerNumber
 				//if sentence utterance doesn't exist, create it
 				def cSent = SentenceUtterance.createCriteria()
 				def sentResults = cSent {
@@ -108,7 +108,7 @@ class BootStrap {
 						eq("sentence",sentNum)
 					}
 				}
-				println "SentenceUtterance results ("+sentResults.size()+"): " + sentResults
+				//DEBUG println "SentenceUtterance results ("+sentResults.size()+"): " + sentResults
 
 				// def speakerResults = SentenceUtterance.findAllBySpeaker(spkr)
 				// println "speakerResults ("+speakerResults.size()+"): " + speakerResults
@@ -120,13 +120,13 @@ class BootStrap {
 
 				SentenceUtterance sentUtt
 				if (sentResults.size() == 0) {
-					println "Creating SentenceUtterance " + sentNum + "_" + spkr.speakerNumber +"..."
+					//DEBUG println "Creating SentenceUtterance " + sentNum + "_" + spkr.speakerNumber +"..."
 					// Find wav and textgrid files
 					String sentType = sentNum.substring(0,2)
 					String sampName = "2" + sentNum + "_"
 					sampName += spkr.nativeLanguage.value + "G" + spkr.ageGender + spkr.skillLevel
 					sampName += "_" + spkr.speakerNumber
-					println "sampName: " + sampName
+					//DEBUG println "sampName: " + sampName
 					String waveOrigPath = WAVEDIR + spkr.nativeLanguage + ["G", sentType, sentNum, sampName+".wav"].join("/")
 					String gridOrigPath = GRIDDIR + spkr.nativeLanguage + ["G", sentType, sentNum, sampName+".textgrid"].join("/")
 					File waveOrigFile = new File(waveOrigPath)
@@ -143,12 +143,12 @@ class BootStrap {
 					String gridName = sampName + ".textgrid"
 					String gridNewPath = grailsApplication.mainContext.servletContext.getRealPath("/") + "/grids/" + gridName
 
-			        println "################# TESTING ###################"
-			        println "sampName: " + sampName
-					println "waveOrigPath: " + waveOrigPath
-					println "gridOrigPath: " + gridOrigPath
-					println "waveNewPath: " + waveNewPath
-					println "gridNewPath: " + gridNewPath
+			        //DEBUG println "################# TESTING ###################"
+			        //DEBUG println "sampName: " + sampName
+					//DEBUG println "waveOrigPath: " + waveOrigPath
+					//DEBUG println "gridOrigPath: " + gridOrigPath
+					//DEBUG println "waveNewPath: " + waveNewPath
+					//DEBUG println "gridNewPath: " + gridNewPath
 
 			        File waveNewFile = new File(waveNewPath)
 			        if (!waveNewFile.exists()) {
@@ -157,7 +157,7 @@ class BootStrap {
 					}
 			        //assert waveOrigFile.exists() && waveNewFile.exists()
 					assert waveNewFile.exists()
-			        println "WAVE FILE SAVED"
+			        //DEBUG println "WAVE FILE SAVED"
 					File gridNewFile = new File(gridNewPath)
 			        if (!gridNewFile.exists()) {
 						assert gridOrigFile.exists()
@@ -165,7 +165,7 @@ class BootStrap {
 					}
 			        //assert gridOrigFile.exists() && gridNewFile.exists()
 					assert gridNewFile.exists()
-			        println "GRID FILE SAVED"
+			        //DEBUG println "GRID FILE SAVED"
 
 					// Save SentenceUtterance
 					sentUtt = new SentenceUtterance(
@@ -178,10 +178,10 @@ class BootStrap {
 					spkr.addToSentenceUtterances(sentUtt)
 					spkr.save()
 					//sentUtt.save()
-					println "Done."
+					//DEBUG println "Done."
 
 					assert spkr.sentenceUtterances != null
-					println("SPEAKER " + spkr.toString() + " HAS " + spkr.sentenceUtterances.size() + " SENTENCES")
+					//DEBUG println("SPEAKER " + spkr.toString() + " HAS " + spkr.sentenceUtterances.size() + " SENTENCES")
 
 					// Extract sentence features
 					FeatureUtil.extractSentenceUtteranceFeatures(sentUtt)
@@ -203,9 +203,9 @@ class BootStrap {
 						eq("sentenceUtterance",sentUtt)
 					}
 				}
-				println "WordUtterance results ("+wordResults.size()+"): " + wordResults
+				//DEBUG println "WordUtterance results ("+wordResults.size()+"): " + wordResults
 				if (wordResults.size()==0) {
-					print "Creating word utterance " + sentUtt.toString() + "_" + w.text + "..."
+					//DEBUG print "Creating word utterance " + sentUtt.toString() + "_" + w.text + "..."
 					def wordUtt = new WordUtterance(
 						sentenceUtterance:sentUtt,
 						word:w
@@ -213,7 +213,7 @@ class BootStrap {
 					//wordUtt.save()
 					w.addToUtterances(wordUtt)
 					w.save()
-					print "Done."
+					//DEBUG print "Done."
 
 					// Extract wordUtterance Features
 					FeatureUtil.extractWordUtteranceFeatures(wordUtt)
@@ -240,13 +240,22 @@ class BootStrap {
 		////// CREATE SCORERS
 		def scorer = new Scorer(
 			name:"SimpleScorer",
-			description:"Uses FeedbackComputer scores, equal weights",
+			description:"Uses JSnoori scores, equal weights",
 			//useJsnooriScores:true,
 			type:"JSNOORI",
 			durationWeight:0.34d,
 			f0Weight:0.33d,
 			intensityWeight:0.33d)
 		scorer.save()
+
+		def scorerDur = new Scorer(
+			name:"DurationPriority",
+			description:"JSnoori scores with Duration given priority",
+			type:"JSNOORI",
+			durationWeight:0.6d,
+			f0Weight:0.3d,
+			intensityWeight:0.1d)
+		scorerDur.save()
 
 		def scorerW = new Scorer(
 			name:"WekaScorer",
@@ -255,13 +264,13 @@ class BootStrap {
 			)
 		scorerW.save()
 
-		assert Scorer.count() == 2
+		assert Scorer.count() == 3
 
 
 		//// CREATE DIAGNOSIS METHODS
 
 		def dm1 = new DiagnosisMethod(
-			name:"SimpleDM",
+			name:"Simple",
 			description:"Manual choice, SimpleScorer",
 			scorer:scorer,
 			//referenceType:"SINGLE",
@@ -272,7 +281,7 @@ class BootStrap {
 		//println(dm1)
 
 		def dm2 = new DiagnosisMethod(
-			name:"MultiDM",
+			name:"Multi",
 			description:"Multi Manual choice, SimpleScorer",
 			scorer:scorer,
 			//referenceType:"MULTI",
@@ -283,7 +292,7 @@ class BootStrap {
 		//println(dm2)
 
 		def dm3 = new DiagnosisMethod(
-			name:"WekaDM",
+			name:"Weka",
 			description:"No references, Weka scorer",
 			scorer:scorerW,
 			numberOfReferences:0,
@@ -308,12 +317,21 @@ class BootStrap {
 			)
 		dm5.save()
 
-		assert DiagnosisMethod.count() == 5
+		def dm6 = new DiagnosisMethod(
+			name:"AutoDuration",
+			description:"Single ref, auto choice, DurationPriority scorer",
+			scorer:scorerDur,
+			selectionType:"AUTO",
+			numberOfReferences:1
+			)
+		dm6.save()
+
+		assert DiagnosisMethod.count() == 6
 
 
 		//// CREATE FEEDBACK METHODS
 		def fm1 = new FeedbackMethod(
-			name:"JsnooriFM",
+			name:"JsnooriAll",
 			description:"All possible feedback from Jsnoori scorer",
 			requiresScorerType:"JSNOORI",
 			showSkillBars:true,
@@ -321,72 +339,105 @@ class BootStrap {
 			displayShapes:true,
 			styleText:true,
 			selfAssessment:true,
+			displayMessages:true,
 			)
 		fm1.save()
 
 		def fm2 = new FeedbackMethod(
-			name:"JsnooriFM2",
+			name:"JsnooriNonvisual",
 			description:"Simple, requires Jsnoori scorer, no visual fb",
 			requiresScorerType:"JSNOORI",
-			showSkillBars:false,
+			//showSkillBars:false,
 			playFeedbackSignal:true,
 			)
 		fm2.save()
 
+		def fm3 = new FeedbackMethod(
+			name:"JsnooriVisual",
+			description:"Only visual FB types, Jsnoori scores",
+			requiresScorerType:"JSNOORI",
+			showSkillBars:true,
+			displayShapes:true,
+			styleText:true,
+			displayMessages:true,
+			)
+		fm3.save()
+
 		def fmW = new FeedbackMethod(
-			name:"WekaFM",
+			name:"ClassifierFeedback",
+			description:"All FB types compatible with WEKA classification",
 			requiresScorerType:"WEKA",
 			//showSkillBars:false,
 			//playFeedbackSignal:false,
 			selfAssessment:true,
+			displayShapes:true,
+			styleText:true,
+			displayMessages:true,
 			)
 		fmW.save()
 
+		def fm4 = new FeedbackMethod(
+			name:"ShapesAndText",
+			description:"Only shapes and stylized text",
+			displayShapes:true,
+			styleText:true,
+			)
+		fm4.save()
+
 
 		//// CREATE EXERCISES
-		def ex1 = new Exercise(
-			name:"Exercise1",
-			description:"Simple Jsnoori single-reference with feedback signal, no bars",
+		def ex4 = new Exercise(
+			name:"FeedbackShowcase",
+			description:"Single-reference comparison, all feedback types",
 			word:Word.get(1),
 			diagnosisMethod:dm1,
-			feedbackMethod:fm2)
-		ex1.save()
+			feedbackMethod:fm1)
+		ex4.save()
 
 		def ex2 = new Exercise(
-			name:"MultiExercise",
-			description:"Simple multiref",
+			name:"VisualLearners",
+			description:"Multiple-reference diagnosis, only visual feedback",
 			word:Word.get(2),
 			diagnosisMethod:dm2,
-			feedbackMethod:fm1)
+			feedbackMethod:fm3)
 		ex2.save()
 
 		def ex3 = new Exercise(
-			name:"WekaExercise",
-			description:"Weka noref",
+			name:"Classification",
+			description:"Classification diagnosis, all compatible feedback types",
 			word:Word.get(3),
 			diagnosisMethod:dm3,
 			feedbackMethod:fmW,
 			)
 		ex3.save()
 
-		def ex4 = new Exercise(
-			name:"SimpleExercise",
-			description:"Simple Jsnoori comparison, all FB types",
+		def ex1 = new Exercise(
+			name:"Simple",
+			description:"Single-reference diagnosis with limited feedback",
 			word:Word.get(1),
 			diagnosisMethod:dm1,
-			feedbackMethod:fm1)
-		ex4.save()
+			feedbackMethod:fm4)
+		ex1.save()
 
 		def ex5 = new Exercise(
-			name:"SimpleExercise",
-			description:"Simple Jsnoori comparison, no visual FB",
+			name:"SpeakerMatch",
+			description:"Best reference speaker is selected automatically, visual feedback",
 			word:Word.get(4),
-			diagnosisMethod:dm1,
-			feedbackMethod:fm2)
+			diagnosisMethod:dm6,
+			feedbackMethod:fm3)
 		ex5.save()
 
+		def ex6 = new Exercise(
+			name:"MultiMatch",
+			description:"Multi-reference with automatic selection, simpler feedback",
+			word:Word.get(5),
+			diagnosisMethod:dm5,
+			feedbackMethod:fm4,
+			)
+		ex6.save()
 
-		assert Exercise.count() == 5
+
+		assert Exercise.count() == 6
 
 
 
