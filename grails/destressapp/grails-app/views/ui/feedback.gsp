@@ -31,7 +31,7 @@
                     <!--</g:link>-->
 					<a><b><g:each var="syll" in="${ex.word.syllables}">${syll}</g:each></b></a>
                     ${ex.word.wordsAfter}
-					</div>
+				</div>
 
 			</div>
 
@@ -58,7 +58,7 @@
 															width:${studSyllDurs[s]*300}px;
 															opacity:${studSyllInts[s]};
 															background:blue;border:1px solid blue;border-radius:10px;margin-bottom:3px;"
-													 title="Duration (width): ${(studSyllDurs[s]*100).round(2)}% of word  &#013Pitch (height): ${(studSyllF0s[s]*100).round(2)}% of mean &#013Intensity (darkness): ${studSyllInts[s]}% of mean">
+													 title="Duration (width): ${(studSyllDurs[s]*100).round()}% of word  &#013Pitch (height): ${(studSyllF0s[s]*100).round()}% of mean &#013Intensity (darkness): ${(studSyllInts[s]*100).round()}% of mean">
 												</div>
 												</div>
 											</g:if>
@@ -114,7 +114,7 @@
 																	width:${wordSyllDurs[s]*300}px;
 																	opacity:${wordSyllInts[s]};
 																	background:green;border:1px solid green;border-radius:10px;margin-bottom:3px;"
-															title="Duration: ${(wordSyllDurs[s]*100).round(2)}% of word &#013Pitch: ${wordSyllF0s[s].round(2)*100}% of mean &#013Intensity (darkness): ${wordSyllInts[s]}% of mean">
+															title="Duration (width): ${(wordSyllDurs[s]*100).round()}% of word &#013Pitch (height): ${wordSyllF0s[s].round()*100}% of mean &#013Intensity (darkness): ${(wordSyllInts[s]*100).round()}% of mean">
 														</div>
 														</div>
 													</g:if>
@@ -171,7 +171,7 @@
 																	width:${refSyllDurs[refUtts.indexOf(refUtt)][s]*300}px;
 																	opacity:${refSyllInts[refUtts.indexOf(refUtt)][s]};
 																	background:green;border:1px solid green;border-radius:10px;margin-bottom:3px;"
-															title="Duration: ${(refSyllDurs[refUtts.indexOf(refUtt)][s]*100).round(2)}% of word &#013Pitch: ${refSyllF0s[refUtts.indexOf(refUtt)][s].round(2)*100}% of mean &#013Intensity (darkness): ${refSyllInts[refUtts.indexOf(refUtt)][s]}% of mean">
+															title="Duration (width): ${(refSyllDurs[refUtts.indexOf(refUtt)][s]*100).round()}% of word &#013Pitch (height): ${refSyllF0s[refUtts.indexOf(refUtt)][s].round()*100}% of mean &#013Intensity (darkness): ${(refSyllInts[refUtts.indexOf(refUtt)][s]*100).round()}% of mean">
 														</div>
 														</div>
 													</g:if>
@@ -310,6 +310,12 @@
 					</div>
 				</g:elseif>
 			</div>
+
+			<g:form controller="ui" action="list">
+				<div style="text-align:center;margin:10px;">
+					<g:submitButton name="Submit" value="New Exercise"/>
+				</div>
+			</g:form>
 		</div>
 	</body>
 </html>
