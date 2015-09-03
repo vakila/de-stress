@@ -9,14 +9,14 @@
 
 		<div id="page-body" role="main">
 
-			<h2 style="width:80%;margin:auto;">Welcome to de-stress! Please choose an exercise to complete.</h2>
+			<h2 style="width:80%;padding:10px;margin:10px auto;">Welcome to de-stress! Please choose an exercise to complete.</h2>
 
 			<!--<h3 style="padding-left:10px;">Exercises</h3>-->
 
 
 
 			<g:each var="ex" in="${exercises}">
-				<div style="width:200px; height:200px; padding:9px; margin:10px; border:1px solid gray; float:left;">
+				<div style="width:200px; min-height:200px; padding:9px; margin:10px; border:1px solid gray; float:left;">
 			    	<g:link controller="ui" action="prompt" id="${ex.id}">
 						<h1>${ex.name}</h1>
 					</g:link>
