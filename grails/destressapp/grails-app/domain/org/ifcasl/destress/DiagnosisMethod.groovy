@@ -76,7 +76,7 @@ public class DiagnosisMethod {
         //         stringy += "-" + numberOfReferences + "refs"
         //     }
         // }
-        String stringy = name + "-" + numberOfReferences + "refs"
+        String stringy = name + "-" + numberOfReferences + "ref"
         if (numberOfReferences > 0) stringy += "-" + selectionType
         return stringy
         //return name

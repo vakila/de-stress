@@ -27,6 +27,7 @@ class Exercise {
     }
 
 	String toString(){
-		return name
+		return word.toString() +"-"+ diagnosisMethod.name +"-"+ feedbackMethod.name
+		//return name
 	}
 }
