@@ -359,7 +359,7 @@ class BootStrap {
 			showSkillBars:true,
 			displayShapes:true,
 			styleText:true,
-			displayMessages:true,
+			//displayMessages:true,
 			)
 		fm3.save()
 
