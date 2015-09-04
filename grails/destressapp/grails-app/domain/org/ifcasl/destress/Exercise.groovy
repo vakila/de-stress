@@ -27,7 +27,11 @@ class Exercise {
     }
 
 	String toString(){
-		return word.toString() +"-"+ diagnosisMethod.name +"-"+ feedbackMethod.name
-		//return name
+		try {
+			return word.toString() +"-"+ diagnosisMethod.name +"-"+ feedbackMethod.name
+		}
+		catch (Exception e) {
+			return name
+		}
 	}
 }
